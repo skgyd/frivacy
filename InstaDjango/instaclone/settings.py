@@ -132,4 +132,3 @@ STATICFILES_DIRS = [
 ]
 
 AUTHENTICATION_BACKENDS = ('instaclone.authb.AuthB', )
-
