@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instapic</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
+
+<body>
+    <div class="login-clean">
+        <div id="imagephone">
+            <img src="{% static 'assets/img/mobile-new.png' %}" alt="">
+        </div>
+        <div id="loginform">
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <h2 class="sr-only">Login Form</h2>
+                    <div class="illustration">
+
+
+
+
+                        <div class="logo">
+                            <img src="{% static 'assets/img/logo.png' %}">
+                            <div style="display: none" id="errors" class="well form-error-message"></div>
+                        </div>
+                    <div class="form-group" style="position:relative;">
+                        <input class="form-control" id="email" type="email" name="email" placeholder="Phone number, username, or email">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="password" type="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" id="go" type="submit">Log In</button>
+                    </div><a href="#" class="forgot">Forgot password?</a>
+                </form>
+            </div>
+            <div id="signuptext">
+                    <p>
+                            Don't have an account?
+                            <a href="/sign-up">Sign Up</a>
+                    </p>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src={% static "assets/js/django-ajax.js" %}></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#go').click(function() {
+        $.post("ajax-login",
+    {
+        email: $("#email").val(),
+        password: $("#password").val()
+    },
+    function(data, status){
+	if (JSON.parse(data).Status == 'Success') {
+		window.location = '';
+	} else {
+		$('#errors').html("<span>" + JSON.parse(data).Message + "</span>")
+		$('#errors').css('display', 'flex')
+	}
+    });
+        return false;
+        });
+});
+    </script>
+</body>
+
+</html>
