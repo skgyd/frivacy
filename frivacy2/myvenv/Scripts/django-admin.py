@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!c:\users\a0501660\desktop\frivacy\frivacy2\myvenv\scripts\python.exe
+=======
+#!c:\users\a0501660\desktop\frivacy\frivacy2\myvenv\scripts\python.exe
+>>>>>>> origin/nahyung
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
