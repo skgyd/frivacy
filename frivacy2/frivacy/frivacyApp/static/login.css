@@ -25,6 +25,7 @@ body{
     color: #e8e8e8;
     text-transform: uppercase;
     font-weight: 700;
+    margin:auto;
 }
 
 .box input[type="text"], .box input[type="password"]{
