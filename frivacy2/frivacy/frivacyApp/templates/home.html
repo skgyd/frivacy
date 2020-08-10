@@ -1,6 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Frivacy</h1>
+<head>
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" id="services" style="margin-top:75px">
+            <h1 class="w3-xxxlarge w3-text-red"><b>태릉입구 게시판.</b></h1>
+            <hr style="width:50px;border:5px solid red" class="w3-round">
+        </div>
+    </div>  
+</head>  
+
+<body>
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class = "container">
+                <br>
+                    <h1>상세페이지 입니다.</h1><br>
+                    <h2>{{ taswu.title }}</h2>
+                    <p>{{ taswu.pub_date }}</p>
+                    <p>{{ taswu.body }}</p>
+
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value = "수정하기">
+                    </form>
+
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value = "삭제하기">
+                    </form>
+                    <a href="{% url 'home' %}">돌아가기</a>
+                    <hr>
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-dark" value = "Add Comment"><br><br>
+                    </form>
+                    {% for comment in blog.comments.all %}
+                        <div class="comment">
+                            <div class="date">{{comment.created_date}}</div>
+                            <strong>{{ comment.author }}</strong>
+                            <p>{{ comment.text|linebreaks }}</p>
+                        </div>
+                    <form action="#" method="POST">
+                        {% csrf_token %} 
+                        <input type="submit" value= "댓글수정">
+                    </form>
+
+                    
+                    {% empty %}
+                        <p>No comments here yet</p>
+                    {% endfor %}
+        </div>
+    </div>
+</body>
+
 
 
 {% endblock %}

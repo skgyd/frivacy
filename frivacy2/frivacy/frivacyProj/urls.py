@@ -19,11 +19,14 @@ import frivacyApp.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',frivacyApp.views.home,name="home"),
+    path('',frivacyApp.views.login,name="login"),
     path('decEdit/',frivacyApp.views.decEdit,name="decEdit"),
     path('decNew/',frivacyApp.views.decNew,name="decNew"),
     path('notice/',frivacyApp.views.notice,name="notice"),
     path('declaration/',frivacyApp.views.declaration,name="declaration"),
-    path('login/',frivacyApp.views.login,name="login"),
+    path('home/',frivacyApp.views.home,name="home"),
     path('signup/',frivacyApp.views.signup,name="signup"),
+    path('detail/',frivacyApp.views.detail,name="detail"),
+    path('edit/',frivacyApp.views.edit,name="edit"),
+    path('new/',frivacyApp.views.new,name="new"),
 ]

@@ -22,4 +22,13 @@ def login(request):
 
 def signup(request):
     return render(request,'signup.html')
+    
+def detail(request):
+    return render(request,'detail.html')
+    
+def new(request):
+    return render(request,'new.html')
+
+def edit(request):
+    return render(request,'edit.html')
 

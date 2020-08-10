@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="stylesheet" href="w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
 
@@ -45,28 +46,18 @@
 
     <body>
         <!-- Sidebar/menu -->
-        <nav class="w3-sidebar w3-blue w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e" id="mySidebar"><br>
-        <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+        <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e; float: left;" id="mySidebar"><br>
+        <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px; background-color:#00334e">Close Menu</a>
         <div class="w3-container">
             <h3 class="w3-padding-64"><b>Frivacy</b><br>frivacy</h3>
         </div>
         <div class="w3-bar-block">
-            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >Home</a>   
-         
-            <div id="demoAcc1"  href="javascript:void(0)" style="background-color: #00334e;" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-                <a href="{% url 'notice' %}" class=w3-bar-item w3-button w3-light-grey><i class="fa fa-caret-right w3-margin-right"></i>공지사항</a>
-                <a href="{% url 'home' %}" class="w3-bar-item w3-button ">home</a>
-                <a href="{% url 'notice' %}" class="w3-bar-item w3-button">공지사항</a>
-                <a href="{% url 'declaration' %}" class="w3-bar-item w3-button">신고</a>
-            </div>
-            
-            <div id="demoAcc2"  href="javascript:void(0)" style="background-color: #00334e;" class="w3-bar- block w3-hide w3-padding-large w3-medium">
-                <a href="{% url 'notice' %}" class=w3-bar-item w3-button w3-light-grey><i class="fa fa-caret-right w3-margin-right"></i>공지사항</a>
-                <a href="#" class="w3-bar-item w3-button">공지</a>
-            </div>
+            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >Main</a>   
+            <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Notice</a>
+            <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Declaration</a>
             <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Login</a> 
-            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" aria-disabled = "true">Logout</a>
-            <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">SignUp</a>
+            <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" aria-disabled = "true">Logout</a>
+            
     
             </div>
         </nav>
@@ -88,6 +79,7 @@
         </div>
 
         {% block content %}
+    
         {% endblock %}
     </body>
 </html>
