@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+    <script>
+        // Accordion 
+        function myAccFunc(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+        }
+    
+        // Click on the "TAXI" link on page load to open the accordion for demo purposes
+        document.getElementById("myBtn").click();
+       
+    
+        // Open and close sidebar
+        function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+        }
+     
+        function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
+        }
+
+        // Modal Image Gallery
+        function onClick(element) {
+          document.getElementById("img01").src = element.src;
+          document.getElementById("modal01").style.display = "block";
+          var captionText = document.getElementById("caption");
+          captionText.innerHTML = element.alt;
+        }
+    </script>
+
+
+    <body>
+        <!-- Sidebar/menu -->
+        <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e" id="mySidebar"><br>
+        <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft w3-text-white" style="width:100%;font-size:22px">Close Menu</a>
+        <div class="w3-container">
+            <h3 class="w3-padding-64 w3-text-white"><b>Frivacy</b><br>frivacy</h3>
+        </div>
+        <div class="w3-bar-block">
+            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white" >Home</a>   
+            <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">Login</a> 
+            <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white" aria-disabled = "true">Logout</a>
+            <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">SignUp</a>
+        </div>
+        </nav>
+
+
+        <!-- Top menu on small screens -->
+        <header class="w3-container w3-top w3-hide-large w3-xlarge w3-padding" style="background-color:#00334e">
+            <a href="javascript:void(0)" class="w3-button w3-margin-right w3-text-white" style="background-color:#00334e" onclick="w3_open()">☰</a>
+            <span class="w3-text-white">Frivacy</span>
+        </header>
+
+        <!-- Overlay effect when opening sidebar on small screens -->
+        <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+        <!-- !PAGE CONTENT! -->
+        <div class="w3-main" style="margin-left:340px;margin-right:40px">
+            
+        <!-- End page content -->
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
