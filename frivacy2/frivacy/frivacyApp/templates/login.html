@@ -1,9 +1,14 @@
-{% extends "base.html" %}
-{% block content %}
-
-{% load static %}
+  {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}"  />
-    <div1 class="box">
+</head>
+<body>
+    <form class="box">
         <h1>Frivacy</h1>
         <input type="text" name="" class="LoginInput" placeholder="ID">
         <input type="password" name="" class="LoginInput" placeholder="PW">
@@ -11,7 +16,7 @@
             <input type="submit" name="" class="LoginSubmit" value="Login">
             <input type="submit" name="" class="LoginSubmit" value="Sign up">
             <input type="submit" name="" class="LoginSubmit" value="Forgot ID/PW">
-        </div1>
-    </div>
-
-{% endblock %}
+        </div>
+    </form>
+</body>
+</html>
