@@ -19,7 +19,7 @@ class User(models.Model):
 
 class Image(models.Model):
     image = ProcessedImageField(
-        processors=[ResizeToFill(500, 500)],
+        processors=[ResizeToFill(500, 300)],
         format='JPEG',
         options={'quality': 90},
     )
