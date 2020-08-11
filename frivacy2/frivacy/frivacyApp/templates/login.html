@@ -1,17 +1,24 @@
-{% extends "base.html" %}
-{% block content %}
-
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}"  />
-    <div1 class="box">
+</head>
+<body>
+    <form class="box">
         <h1>Frivacy</h1>
         <input type="text" name="" class="LoginInput" placeholder="ID">
         <input type="password" name="" class="LoginInput" placeholder="PW">
+        <div class>
+            <a href="#" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px; margin:20px;">LOGIN</a>
+            <a href="{% url 'signup' %}" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px;margin:20px">SIGN UP</a>
+        </div>
         <div>
-            <input type="submit" name="" class="LoginSubmit" value="Login">
-            <input type="submit" name="" class="LoginSubmit" value="Sign up">
-            <input type="submit" name="" class="LoginSubmit" value="Forgot ID/PW">
-        </div1>
-    </div>
-
-{% endblock %}
+            <a href="#" onclick="w3_close()" style="color:white; text-decoration:none; font-size:14px;margin:30px">forgot id/pw?</a>
+        </div>
+    </form>
+</body>
+</html>

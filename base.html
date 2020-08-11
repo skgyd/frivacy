@@ -23,10 +23,17 @@
                 <a class="nav-link" href="{% url 'notice' %}">공지사항</a>
               </li> 
               <li class="nav-item">
+                <a class="nav-link" href="{% url 'infoModify' %}">개인정보 수정</a>
+              </li> 
+              <li class="nav-item">
                 <a class="nav-link" href="{% url 'declaration' %}">신고</a>
               </li> 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'admin' %}">관리자</a>
+            </li> 
+            <li class="nav-item">
+              <input type="text" name="" class="LoginInput" placeholder="ID">
+              <input type="submit" value ="Search" style="padding: 6px 6px; margin-right:10px; color:dimgrey; background: transparent; border: none;">  
             </li> 
         </div>
       </nav>
