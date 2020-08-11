@@ -18,11 +18,13 @@
         <br>
         <h4>PW </h4>
             <input type="password" name="title" value="{{ . }}" maxlength="20" size="80" placeholder="PASSWORD">
-            <input type="submit" value =" 변경 " style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background:rgb(243, 243, 243); border: none;"> 
+            <input type="submit" value =" 변경 "  onclick="fn_layer_popup()" style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background:rgb(243, 243, 243); border: none;"> 
         <br>
         <br>
+        <div id="popup_layer" style="position: relative; visibility:hidden;">
         <h4>PW확인 </h4> 
             <input type="password" name="title" value="{{ . }}" maxlength="20" size="80" placeholder="PASSWORD 확인">
+        </div>
         <br>
         <br>
         <h4>사용자 이름 </h4>
@@ -31,11 +33,13 @@
         <br>
         <h4>이메일 </h4>
             <input type="text" name="title" value="{{ . }}" maxlength="30" size="80" placeholder="E-MAIL">
-            <input type="submit" value =" 변경 " style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background: rgb(243, 243, 243); border: none;"> 
+            <input type="submit" value =" 변경 " onclick="fn_layer_popup2()" style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background: rgb(243, 243, 243); border: none;"> 
         <br>
         <br>
+        <div id="popup_layer2" style="position: relative; visibility:hidden;">
         <h4>인증번호 </h4>
             <input type="text" name="title" value="{{ . }}" maxlength="20" size="80" >
+        </div>
         <br>
         <br>
         <br>
@@ -43,5 +47,15 @@
  </div>   
 </body>
 
+<script type="text/javascript">
+    function fn_layer_popup(){ 
+        var layer = document.getElementById("popup_layer"); 
+        layer.style.visibility="visible"; //반대는 hidden 
+    } 
+    function fn_layer_popup2(){ 
+        var layer = document.getElementById("popup_layer2"); 
+        layer.style.visibility="visible"; //반대는 hidden 
+    } 
+</script>
 
 {% endblock %}
