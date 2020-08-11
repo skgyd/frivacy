@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import User
+from .models import User, Image
 from .forms import *
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as dlogout
+from .detect_face_image import detecting
 
 # Create your views here.
 
@@ -55,4 +56,28 @@ def ajaxlogin(request):
         auth_login(request, logged_in_user)
     context = {'ajax_output': output}
     return render(request,'ajax.html',context)
+
+def imageUpload(request):
+    form = UploadDocumentForm()
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            img = Image.objects.last()
+            src = 'img/' + str(img.image)
+            if len(detecting(src))!=0:
+                list = detecting(src).tolist()
+                return render(request, 'imageBlur.html', {
+                    'list': list,
+                    'src': src
+                })
+            else:
+                return render(request, 'imageBlur.html', {
+                    'list': [],
+                    'src': src
+                })
+    return render(request, 'imageUpload.html', locals())
+
+def imageBlur(request):
+    return render(request, 'imageBlur.html', locals())
 

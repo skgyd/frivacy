@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'frivacyApp.apps.FrivacyappConfig',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
 
 AUTHENTICATION_BACKENDS = ('frivacyApp.auth.Auth', )
+
+#Media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'frivacyApp/static/img')

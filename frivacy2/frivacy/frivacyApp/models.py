@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 from django.db import models
 from six import python_2_unicode_compatible
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 # Create your models here.
 
@@ -14,3 +16,10 @@ class User(models.Model):
     sign_up_date = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField(auto_now=True)
     profilepic = models.CharField(max_length=255, default="")
+
+class Image(models.Model):
+    image = ProcessedImageField(
+        processors=[ResizeToFill(500, 500)],
+        format='JPEG',
+        options={'quality': 90},
+    )

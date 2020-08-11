@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.db.models import F
-from .models import User
+from .models import User, Image
 from django.contrib.auth.hashers import make_password, check_password
 from urllib.request import urlopen
 from random import randint
@@ -85,3 +85,13 @@ class AjaxLogin(Ajax):
         u = User.objects.filter(userid=self.userid)[0]
 
         return u, self.success("로그인 성공")
+
+# html에서 form을 쓰기 위해 생성한 것
+class UploadDocumentForm(forms.Form):
+    image = forms.ImageField()
+
+# model의 이미지와 db를 연동하기 위한 것 (query 셋 만들어줌)
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ['image']

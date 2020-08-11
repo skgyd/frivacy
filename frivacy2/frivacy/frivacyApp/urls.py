@@ -29,5 +29,9 @@ urlpatterns = [
     url(r'^signup$',views.signup,name="signup"),
     url(r'^ajax-sign-up$',views.ajaxsignup),
     url(r'^ajax-login$',views.ajaxlogin),
-    url(r'^logout$$',views.logout,name="logout"),
+    url(r'^logout$',views.logout,name="logout"),
+    url(r'^imageBlur$',views.imageBlur),
+    url(r'^imageUpload$',views.imageUpload),
 ]
+
+
