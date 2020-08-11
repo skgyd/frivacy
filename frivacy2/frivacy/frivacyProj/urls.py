@@ -28,4 +28,6 @@ urlpatterns = [
     path('declaration/',frivacyApp.views.declaration,name="declaration"),
     path('home/',frivacyApp.views.home,name="home"),
     path('signup/',frivacyApp.views.signup,name="signup"),
+    path('delete/',frivacyApp.views.notice,name="delete"),
+    path('edit/',frivacyApp.views.notice,name="edit"),
 ] 

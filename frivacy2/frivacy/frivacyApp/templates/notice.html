@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<head>
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" id="services" style="margin-top:75px">
+            <h1 class="w3-xxxlarge" style="color:#00334e"><b>Notice</b></h1>
+            <hr style="width:50px;border:5px solid #00334e" class="w3-round">
+        </div>
+    </div>  
+</head>  
+
+<body>
+    <div class="w3-main" style="margin-left:380px;margin-right:80px; height:100%">
+    {% comment %} <div align="right">
+      <!-- Login 검증 -->
+      <!-- jstl의 if문은 else가 없어서 따로 검증해야함. -->
+      <c:if test="${id != null}">
+        <%-- <%@include file="loginOk.jsp" %> --%>
+      </c:if>
+      <c:if test="${id == null}">
+        <%-- <%@include file="login.jsp" %> --%>
+      </c:if>
+    </div> {% endcomment %}
+   
+        <div id="list">
+        <br>
+        <b>전체 글: ${totalCount}</b>
+        </div>
+        
+        <div>
+        <br>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th width="10%">번호</th>
+                    <th width="50%">제목</th>
+                    <th width="10%">작성자</th>
+                    <th width="20%">작성일</th>
+                    <th width="10%">조회</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="article" items="${articles}" varStatus="status">
+                    <tr>
+                    <td>${article.articleNumber}</td>
+                    <td id="title">
+                        <c:if test="${article.depth > 0}">
+                        &nbsp;&nbsp;
+                        </c:if>
+                        <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">${article.title}</a>
+                        <c:if test="${article.hit >= 20}">
+                        <span class="hit">hit!</span>
+                        </c:if>
+                    </td>
+                    <td>${article.id}</td>
+                    <td>${article.writeDate}</td>
+                    <td>${article.hit}</td>
+                    <tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
