@@ -16,7 +16,7 @@ def home(request):
             src = 'img/' + str(img.image)
             list = detecting(src).tolist()
             print(type(list))
-            return render(request, 'home.html', {
+            return render(request, 'image.html', {
                 'list': list,
                 'src': src
             })
@@ -39,3 +39,6 @@ def login(request):
 
 def signup(request):
     return render(request,'signup.html')
+
+def image(request):
+    return render(request,'image.html')

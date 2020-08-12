@@ -30,6 +30,7 @@ urlpatterns = [
     path('signup/',frivacyApp.views.signup,name="signup"),
     path('delete/',frivacyApp.views.notice,name="delete"),
     path('edit/',frivacyApp.views.notice,name="edit"), 
+    path('image/',frivacyApp.views.image,name="image"),
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
