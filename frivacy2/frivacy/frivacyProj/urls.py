@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import frivacyApp.views
-from django.conf import settings
 from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,9 +28,13 @@ urlpatterns = [
     path('declaration/',frivacyApp.views.declaration,name="declaration"),
     path('home/',frivacyApp.views.home,name="home"),
     path('signup/',frivacyApp.views.signup,name="signup"),
-    path('delete/',frivacyApp.views.notice,name="delete"),
-    path('edit/',frivacyApp.views.notice,name="edit"), 
+    path('detail/',frivacyApp.views.detail,name="detail"),
+    path('edit/',frivacyApp.views.edit,name="edit"),
+    path('new/',frivacyApp.views.new,name="new"),
+    path('decDetail/',frivacyApp.views.decDetail,name="decDetail"),
+    path('notDetail/',frivacyApp.views.notDetail,name="notDetail"),
+    path('infoModify/',frivacyApp.views.infoModify,name="infoModify"),
     path('image/',frivacyApp.views.image,name="image"),
-] 
+]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

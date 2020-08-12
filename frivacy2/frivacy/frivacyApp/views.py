@@ -2,12 +2,13 @@ from django.shortcuts import render
 from .forms import UploadDocumentForm, ImageForm
 from .models import Image
 from .detect_face_image import detecting
-
 # Create your views here.
 
 def home(request):
-    form = UploadDocumentForm()
+    return render(request,'home.html')
 
+def image(request):
+    form = UploadDocumentForm()
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
@@ -20,7 +21,7 @@ def home(request):
                 'list': list,
                 'src': src
             })
-    return render(request, 'home.html', locals())
+    return render(request, 'image.html', locals())
 
 def decEdit(request):
     return render(request,'decEdit.html')
@@ -39,6 +40,24 @@ def login(request):
 
 def signup(request):
     return render(request,'signup.html')
+    
+def detail(request):
+    return render(request,'detail.html')
+    
+def new(request):
+    return render(request,'new.html')
+
+def edit(request):
+    return render(request,'edit.html')
+
+def decDetail(request):
+    return render(request,'decDetail.html')
+
+def notDetail(request):
+    return render(request,'notDetail.html')
+
+def infoModify(request):
+    return render(request,'infoModify.html')
 
 def image(request):
     return render(request,'image.html')
