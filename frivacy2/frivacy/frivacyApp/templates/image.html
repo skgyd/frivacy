@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" id="services" style="margin-top:75px;  color:#00334e">
+            <h1 class="w3-xxxlarge "><b>Main Page .</b></h1>
+            <hr style="width:50px;border:5px solid #00334e" class="w3-round">
+        </div>
+    </div>  
+</head>  
+
+<body>
+    {% load static %} <!-- static 파일 불러오기 -->
+    <div class="w3-main" style="margin-left:380px;margin-right:80px; height:100%; padding:10px 10px">
+        <canvas id ="sample" width=500 height=500 ></canvas><br/>
+
+        <form enctype="multipart/form-data" action="" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Save"/>
+        </form>
+
+        <button onClick="goTest()">테스트</button>
+        <button onClick="addToCanvas()">이미지 로드</button>
+        <button onClick="applyImage()">얼굴인식</button>
+        <button onClick="blurImage()">블러</button>
+
+        <script type="text/javascript">
+
+            function goTest() {
+                console.log(src);
+            }
+            // Test 용도
+            // 사진에서 얼굴인식한 좌표들 ([왼쪽 위 x, 왼쪽 위 y, width, height])
+            /*
+            var list = [[0, 200, 190, 190],
+                        [330, 140,  75,  75],
+                        [470, 140,  75,  75]]
+
+            */
+
+            // 얼굴 인식 후 각 인식 객체별 좌표값이 list에 저장
+            var src = 'img/{{ src }}';
+            var list = {{ list }};
+            
+
+            // canvas 생성
+            var canvas = document.getElementById("sample");
+            var ctx = canvas.getContext('2d');
+            var img = new Image();
+
+
+            // 이미지 블러처리 기능
+            function blurImage() {
+                img.onload = blur;
+                img.src = '{% static src %}';
+            }
+
+            function blur() {
+                draw();
+                ctx.beginPath();
+                ctx.filter = 'blur(10px)';
+                    for (i in list) {
+                        var temp = list[i];
+                        ctx.drawImage(canvas,
+                            temp[0], temp[1], temp[2], temp[3],
+                            temp[0], temp[1], temp[2], temp[3]
+                        );
+                    }
+                ctx.filter = 'none';
+                ctx.closePath();
+            }
+
+            // canvas 위에 이미지 업로드
+            function addToCanvas() {
+                img.onload = draw;
+                img.src = '{% static src %}';
+            }
+
+            function draw() {
+                ctx.drawImage(img, 0 ,0, 500, 500);
+            }
+
+            // 얼굴 인식 후 생성된 좌표값을 활용하여 네모 객체 그려주는 기능
+            function applyImage() {
+                draw();
+                ctx.beginPath();
+
+                for (var i in list) {
+                    var temp = list[i];
+                    ctx.rect(temp[0], temp[1], temp[2], temp[3]);   // 객체 추가
+                }
+
+                ctx.strokeStyle = "#00FFFF";    // 색상
+                ctx.lineWidth = 5;  // 라인 크기
+                ctx.stroke();   // 그리기
+                ctx.closePath();
+            }
+
+        </script>
+    </div>
+</body>
+{% endblock %}

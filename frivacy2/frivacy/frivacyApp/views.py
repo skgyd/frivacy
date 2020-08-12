@@ -5,8 +5,10 @@ from .detect_face_image import detecting
 # Create your views here.
 
 def home(request):
-    form = UploadDocumentForm()
+    return render(request,'home.html')
 
+def image(request):
+    form = UploadDocumentForm()
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
@@ -15,11 +17,11 @@ def home(request):
             src = 'img/' + str(img.image)
             list = detecting(src).tolist()
             print(type(list))
-            return render(request, 'home.html', {
+            return render(request, 'image.html', {
                 'list': list,
                 'src': src
             })
-    return render(request, 'home.html', locals())
+    return render(request, 'image.html', locals())
 
 def decEdit(request):
     return render(request,'decEdit.html')
@@ -56,3 +58,6 @@ def notDetail(request):
 
 def infoModify(request):
     return render(request,'infoModify.html')
+
+def image(request):
+    return render(request,'image.html')
