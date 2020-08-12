@@ -18,7 +18,7 @@
         }
     
         // Click on the "TAXI" link on page load to open the accordion for demo purposes
-        document.getElementById("myBtn").click();
+        //document.getElementById("myBtn").click();
        
     
         // Open and close sidebar
@@ -58,6 +58,13 @@
             {% comment %} <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">SignUp</a> {% endcomment %}
         </div>
         </nav>
+        
+        <!-- pop up friend -->
+        <div id="popup_layer" onMouseover="fn_layer_popup()" onMouseout="fn_layer_hidden()" style="position:absolute;border:none;top:110px;left:90%;width:150px;height:700px;z-index:1;visibility:hidden;background-color:#f4f4f4">
+            <p style="margin-left:15px">친구1</p>
+            <p style="margin-left:15px">친구2</p>
+        </div>
+        <a onClick="fn_layer_popup()" style="position:fixed; left:95%; text-decoration:none;">Friends</a>
 
         <!-- Top menu on small screens -->
         <header class="w3-container w3-top w3-hide-large w3-xlarge w3-padding" style="background-color:#00334e">
@@ -76,5 +83,17 @@
 
         {% block content %}
         {% endblock %}
+
+        <script> 
+        function fn_layer_popup(){ 
+            var layer = document.getElementById("popup_layer"); 
+            layer.style.visibility="visible"; //반대는 hidden 
+        } 
+        
+        function fn_layer_hidden(){ 
+            var layer = document.getElementById("popup_layer"); 
+            layer.style.visibility="hidden"; 
+        } 
+        </script> 
     </body>
 </html>

@@ -11,7 +11,7 @@
 </head>  
 
 <body>
-    <div class="w3-main" style="margin-left:380px;margin-right:80px; height:100%">
+    <div class="w3-main" style="margin-left:380px;margin-right:80px; height:100%; padding: 10px 10px;">
     {% comment %} <div align="right">
       <!-- Login 검증 -->
       <!-- jstl의 if문은 else가 없어서 따로 검증해야함. -->
@@ -33,7 +33,6 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th width="10%">번호</th>
                     <th width="50%">제목</th>
                     <th width="10%">작성자</th>
                     <th width="20%">작성일</th>
@@ -43,7 +42,6 @@
                 <tbody>
                 <c:forEach var="article" items="${articles}" varStatus="status">
                     <tr>
-                    <td>${article.articleNumber}</td>
                     <td id="title">
                         <c:if test="${article.depth > 0}">
                         &nbsp;&nbsp;

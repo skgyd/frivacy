@@ -29,5 +29,7 @@ urlpatterns = [
     path('home/',frivacyApp.views.home,name="home"),
     path('signup/',frivacyApp.views.signup,name="signup"),
     path('delete/',frivacyApp.views.notice,name="delete"),
-    path('edit/',frivacyApp.views.notice,name="edit"),
+    path('edit/',frivacyApp.views.notice,name="edit"), 
 ] 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
