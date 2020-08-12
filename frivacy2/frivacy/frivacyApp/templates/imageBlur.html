@@ -2,7 +2,7 @@
     <body>
     {% load static %} <!-- static 파일 불러오기 -->
         <div id="field">
-        <canvas id ="sample" width=500 height=300></canvas>
+        <canvas id ="sample" width=400 height=400></canvas>
         </div>
         <br/>
         <button onClick="applyImage()">얼굴인식</button>
@@ -47,7 +47,7 @@
         }
 
          function draw() {
-            ctx.drawImage(img, 0 ,0, 500, 300)
+            ctx.drawImage(img, 0 ,0, 400, 400)
         }
 
         function scaleToFit(img){
