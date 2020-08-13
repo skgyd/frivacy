@@ -34,7 +34,7 @@
                         <c:if test="${article.depth > 0}">
                         &nbsp;&nbsp;
                         </c:if>
-                        <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">${article.title}</a>
+                        <a href="{% url 'decDetail' %}">${article.title}</a>
                         <c:if test="${article.hit >= 20}">
                         <span class="hit">hit!</span>
                         </c:if>
