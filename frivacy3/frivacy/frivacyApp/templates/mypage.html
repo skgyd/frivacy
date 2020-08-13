@@ -11,21 +11,21 @@
 
 <body>
     {% load static %} <!-- static 파일 불러오기 -->
-    <div class="w3-main" style="margin-left:380px; margin-right:80px; width:70%; border:2px solid rgb(241, 236, 236); margin-top:30px;">
-        <a href="{% url 'image' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"  style="position:absolute; left:86%; top:200px; text-decoration:underline; font-weight:bold;">업로드</a>
-        <h4 style="margin:10px">000님이 올린 글</h4>
+    <div class="w3-main" style="margin-left:380px; margin-right:80px; width:70%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
+        <h4 style="margin-left:20px">000님이 올린 글</h4>
         <div style="padding:5 5; margin:10px;">
-            <canvas id ="sample" width=800 height=450 style="margin-left: 140px; height:200%" ></canvas><br/>
+            <canvas id ="sample" width=800 height=500 style="margin-left: 140px; height:200%" ></canvas><br/>
         </div>
         <div class="content" style="padding:5 5; margin: 20px;">
             <h5>내용 블라블라블라</h5>
         </div>
-        <div class="input-group mb-3" style="background-color: rgb(241, 236, 236); width:100%; padding: 10px;">
-            <input type="text" class="underline" placeholder="comment" aria-label="Recipient's username" aria-describedby="button-addon2" style="width:90%; background-color: transparent; margin-left:10px; BORDER-BOTTOM: #00334e 1px solid;BORDER-LEFT: medium none;BORDER-RIGHT: medium none;BORDER-TOP: medium none;">
-            <button class="btn btn-outline-secondary" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:15px;">댓글 작성</button>      
+        <div class="input-group mb-3" style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
+            <input type="text" class="underline" placeholder="comment" aria-label="Recipient's username" aria-describedby="button-addon2" style="width:85%; background-color: transparent; margin-left:10px; BORDER-BOTTOM: #00334e 1px solid;BORDER-LEFT: medium none;BORDER-RIGHT: medium none;BORDER-TOP: medium none;">
+            <button class="btn btn-outline-secondary" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:30px;">댓글 작성</button>      
         </div>
-        <div class="input-group mb-3" style="background-color: rgb(241, 236, 236); width:100%; padding: 10px;">
-            <a class="btn btn-outline-secondary" href="{% url 'edit' %}" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:1100px;">수정</a>      
+    
+        <div style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
+            <a class="btn btn-outline-secondary" href="{% url 'edit' %}" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:470px;">수정</a>      
             <a class="btn btn-outline-secondary" href="" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:15px;">삭제</a>      
         </div>
     </div>
