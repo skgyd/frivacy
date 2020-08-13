@@ -2,7 +2,7 @@
 {% block content %}
 
 <head>
-    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+    <div class="w3-main" style="margin-left:340px;margin-right:40px; margin-bottom:100px">
         <div class="w3-container" id="services" style="margin-top:75px">
             <h1 class="w3-xxxlarge" style="color:#00334e"><b>공지사항</b></h1>
             <hr style="width:50px;border:5px solid #00334e" class="w3-round">
@@ -29,26 +29,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="article" items="${articles}" varStatus="status">
-                    <tr>
-                    <td id="title">
-                        <c:if test="${article.depth > 0}">
-                        &nbsp;&nbsp;
-                        </c:if>
-                        <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">${article.title}</a>
-                        <c:if test="${article.hit >= 20}">
-                        <span class="hit">hit!</span>
-                        </c:if>
-                    </td>
-                    <td>${article.id}</td>
-                    <td>${article.writeDate}</td>
-                    <td>${article.hit}</td>
-                    <tr>
-                </c:forEach>
+                    <c:forEach var="article" items="${articles}" varStatus="status">
+                        <tr>
+                        <td id="title">
+                            <c:if test="${article.depth > 0}">
+                            &nbsp;&nbsp;
+                            </c:if>
+                            <a href="{% url 'detail' %}">${article.title}</a>
+                            <c:if test="${article.hit >= 20}">
+                            <span class="hit">hit!</span>
+                            </c:if>
+                        </td>
+                        <td>${article.id}</td>
+                        <td>${article.writeDate}</td>
+                        <td>${article.hit}</td>
+                        <tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
     </div>
-</body>
+
+
 
 {% endblock %}
