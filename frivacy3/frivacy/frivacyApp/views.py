@@ -61,3 +61,6 @@ def infoModify(request):
 
 def image(request):
     return render(request,'image.html')
+
+def mypage(request):
+    return render(request,'mypage.html')
