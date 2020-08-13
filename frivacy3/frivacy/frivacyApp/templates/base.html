@@ -63,7 +63,7 @@
                 <input type="text" name="" placeholder="Search" size="18" onKeypress="javascript:if(event.keyCode==13) {search_onclick_submit()}"/>
                 <br>
                 <br>
-                <a href="#" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true">Logout</a>
+                <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true">Logout</a>
                 <!-- <a href="#" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true"><h4>Logout</h4></a> -->
                 <script type="text/javascript">
                     function search_onclick_submit(){
@@ -74,7 +74,7 @@
         </nav>
         
         <!-- pop up friend -->
-        <div id="popup_layer" onMouseover="fn_layer_popup()" onMouseout="fn_layer_hidden()" style="position:absolute;border:none;top:90px;left:93%;width:130px;height:100vh auto;z-index:1;visibility:hidden;background-color:#f4f4f4">
+        <div id="popup_layer" onMouseover="fn_layer_popup()" onMouseout="fn_layer_hidden()" style="position:absolute;border:none;top:100px;left:93%;width:130px;height:100vh auto;z-index:1;visibility:hidden;background-color:#f4f4f4">
             <p style="margin-left:15px">친구1</p>
             <p style="margin-left:15px">친구2</p>
             <p style="margin-left:15px">친구3</p>
@@ -85,7 +85,7 @@
             <p style="margin-left:15px">친구8</p>
             <p style="margin-left:15px">친구9</p>
         </div>
-        <a onMouseover="fn_layer_popup()" onMouseout="fn_layer_hidden()" style="position:absolute; left:95%; margin-top:70px; text-decoration:none;">Friends</a>
+        <a onMouseover="fn_layer_popup()" onMouseout="fn_layer_hidden()" style="position:absolute; left:95%; text-decoration:none;">Friends</a>
 
         <!-- Top menu on small screens -->
         <header class="w3-container w3-top w3-hide-large w3-xlarge w3-padding" style="background-color:#00334e">
@@ -118,9 +118,9 @@
         </script> 
     </body>
     
-    <footer class="footer">
-        <div class="footer" style="background-color: #00334e; position: relative; z-index: 1; margin-top:200px">
-            <h6 class="developer" style="margin-left:500px; margin-right:80px; height:100%; padding:10px 10px; color:whitesmoke; text-align: right;"> 만든이: <info> 장석민 </info>
+    <footer class="footer" style="background-color: #00334e; position: absolute; z-index: 1; top:100%; width:100%">
+        <div class="footer">
+            <h6 class="developer" style="margin-left:500px; margin-right:80px; height:9] 0%; padding:10px 10px; color:whitesmoke; text-align: right;"> 만든이: <info> 장석민 </info>
                 <info> 송혜은 </info>
                 <info> 박나형 </info>
                 <info> 유소영 </info>

@@ -3,21 +3,52 @@
 <head>
     <div class="w3-main" style="margin-left:340px;margin-right:40px">
         <div class="w3-container" id="services" style="margin-top:75px;  color:#00334e">
-            <h1 class="w3-xxxlarge "><b>신고 게시판 .</b></h1>
+            <h1 class="w3-xxxlarge "><b>신고 게시판</b></h1>
             <hr style="width:50px;border:5px solid #00334e" class="w3-round">
         </div>
     </div>  
 </head>  
 
 <body>
-    <div class="container" style="margin-left:340px;margin-right:40px; margin-top:10px; padding: 60px 100px;">
-        <h2> 제목 들어올 자리 </h2>
-        <p> 날짜 </p>
-        <p> 작성자 </p>
-        <h4> 내용       
-            <a href = "{% url 'decDetail' %}"> ...more</a> 
-        </h4>
+    <div class="w3-main" style="margin-left:380px;margin-right:80px; height:100%; padding: 10px 10px;">
+        <div id="list">
+        <br>
+        <b>전체 글: ${totalCount}</b>
+        </div>
+        
+        <div>
+        <br>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th width="50%">제목</th>
+                    <th width="10%">작성자</th>
+                    <th width="20%">작성일</th>
+                    <th width="10%">조회</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="article" items="${articles}" varStatus="status">
+                    <tr>
+                    <td id="title">
+                        <c:if test="${article.depth > 0}">
+                        &nbsp;&nbsp;
+                        </c:if>
+                        <a href="/bbs/content.bbs?articleNumber=${article.articleNumber}&pageNum=${pageNum}">${article.title}</a>
+                        <c:if test="${article.hit >= 20}">
+                        <span class="hit">hit!</span>
+                        </c:if>
+                    </td>
+                    <td>${article.id}</td>
+                    <td>${article.writeDate}</td>
+                    <td>${article.hit}</td>
+                    <tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <a href="{% url 'decNew' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"  style="position:absolute; left:75%; top:800px; text-decoration:underline; font-weight:bold;">작성하기</a>
 </body>
 
 

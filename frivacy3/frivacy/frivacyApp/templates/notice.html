@@ -4,7 +4,7 @@
 <head>
     <div class="w3-main" style="margin-left:340px;margin-right:40px">
         <div class="w3-container" id="services" style="margin-top:75px">
-            <h1 class="w3-xxxlarge" style="color:#00334e"><b>Notice</b></h1>
+            <h1 class="w3-xxxlarge" style="color:#00334e"><b>공지사항</b></h1>
             <hr style="width:50px;border:5px solid #00334e" class="w3-round">
         </div>
     </div>  
@@ -12,17 +12,6 @@
 
 <body>
     <div class="w3-main" style="margin-left:380px;margin-right:80px; height:100%; padding: 10px 10px;">
-    {% comment %} <div align="right">
-      <!-- Login 검증 -->
-      <!-- jstl의 if문은 else가 없어서 따로 검증해야함. -->
-      <c:if test="${id != null}">
-        <%-- <%@include file="loginOk.jsp" %> --%>
-      </c:if>
-      <c:if test="${id == null}">
-        <%-- <%@include file="login.jsp" %> --%>
-      </c:if>
-    </div> {% endcomment %}
-   
         <div id="list">
         <br>
         <b>전체 글: ${totalCount}</b>
