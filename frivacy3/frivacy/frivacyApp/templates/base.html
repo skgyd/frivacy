@@ -45,19 +45,32 @@
 
     <body>
         <!-- Sidebar/menu -->
-        <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e" id="mySidebar"><br>
-        <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft w3-text-white" style="width:100%;font-size:22px">Close Menu</a>
-        <div class="w3-container">
-            <h3 class="w3-padding-64 w3-text-white"><b>Frivacy</b><br>-aco-rani</h3>
-        </div>
-        <div class="w3-bar-block">
-            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white" >Main</a>
-            <a href="{% url 'notice' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">Notice</a>
-            <a href="{% url 'declaration' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">Declaration</a>   
-            <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">Login</a> 
-            <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white" aria-disabled = "true">Logout</a>
-            {% comment %} <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white w3-text-white">SignUp</a> {% endcomment %}
-        </div>
+        <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding w3-text-sand" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e; float: left;" id="mySidebar"><br>
+            <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px; background-color:#00334e">Close Menu</a>
+            <div class="w3-container">
+                <h1 style="padding-top:64px; padding-bottom:10px;"><b>Frivacy</b></h1>
+                <h3 style="padding-bottom:64px;">Welcome, 000!</h3>
+            </div>
+            <div class="w3-bar-block">
+                <a href="{% url 'image' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">image?</a>
+                <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >피드</a>   
+                <a href="{% url 'notice' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">공지사항</a>
+                <a href="{% url 'infoModify' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">개인정보 수정</a>
+                <a href="{% url 'declaration' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">신고</a>
+                
+                <br>
+                <br>
+                <input type="text" name="" placeholder="Search" size="18" onKeypress="javascript:if(event.keyCode==13) {search_onclick_submit()}"/>
+                <br>
+                <br>
+                <a href="#" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true">Logout</a>
+                <!-- <a href="#" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true"><h4>Logout</h4></a> -->
+                <script type="text/javascript">
+                    function search_onclick_submit(){
+                        alert("Search");
+                        }
+                </script>
+            </div>
         </nav>
         
         <!-- pop up friend -->
