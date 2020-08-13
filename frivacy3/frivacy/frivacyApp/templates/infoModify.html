@@ -18,7 +18,7 @@
         <br>
         <h4>PW </h4>
             <input type="password" name="title" value="{{ . }}" maxlength="20" size="80" placeholder="PASSWORD">
-            <input type="submit" value =" 변경 "  onclick="fn_layer_popup()" style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background:rgb(243, 243, 243); border: none;"> 
+            <input type="submit" value =" 변경 "  onclick="pw_popup()" style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background:rgb(243, 243, 243); border: none;"> 
         <br>
         <br>
         <div id="popup_layer" style="position: relative; visibility:hidden;">
@@ -48,7 +48,7 @@
 </body>
 
 <script type="text/javascript">
-    function fn_layer_popup(){ 
+    function pw_popup(){ 
         var layer = document.getElementById("popup_layer"); 
         layer.style.visibility="visible"; //반대는 hidden 
     } 
