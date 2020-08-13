@@ -35,6 +35,7 @@ urlpatterns = [
     path('notDetail/',frivacyApp.views.notDetail,name="notDetail"),
     path('infoModify/',frivacyApp.views.infoModify,name="infoModify"),
     path('image/',frivacyApp.views.image,name="image"),
+    path('mypage/',frivacyApp.views.mypage,name="mypage"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
