@@ -3,10 +3,10 @@ import numpy as np
 
 def detecting(title):
     # Load the cascade
-    face_cascade = cv2.CascadeClassifier('C:/Users/A0501660/Desktop/htmlcss/frivacy/frivacy2/frivacy/frivacyApp/haarcascade_frontalface_default.xml')
+    face_cascade = cv2.CascadeClassifier('C:/Users/yooso/Desktop/frivacy/frivacy3/frivacy/frivacyApp/haarcascade_frontalface_default.xml')
 
     # Read the input image
-    title = 'C:/Users/A0501660/Desktop/htmlcss/frivacy/frivacy2/frivacy/frivacyApp/static/' + title
+    title = 'C:/Users/yooso/Desktop/frivacy/frivacy3/frivacy/frivacyApp/static/' + title
     img = cv2.imread(title)
 
     # Convert into grayscale

@@ -5,20 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}"  />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}"  />
 </head>
 <body>
-    <form class="box">
+    <form class="box" method="post" action="/ajax-login">
         <h1>Frivacy</h1>
-        <input type="text" name="" class="LoginInput" placeholder="ID">
-        <input type="password" name="" class="LoginInput" placeholder="PW">
-        <div class>
-            <a href="#" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px; margin:20px;">LOGIN</a>
-            <a href="{% url 'signup' %}" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px;margin:20px">SIGN UP</a>
-        </div>
+        {% csrf_token %}
+        <input type="text" id="id" name="id" class="LoginInput" placeholder="ID">
+        <input type="password" id="pw" name="pw" class="LoginInput" placeholder="PW">
         <div>
-            <a href="#" onclick="w3_close()" style="color:white; text-decoration:none; font-size:14px;margin:30px">forgot id/pw?</a>
+            <div class>
+                <input type="submit" value="LOGIN">
+                <a href="{% url 'signup' %}" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px;margin:20px">SIGN UP</a>
+            </div>
+            <div>
+                <a href="#" onclick="w3_close()" style="color:white; text-decoration:none; font-size:14px;margin:30px">forgot id/pw?</a>
+            </div>
         </div>
     </form>
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/js/django-ajax.js' %}"></script>
 </body>
 </html>

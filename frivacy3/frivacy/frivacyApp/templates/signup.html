@@ -1,33 +1,49 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}"  />
+    <title>Signup</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <form class="box">
+    <form class="box" method="post">
+        {% csrf_token %}
         <h1>Frivacy</h1>
-        <input type="text" name="" placeholder="Email" class="input">
-        <input type="password" name="" placeholder="PW" class="input">
-        <input type="password" name="" placeholder="Confirm PW" class="input">
-        <input type="file" id="image" accept="image/*" onchange="setThumbnail(event);"/> 
-        <div id="image_container"></div> 
-        <div class="logindiv">
-            <a href="{% url 'login' %}" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px;margin:20px">SIGN UP</a>
-        </div>
-        <script>
-            function setThumbnail(event) {
-                var reader = new FileReader();
-                reader.onload = function(event) { 
-                    var img = document.createElement("img"); 
-                    img.setAttribute("src", event.target.result);
-                    //document.querySelector("div#image_container").appendChild(img);
-                }; 
-                reader.readAsDataURL(event.target.files[0]); } 
-        </script>
+        <input type="text" id="id" name="id" class="SignupInput" placeholder="ID">
+        <input type="password" id="pw" name="pw" class="SignupInput" placeholder="PW">
+        <input type="password" id="pw2" name="pw2" class="SignupInput" placeholder="Confirm PW">
+        <input type="text" id="name" name="name" class="SignupInput" placeholder="Name">
+        <input type="text" id="email" name="email" class="SignupInput" placeholder="E-Mail">
+        <button class="btn btn-primary btn-block" id="go" type="submit">회원 가입</button>
     </form>
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/js/django-ajax.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#go').click(function() {
+                $.post("ajax-sign-up",
+                {
+                    id: $("#id").val(),
+                    email: $("#email").val(),
+                    pw: $("#pw").val(),
+                    pw2: $('#pw2').val(),
+                    name: $('#name').val()
+                },function(data, status){
+                    console.log(data[1])
+                    if (JSON.parse(data).Status == 'Success') {
+                        alert("회원가입 성공!");
+                        window.location = '/';
+                    } else {
+                        alert(JSON.parse(data).Message)
+                    }
+                });
+                return false;
+            })
+        })
+    </script>
 </body>
 </html>

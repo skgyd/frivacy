@@ -18,6 +18,7 @@ from django.urls import path
 import frivacyApp.views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,8 +35,13 @@ urlpatterns = [
     path('decDetail/',frivacyApp.views.decDetail,name="decDetail"),
     path('notDetail/',frivacyApp.views.notDetail,name="notDetail"),
     path('infoModify/',frivacyApp.views.infoModify,name="infoModify"),
-    path('image/',frivacyApp.views.image,name="image"),
     path('mypage/',frivacyApp.views.mypage,name="mypage"),
+    url(r'signup/ajax-sign-up$',frivacyApp.views.ajaxsignup),
+    url(r'^ajax-login$',frivacyApp.views.ajaxlogin),
+    url(r'^logout$',frivacyApp.views.logout,name="logout"),
+    url(r'^imageBlur$',frivacyApp.views.imageBlur),
+    url(r'^imageUpload$',frivacyApp.views.imageUpload),
+    url(r'^ajax-upload$',frivacyApp.views.ajaxupload),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

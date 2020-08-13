@@ -26,7 +26,7 @@ SECRET_KEY = 'h28rq3=p1vpslv=^j-&cb!2r#8ko0rj_&w!u==g&t1qhx)07_9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '210.94.194.83']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'frivacyApp.apps.FrivacyappConfig',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -105,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -120,12 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'static')
-]
+STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
 
 #Media
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'frivacyApp/static/img')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mainf/static/img')
+#AUTHENTICATION_BACKENDS = ('frivacyApp.auth.Auth', )
