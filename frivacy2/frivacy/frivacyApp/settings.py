@@ -128,3 +128,5 @@ AUTHENTICATION_BACKENDS = ('frivacyApp.auth.Auth', )
 #Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'frivacyApp/static/img')
+
+#AUTH_USER_MODEL = "frivacyApp.User"

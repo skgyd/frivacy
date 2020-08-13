@@ -1,9 +1,13 @@
-body {
-    padding: 0;
+body{
+    background: #00334e;
+}
+
+div1 {
+    
     font-family: sans-serif;
     background: #00334e;
-    margin-left: 500px;
-    margin-top: 300px;
+    margin:auto;
+   
 }
 
 .box{
@@ -24,7 +28,7 @@ body {
     font-weight: 700;
 }
 
-.LoginInput{
+.box input[type="text"], .box input[type="password"]{
     border: 0;
     display: block;
     margin: 10px auto;
@@ -38,7 +42,7 @@ body {
     transition: 0.25s;
 }
 
-.LoginSubmit {
+.box input[type="submit"]{
     border: 2px solid #2d363a;
     margin: 10px auto;
     text-align: center;
@@ -53,30 +57,4 @@ body {
 div{
     margin-top: 60px;
     margin-bottom: 10px;
-}
-
-.SignupInput {
-    border: 0;
-    display: block;
-    margin: 10px auto;
-    text-align: center;
-    border: 2px solid #2d363a;
-    width: 100px;
-    height: 25px;
-    outline: none;
-    color: black;    
-    background-color: white;
-    transition: 0.25s;
-}
-
-.SignupSubmit {
-    border: 2px solid #2d363a;
-    margin: 10px auto;
-    text-align: center;
-    padding: 5px;
-    color: black;
-    background-color: white;
-    transition: 0.25s;
-    cursor: pointer;
-    width: 70px;
 }

@@ -1,10 +1,12 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.db.models import F
-from .models import User, Image
+from .models import User, Image, Post
 from django.contrib.auth.hashers import make_password, check_password
 from urllib.request import urlopen
 from random import randint
+import base64
+import os
 
 import json, re
 
@@ -94,4 +96,27 @@ class UploadDocumentForm(forms.Form):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ['image']
+        fields = ['image'] 
+
+class AjaxUpload(Ajax):
+    def validate(self):
+        try:
+            self.image = self.args[0]["image"]
+            self.content = self.args[0]["content"]
+            self.src = self.args[0]["src"]
+            self.owner = self.args[0]["owner"]
+            self.image = self.image[22:]
+            img = open('frivacyApp'+self.src, "wb")
+            img.write(base64.b64decode(self.image))
+            img.close()
+        except Exception as e:
+            print(e)
+            return self.error("Malformed request, did not process.")
+
+        if self.user == "NL":
+            return self.error("Unauthorised request.")
+
+        p = Post(owner=self.owner, image='frivacyApp'+self.src, content=self.content)
+        p.save()
+
+        return self.success("Image Uploaded")

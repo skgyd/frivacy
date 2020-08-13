@@ -32,6 +32,11 @@ urlpatterns = [
     url(r'^logout$',views.logout,name="logout"),
     url(r'^imageBlur$',views.imageBlur),
     url(r'^imageUpload$',views.imageUpload),
+    url(r'^mypage$', views.mypage, name="mypage"),
+    url(r'^edit$',views.edit,name="edit"),
+    url(r'^infoModify$',views.infoModify,name="infoModify"),
+    url(r'^decDetail$',views.decDetail,name="decDetail"),
+    url(r'^ajax-upload$',views.ajaxupload),
 ]
 
 

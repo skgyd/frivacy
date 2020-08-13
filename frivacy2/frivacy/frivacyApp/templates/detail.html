@@ -7,6 +7,7 @@
     <p>{{ memo.body }}</p>
 
  
+    
     <form action="{% url 'delete' memo.id %}" method="POST" >
         {% csrf_token %}
         <input type="submit" value ="삭제하기" style="padding-left:0px; padding-top:50px; color:dimgrey; background: transparent; border: none;">

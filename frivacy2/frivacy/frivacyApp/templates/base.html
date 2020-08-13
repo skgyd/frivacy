@@ -1,13 +1,10 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="stylesheet" href="{% static 'css/w3.css' %}">
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 
     <script>
         // Accordion 
@@ -21,7 +18,7 @@
         }
     
         // Click on the "TAXI" link on page load to open the accordion for demo purposes
-        document.getElementById("myBtn").click();
+        //document.getElementById("myBtn").click();
        
     
         // Open and close sidebar
@@ -42,42 +39,45 @@
           var captionText = document.getElementById("caption");
           captionText.innerHTML = element.alt;
         }
+        
     </script>
 
 
     <body>
         <!-- Sidebar/menu -->
-        <nav class="w3-sidebar w3-blue w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e" id="mySidebar"><br>
-        <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
-        <div class="w3-container">
-            <h3 class="w3-padding-64"><b>Frivacy</b><br>frivacy</h3>
-        </div>
-        <div class="w3-bar-block">
-            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >Home</a>   
-         
-            <div id="demoAcc1"  href="javascript:void(0)" style="background-color: #00334e;" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-                <a href="{% url 'notice' %}" class=w3-bar-item w3-button w3-light-grey><i class="fa fa-caret-right w3-margin-right"></i>공지사항</a>
-                <a href="{% url 'home' %}" class="w3-bar-item w3-button ">home</a>
-                <a href="{% url 'notice' %}" class="w3-bar-item w3-button">공지사항</a>
-                <a href="{% url 'declaration' %}" class="w3-bar-item w3-button">신고</a>
+        <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding w3-text-sand" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e; float: left;" id="mySidebar"><br>
+            <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px; background-color:#00334e">Close Menu</a>
+            <div class="w3-container">
+                <h1 style="padding-top:64px; padding-bottom:10px;"><b>Frivacy</b></h1>
+                <h3 style="padding-bottom:64px;">Welcome, {{user.name}}</h3>
             </div>
-            
-            <div id="demoAcc2"  href="javascript:void(0)" style="background-color: #00334e;" class="w3-bar- block w3-hide w3-padding-large w3-medium">
-                <a href="{% url 'notice' %}" class=w3-bar-item w3-button w3-light-grey><i class="fa fa-caret-right w3-margin-right"></i>공지사항</a>
-                <a href="#" class="w3-bar-item w3-button">공지</a>
-            </div>
-            <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Login</a> 
-            <a href="{% url 'logout' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" aria-disabled = "true">Logout</a>
-            <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">SignUp</a>
-    
+            <div class="w3-bar-block">
+                <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >피드</a>   
+                <a href="{% url 'notice' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">공지사항</a>
+                <a href="{% url 'declaration' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">신고</a>
+                <a href="{% url 'mypage' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >내 게시판</a>  
+                <a href="{% url 'infoModify' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">개인정보 수정</a>
+                
+                <br>
+                <br>
+                <input type="text" name="" placeholder="Search" size="18" onKeypress="javascript:if(event.keyCode==13) {search_onclick_submit()}"/>
+                <br>
+                <br>
+                <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true">Logout</a>
+                <!-- <a href="#" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true"><h4>Logout</h4></a> -->
+                <script type="text/javascript">
+                    function search_onclick_submit(){
+                        alert("Search");
+                        }
+                </script>
             </div>
         </nav>
 
 
         <!-- Top menu on small screens -->
-        <header class="w3-container w3-top w3-hide-large w3-blue w3-xlarge w3-padding">
-            <a href="javascript:void(0)" class="w3-button w3-blue w3-margin-right" onclick="w3_open()">☰</a>
-            <span>Frivacy</span>
+        <header class="w3-container w3-top w3-hide-large w3-xlarge w3-padding" style="background-color:#00334e">
+            <a href="javascript:void(0)" class="w3-button w3-margin-right w3-text-white" style="background-color:#00334e" onclick="w3_open()">☰</a>
+            <span class="w3-text-white">Frivacy</span>
         </header>
 
         <!-- Overlay effect when opening sidebar on small screens -->
@@ -91,5 +91,33 @@
 
         {% block content %}
         {% endblock %}
+
+        <script> 
+        function fn_layer_popup(){ 
+            var layer = document.getElementById("popup_layer"); 
+            layer.style.visibility="visible"; //반대는 hidden 
+        } 
+        
+        function fn_layer_hidden(){ 
+            var layer = document.getElementById("popup_layer"); 
+            layer.style.visibility="hidden"; 
+        } 
+        </script> 
     </body>
+    
+    <footer class="footer" style="background-color: #00334e; position: absolute; margin-top:30%; z-index: 1; top:100%; width:100%">
+        <div class="footer">
+            <h6 class="developer" style="margin-left:500px; margin-right:80px; bottom:0px;left:0px; height:90%; padding:10px 10px; color:whitesmoke; text-align: right;"> 만든이: <info> 장석민 </info>
+                <info> 송혜은 </info>
+                <info> 박나형 </info>
+                <info> 유소영 </info>
+                <br>
+                Contact: aaa@aaa.com
+            </h6>
+            <hr>
+            <div class="footer__bottom">
+                <h6 class="right" style="margin-left:500px;margin-right:80px; height:100%; padding:10px 10px; color:whitesmoke; text-align: right;"> ALL RIGHTS RESERVED © aco and lani </h6>
+            </div>
+        </div>
+    </footer>
 </html>

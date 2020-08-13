@@ -11,6 +11,8 @@ def home(request):
     context = {}
     if request.user.is_authenticated:
         u = User.objects.filter(userid=request.user.userid)[0]
+        if u.profilepic == "":
+            u.profilepic = "static/img/default.png"
         context = {'user': request.user, 'ProfilePic': u.profilepic}
         return render(request, 'home.html', context)
     return render(request,'login.html',context)
@@ -79,5 +81,27 @@ def imageUpload(request):
     return render(request, 'imageUpload.html', locals())
 
 def imageBlur(request):
-    return render(request, 'imageBlur.html', locals())
+    context = {}
+    if request.user.is_authenticated:
+        u = User.objects.filter(userid=request.user.userid)[0]
+        if u.profilepic == "":
+            u.profilepic = "static/img/default.png"
+        context = {'user': request.user, 'ProfilePic': u.profilepic}
+    return render(request, 'imageBlur.html', context)
 
+def mypage(request):
+    return render(request,'mypage.html')
+
+def edit(request):
+    return render(request,'edit.html')
+
+def infoModify(request):
+    return render(request,'infoModify.html')
+
+def decDetail(request):
+    return render(request,'decDetail.html')
+
+def ajaxupload(request):
+    ajax = AjaxUpload(request.POST)
+    context = {'ajax_output': ajax.output()}
+    return render(request,'ajax.html',context)

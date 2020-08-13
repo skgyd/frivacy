@@ -23,3 +23,9 @@ class Image(models.Model):
         format='JPEG',
         options={'quality': 90},
     )
+
+class Post(models.Model):
+    image = models.CharField(max_length=255)
+    date_uploaded = models.DateTimeField(auto_now=True)
+    owner = models.CharField(max_length=20)
+    content = models.CharField(max_length=140, default="")
