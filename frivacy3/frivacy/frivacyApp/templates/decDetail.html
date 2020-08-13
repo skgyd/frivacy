@@ -3,24 +3,34 @@
 <head>
     <div class="w3-main" style="margin-left:340px;margin-right:40px">
         <div class="w3-container" id="services" style="margin-top:75px;  color:#00334e">
-            <h1 class="w3-xxxlarge "><b>상세페이지</b></h1>
+            <h1 class="w3-xxxlarge "><b>신고 상세페이지</b></h1>
             <hr style="width:50px;border:5px solid #00334e" class="w3-round">
         </div>
     </div>  
 </head> 
 
-<div calss="container" style="padding: 60px 100px; margin-left:340px;margin-right:40px ">
-    <h1 style="margin-bottom: 45px;">제목</h1>
-    <p style="margin-bottom: 25px;">날짜</p>
-    <p style="margin-bottom: 25px;">작성자</p>
-    <h4>내용</h4>
+{% load static %} <!-- static 파일 불러오기 -->
+
+<div class="w3-main" style="margin-left:380px; margin-right:80px; width:70%; border:2px solid rgb(241, 236, 236); margin-top:30px;">
+    <h1 style="margin-bottom: 45px; margin-left:20px">제목</h1>
+    <div style="padding:5 5; margin:10px;">
+        <canvas id ="sample" width=800 height=450 style="margin-left: 140px; height:200%" ></canvas><br/>
+    </div>
+
+    <div class="content" style="padding:5 5; margin: 20px;">
+        <p style="margin-bottom: 25px;">날짜</p>
+        <p style="margin-bottom: 25px;">작성자</p>
+        <h5>내용 블라블라블라</h5>
+    </div>
+    
+</div>
 
 
     <input type="submit" value ="삭제하기" style="margin:auto; margin-top:50px; color:dimgrey; background: transparent; border: none;">
         {% csrf_token %}
     <input type="submit" value ="수정하기" style="padding: 6px 6px; margin-right:10px; color:dimgrey; background: transparent; border: none;">    
 
-    <a href="{% url 'home' %}" style="dimgrey;">돌아가기</a>
+    <a href="{% url 'declaration' %}" style="dimgrey;">돌아가기</a>
 </div>
 
 {% endblock %}
