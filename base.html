@@ -1,94 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="stylesheet" href="w3.css">
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
-
-    <script>
-        // Accordion 
-        function myAccFunc(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-        }
-    
-        // Click on the "TAXI" link on page load to open the accordion for demo purposes
-        document.getElementById("myBtn").click();
-       
-    
-        // Open and close sidebar
-        function w3_open() {
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("myOverlay").style.display = "block";
-        }
-     
-        function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("myOverlay").style.display = "none";
-        }
-
-        // Modal Image Gallery
-        function onClick(element) {
-          document.getElementById("img01").src = element.src;
-          document.getElementById("modal01").style.display = "block";
-          var captionText = document.getElementById("caption");
-          captionText.innerHTML = element.alt;
-        }
-    </script>
-
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
 
     <body>
-        <!-- Sidebar/menu -->
-        <nav class="w3-sidebar w3-blue w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e" id="mySidebar"><br>
-        <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
-        <div class="w3-container">
-            <h3 class="w3-padding-64"><b>Frivacy</b><br>frivacy</h3>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Frivacy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">게시판<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'notice' %}">공지사항</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'infoModify' %}">개인정보 수정</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'declaration' %}">신고</a>
+              </li> 
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin' %}">관리자</a>
+            </li> 
+            <li class="nav-item">
+              <input type="text" name="" class="LoginInput" placeholder="ID">
+              <input type="submit" value ="Search" style="padding: 6px 6px; margin-right:10px; color:dimgrey; background: transparent; border: none;">  
+            </li> 
         </div>
-        <div class="w3-bar-block">
-            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >Home</a>   
-         
-            <div id="demoAcc1"  href="javascript:void(0)" style="background-color: #00334e;" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-                <a href="{% url 'taxi' %}" class=w3-bar-item w3-button w3-light-grey><i class="fa fa-caret-right w3-margin-right"></i>공지사항</a>
-                <a href="{% url 'hwarang' %}" class="w3-bar-item w3-button ">home</a>
-                <a href="{% url 'taereung' %}" class="w3-bar-item w3-button">공지사항</a>
-                <a href="{% url 'seokgye' %}" class="w3-bar-item w3-button">신고</a>
-            </div>
-            
-            <div id="demoAcc2"  href="javascript:void(0)" style="background-color: #00334e;" class="w3-bar- block w3-hide w3-padding-large w3-medium">
-                <a href="{% url 'car' %}" class=w3-bar-item w3-button w3-light-grey><i class="fa fa-caret-right w3-margin-right"></i>공지사항</a>
-                <a href="#" class="w3-bar-item w3-button">공지</a>
-            </div>
-            <a href="{% url 'mypage' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">QnA</a> 
-            <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Login</a> 
-            <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" aria-disabled = "true">Logout</a>
-            <a href="{% url 'signup' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">SignUp</a>
-    
-            </div>
-        </nav>
+      </nav>
+                  {% block content %}
+                  {% endblock %}
 
-
-        <!-- Top menu on small screens -->
-        <header class="w3-container w3-top w3-hide-large w3-blue w3-xlarge w3-padding">
-            <a href="javascript:void(0)" class="w3-button w3-blue w3-margin-right" onclick="w3_open()">☰</a>
-            <span>Frivacy</span>
-        </header>
-
-        <!-- Overlay effect when opening sidebar on small screens -->
-        <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
-        <!-- !PAGE CONTENT! -->
-        <div class="w3-main" style="margin-left:340px;margin-right:40px">
-            
-        <!-- End page content -->
-        </div>
-
-        {% block content %}
-        {% endblock %}
     </body>
 </html>
