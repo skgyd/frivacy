@@ -27,4 +27,10 @@ class Post(models.Model):
     image = models.CharField(max_length=255)
     date_uploaded = models.DateTimeField(auto_now=True)
     owner = models.CharField(max_length=20)
-    content = models.CharField(max_length=140, default="")
+    content = models.CharField(max_length=255, default="")
+
+class Notice(models.Model):
+    date_uploaded = models.DateTimeField(auto_now=True)
+    owner = models.CharField(max_length=20)
+    content = models.CharField(max_length=255, default="")
+    title = models.CharField(max_length=255, default="")

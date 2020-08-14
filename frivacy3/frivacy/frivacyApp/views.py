@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import User, Image, Post
+from .models import User, Image, Post, Notice
 from .forms import *
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as dlogout
@@ -42,7 +42,20 @@ def decEdit(request):
 
 def notice(request):
     context = {}
-    return render(request,'notice.html',context)
+    u = request.session.get('user')
+    if u:
+        u2 = User.objects.filter(userid=u)[0]
+        if u2.profilepic == "":
+            u2.profilepic = "img/default.png"
+        out = []
+        for item in Notice.objects.all().order_by('-date_uploaded'): #공지사항 가져오기
+            out.append(
+                {"NoticeID": item.id, "Content": item.content, "Owner": item.owner,
+                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                 "Title": item.title})
+        context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name, 'posts':out}
+        return render(request,'notice.html',context)
+    return render(request,'login.html',context)
 
 def declaration(request):
     context = {}
@@ -97,7 +110,7 @@ def imageUpload(request):
         if u2.profilepic == "":
             u2.profilepic = "img/default.png"
         form = UploadDocumentForm()
-        if request.method == 'POST':
+        if request.method == 'POST': #이미지 업로드
             form = ImageForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
@@ -142,7 +155,7 @@ def mypage(request):
         if u2.profilepic == "":
             u2.profilepic = "img/default.png"
         context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name}
-        return render(request,'mypage.html')
+        return render(request,'mypage.html', context)
     return render(request,'login.html',context)
 
 def edit(request):
@@ -166,10 +179,11 @@ def ajaxupload(request):
         content = request.POST.get('content', None)
         src = request.POST.get('src', None)
         owner = u
-        image = image[22:]
-        img = open('frivacyApp'+src, "wb")
-        img.write(base64.b64decode(image))
-        img.close()
+        if image != "":
+            image = image[22:]
+            img = open('frivacyApp'+src, "wb")
+            img.write(base64.b64decode(image))
+            img.close()
         p = Post(owner=owner, image=src[8:], content=content)
         p.save()
         #포스트 리스트 불러오기
@@ -194,23 +208,28 @@ def ajaxupload(request):
 
     return render(request,'login.html',context)
     
-def detail(request):
-    return render(request,'detail.html')
+def detail(request, noticeid):
+    context = {}
+    u = request.session.get('user')
+    if u:
+        u2 = User.objects.filter(userid=u)[0]
+        if u2.profilepic == "":
+            u2.profilepic = "img/default.png"
+        if request.method == 'GET': #공지사항 가져오기
+            out = []
+            item = Notice.objects.filter(id=noticeid)[0]
+            out.append({"NoticeID": item.id, "Content": item.content, "Owner": item.owner,
+                    "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                    "Title": item.title})
+            context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name, 'posts':out}
+        return render(request,'detail.html',context)
+    return render(request,'login.html',context)
     
 def new(request):
     return render(request,'new.html')
-
-def edit(request):
-    return render(request,'edit.html')
-
-def decDetail(request):
-    return render(request,'decDetail.html')
 
 def notDetail(request):
     return render(request,'notDetail.html')
 
 def infoModify(request):
     return render(request,'infoModify.html')
-
-def mypage(request):
-    return render(request,'mypage.html')

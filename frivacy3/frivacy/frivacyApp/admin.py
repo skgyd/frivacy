@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Post, Image
+from .models import User, Post, Image, Notice
 
 # Register your models here.
 
@@ -12,6 +12,10 @@ class PostAdmin(admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('image',)
 
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content', 'owner', 'date_uploaded')
+
 admin.site.register(User, UserAdmin) #site에 등록
 admin.site.register(Post, PostAdmin) #site에 등록
 admin.site.register(Image, ImageAdmin) #site에 등록
+admin.site.register(Notice, NoticeAdmin) #site에 등록
