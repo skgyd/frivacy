@@ -70,24 +70,6 @@ class AjaxSignUp(Ajax):
 
         return self.success("Account Created!")
 
-class AjaxLogin(Ajax):
-    def validate(self):
-        try:
-            self.password = self.args[0]["pw"]
-            self.userid = self.args[0]["id"]
-        except Exception as e:
-            return None, self.error("Malformed request, did not process.")
-
-        if not User.objects.filter(userid=self.userid).exists():
-            return None, self.error("아이디나 비밀번호가 일치하지 않습니다")
-
-        if not check_password(self.password, User.objects.filter(userid=self.userid)[0].password):
-            return None, self.error("아이디나 비밀번호가 일치하지 않습니다")
-
-        u = User.objects.filter(userid=self.userid)[0]
-
-        return u, self.success("로그인 성공")
-
 # html에서 form을 쓰기 위해 생성한 것
 class UploadDocumentForm(forms.Form):
     image = forms.ImageField()
@@ -97,26 +79,3 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ['image'] 
-
-class AjaxUpload(Ajax):
-    def validate(self):
-        try:
-            self.image = self.args[0]["image"]
-            self.content = self.args[0]["content"]
-            self.src = self.args[0]["src"]
-            self.owner = self.args[0]["owner"]
-            self.image = self.image[22:]
-            img = open('frivacyApp'+self.src, "wb")
-            img.write(base64.b64decode(self.image))
-            img.close()
-        except Exception as e:
-            print(e)
-            return self.error("Malformed request, did not process.")
-
-        if self.user == "NL":
-            return self.error("Unauthorised request.")
-
-        p = Post(owner=self.owner, image='frivacyApp'+self.src, content=self.content)
-        p.save()
-
-        return self.success("Image Uploaded")

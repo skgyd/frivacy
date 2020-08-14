@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^ajax-login$',frivacyApp.views.ajaxlogin),
     url(r'^logout$',frivacyApp.views.logout,name="logout"),
     url(r'^imageBlur$',frivacyApp.views.imageBlur),
-    url(r'^imageUpload$',frivacyApp.views.imageUpload),
+    url(r'^imageUpload$',frivacyApp.views.imageUpload,name="imageUpload"),
     url(r'^ajax-upload$',frivacyApp.views.ajaxupload),
 ]
 
