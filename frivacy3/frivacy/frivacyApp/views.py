@@ -48,12 +48,14 @@ def notice(request):
         if u2.profilepic == "":
             u2.profilepic = "img/default.png"
         out = []
+        cnt = 0
         for item in Notice.objects.all().order_by('-date_uploaded'): #공지사항 가져오기
+            cnt = cnt+1
             out.append(
                 {"NoticeID": item.id, "Content": item.content, "Owner": item.owner,
                  "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
                  "Title": item.title})
-        context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name, 'posts':out}
+        context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name, 'posts':out, 'cnt':cnt}
         return render(request,'notice.html',context)
     return render(request,'login.html',context)
 
@@ -162,7 +164,58 @@ def edit(request):
     return render(request,'edit.html')
 
 def infoModify(request):
-    return render(request,'infoModify.html')
+    context = {}
+    u = request.session.get('user')
+    if u:
+        u2 = User.objects.filter(userid=u)[0]
+        if u2.profilepic == "":
+            u2.profilepic = "img/default.png"
+        context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name, 'email': u2.email}
+        return render(request,'infoModify.html', context)
+    return render(request,'login.html',context)
+
+def modifyAct(request):
+    context = {}
+    u = request.session.get('user')
+    if u:
+        u2 = User.objects.filter(userid=u)[0]
+        if u2.profilepic == "":
+            u2.profilepic = "img/default.png"
+        if request.method == "POST":
+            #개인정보 업데이트
+            userid = request.POST.get('id', None)
+            password = request.POST.get('pw', None)
+            password2 = request.POST.get('pw2', None)
+            email = request.POST.get('email', None)
+            name = request.POST.get('name', None)
+
+            if not re.match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
+                context['error']="올바르지 않은 이메일 형식입니다"
+            if password != password2:
+                context['error']="비밀번호가 일치하지 않습니다"
+            if len(password) < 6 or len(password) > 32:
+                context['error']="비밀번호는 6자에서 32자 사이여야 합니다"
+            if len(email) < 6 or len(email) > 140:
+                context['error']="이메일은 6자에서 32자 사이여야 합니다"
+            if User.objects.filter(email=email).exists():
+                context['error']="이미 사용하고 있는 이메일입니다"
+            
+            user_instance = User.objects.get(userid=userid)
+            if password == "":
+                user_instance.userid = userid
+                user_instance.email = email
+                user_instance.name = name
+                user_instance.save()
+                context = {'user': userid, 'ProfilePic': u2.profilepic, 'name': name, 'email': email}
+            else:
+                user_instance.userid = userid
+                user_instance.email = email
+                user_instance.name = name
+                user_instance.password = make_password(password)
+                user_instance.save()
+                context = {'user': userid, 'ProfilePic': u2.profilepic, 'name': name, 'email': email}
+        return render(request,'infoModify.html', context)
+    return render(request,'login.html',context)
 
 def decDetail(request):
     return render(request,'decDetail.html')
@@ -231,5 +284,3 @@ def new(request):
 def notDetail(request):
     return render(request,'notDetail.html')
 
-def infoModify(request):
-    return render(request,'infoModify.html')
