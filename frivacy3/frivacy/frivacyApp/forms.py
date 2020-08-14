@@ -1,13 +1,13 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.db.models import F
-from .models import User, Image, Post
+from .models import Image, Post, Profile
 from django.contrib.auth.hashers import make_password, check_password
 from urllib.request import urlopen
 from random import randint
 import base64
 import os
-
+from django.contrib.auth.models import User
 import json, re
 
 class Ajax(forms.Form):
@@ -59,15 +59,16 @@ class AjaxSignUp(Ajax):
         if len(self.email) < 6 or len(self.email) > 140:
             return self.error("이메일은 6자에서 32자 사이여야 합니다")
 
-        if User.objects.filter(userid=self.userid).exists():
+        if User.objects.filter(username=self.userid).exists():
             return self.error("이미 사용하고 있는 아이디입니다")
 
         if User.objects.filter(email=self.email).exists():
             return self.error("이미 사용하고 있는 이메일입니다")
 
-        u = User(userid=self.userid, password=make_password(self.password), email=self.email, name=self.name)
+        u = User(username=self.userid, password=make_password(self.password), email=self.email, first_name=self.name)
         u.save()
-
+        p = Profile(username=self.userid, image="")
+        p.save()
         return self.success("Account Created!")
 
 # html에서 form을 쓰기 위해 생성한 것
