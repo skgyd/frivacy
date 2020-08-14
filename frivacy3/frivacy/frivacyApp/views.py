@@ -14,7 +14,7 @@ def home(request):
     if u:
         u2 = User.objects.filter(userid=u)[0]
         if u2.profilepic == "":
-            u2.profilepic = "static/img/default.png"
+            u2.profilepic = "img/default.png"
         out = []
         followerslist = [u]
         profilepics = {}
@@ -25,7 +25,7 @@ def home(request):
         for user in User.objects.filter(userid__in=followerslist):
             profilepics[user.userid] = user.profilepic
             if user.profilepic == "":
-                profilepics[user.userid] = "static/assets/img/default.png"
+                profilepics[user.userid] = "img/default.png"
         for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
             out.append(
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
@@ -95,7 +95,7 @@ def imageUpload(request):
     if u:
         u2 = User.objects.filter(userid=u)[0]
         if u2.profilepic == "":
-            u2.profilepic = "static/img/default.png"
+            u2.profilepic = "img/default.png"
         form = UploadDocumentForm()
         if request.method == 'POST':
             form = ImageForm(request.POST, request.FILES)
@@ -129,7 +129,7 @@ def imageBlur(request):
     if u:
         u2 = User.objects.filter(userid=u)[0]
         if u2.profilepic == "":
-            u2.profilepic = "static/img/default.png"
+            u2.profilepic = "img/default.png"
         context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name}
         return render(request, 'imageBlur.html', context)
     return render(request,'login.html',context)
@@ -140,7 +140,7 @@ def mypage(request):
     if u:
         u2 = User.objects.filter(userid=u)[0]
         if u2.profilepic == "":
-            u2.profilepic = "static/img/default.png"
+            u2.profilepic = "img/default.png"
         context = {'user': u, 'ProfilePic': u2.profilepic, 'name': u2.name}
         return render(request,'mypage.html')
     return render(request,'login.html',context)
@@ -160,7 +160,7 @@ def ajaxupload(request):
     if u:
         u2 = User.objects.filter(userid=u)[0]
         if u2.profilepic == "":
-            u2.profilepic = "static/img/default.png"
+            u2.profilepic = "img/default.png"
         #캔버스로부터 가져온 이미지 저장
         image = request.POST.get('image', None)
         content = request.POST.get('content', None)
@@ -183,7 +183,7 @@ def ajaxupload(request):
         for user in User.objects.filter(userid__in=followerslist):
             profilepics[user.userid] = user.profilepic
             if user.profilepic == "":
-                profilepics[user.userid] = "static/img/default.png"
+                profilepics[user.userid] = "img/default.png"
         for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
             out.append(
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
