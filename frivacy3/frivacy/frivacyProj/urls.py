@@ -29,7 +29,6 @@ urlpatterns = [
     path('declaration/',frivacyApp.views.declaration,name="declaration"),
     path('home/',frivacyApp.views.home,name="home"),
     path('signup/',frivacyApp.views.signup,name="signup"),
-    path('edit/',frivacyApp.views.edit,name="edit"),
     path('new/',frivacyApp.views.new,name="new"),
     path('decDetail/',frivacyApp.views.decDetail,name="decDetail"),
     path('notDetail/',frivacyApp.views.notDetail,name="notDetail"),
@@ -43,6 +42,8 @@ urlpatterns = [
     url(r'^imageUpload$',frivacyApp.views.imageUpload,name="imageUpload"),
     url(r'^ajax-upload$',frivacyApp.views.ajaxupload),
     url(r'detail/(?P<noticeid>[a-zA-Z0-9_]+)/$', frivacyApp.views.detail ,name="detail"),
+    url(r'edit/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.edit,name="edit"),
+    url(r'delete/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.delete,name="delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

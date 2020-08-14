@@ -15,6 +15,8 @@ def home(request):
         p = Profile.objects.filter(username=request.user.username)[0]
         if p.image == "":
             p.image = "img/default.png"
+
+        # 나와 내가 팔로우하는 사람들의 게시글 가져오기
         out = []
         followerslist = [request.user.username]
         profilepics = {}
@@ -156,11 +158,87 @@ def mypage(request):
         if p.image == "":
             p.image = "img/default.png"
         context = {'user': request.user, 'ProfilePic': p.image}
+        out = []
+        #내가 쓴 글 불러오기
+        followerslist = [request.user.username]
+        profilepics = {}
+
+        for user in Profile.objects.filter(username__in=followerslist):
+            profilepics[user.username] = user.image
+            if user.image == "":
+                profilepics[user.username] = "img/default.png"
+        for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+            out.append(
+                {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
+                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                 "ProfilePic": profilepics[item.owner]})
+        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
         return render(request,'mypage.html', context)
+
     return render(request,'login.html',context)
 
-def edit(request):
-    return render(request,'edit.html')
+def edit(request, postid):
+    context = {}
+    if request.user.is_authenticated:
+        p = Profile.objects.filter(username=request.user)[0]
+        if p.image == "":
+            p.image = "img/default.png"
+        if request.method == 'POST':
+            # 포스트 수정
+            pid = request.POST.get('id', None)
+            content = request.POST.get('content', None)
+            post_instance = Post.objects.get(id=pid)
+            post_instance.content = content
+            post_instance.save()
+
+            #내가 쓴 글 불러오고 mypage로 다시 이동
+            out = []
+            followerslist = [request.user.username]
+            profilepics = {}
+
+            for user in Profile.objects.filter(username__in=followerslist):
+                profilepics[user.username] = user.image
+                if user.image == "":
+                    profilepics[user.username] = "img/default.png"
+            for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+                out.append(
+                    {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
+                    "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                    "ProfilePic": profilepics[item.owner]})
+            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
+            return render(request,'mypage.html',context)
+        else: # 수정 페이지 로드
+            out = []
+            item = Post.objects.filter(id=postid)[0]
+            out.append({"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner})
+            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
+            return render(request,'edit.html',context)
+    return render(request,'login.html',context)
+
+def delete(request, postid):
+    context = {}
+    if request.user.is_authenticated:
+        p = Profile.objects.filter(username=request.user)[0]
+        if p.image == "":
+            p.image = "img/default.png"
+        # 게시글 삭제
+        Post.objects.get(id=postid).delete()
+        #내가 쓴 글 불러오고 mypage로 다시 이동
+        out = []
+        followerslist = [request.user.username]
+        profilepics = {}
+
+        for user in Profile.objects.filter(username__in=followerslist):
+            profilepics[user.username] = user.image
+            if user.image == "":
+                profilepics[user.username] = "img/default.png"
+        for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+            out.append({"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
+                    "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                    "ProfilePic": profilepics[item.owner]})
+        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
+        return render(request,'mypage.html',context)
+    return render(request,'login.html',context)
 
 def infoModify(request):
     context = {}
