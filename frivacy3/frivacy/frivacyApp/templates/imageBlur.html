@@ -44,7 +44,9 @@
     <script src="{% static '/js/django-ajax.js' %}"></script>
     <script type="text/javascript">
         // 얼굴 인식 후 각 인식 객체별 좌표값이 list에 저장
-        var list = {{ list }} //detect 한 객체 저장 리스트
+        var original = {{ list }} //detect 한 객체 저장 리스트
+        var list = {{ list }} //detect 한 객체 저장 리스트 + 추가 객체
+        var oricount = 0 //원래 사각형 객체 개수
         var addcount = 0 //사각형 객체 개수
         var src = 'img/{{ src }}'
         // canvas 생성
@@ -57,10 +59,14 @@
 
         $(document).ready(function() {
             addToCanvas()
+            for (i in original) { //초기화, 객체 id 설정해줌
+                original[i].push(oricount)
+                oricount = oricount+1
+            }
             for (i in list) { //초기화, 객체 id 설정해줌
-                    list[i].push(addcount)
-                    addcount = addcount+1
-                }
+                list[i].push(addcount)
+                addcount = addcount+1
+            }
         });
 
         // canvas 위에 이미지 업로드
@@ -106,25 +112,35 @@
             document.getElementById("image").setAttribute('value', canvas.toDataURL())
         }
 
+        var applyonce = 0;//얼굴인식 객체 한개만 나오도록
         // 처음으로 얼굴 인식 후 생성된 좌표값을 활용하여 네모 객체 그려주는 기능
         function applyImage() {
-            for (var i in list) {
-                var temp = list[i]
-                var div = document.createElement('div')
-                div.setAttribute("onmousedown", "startDrag(event, this)")
-                div.setAttribute("class", "nemo")
-                div.style.position="absolute"
-                div.style.left= temp[0]+canX+"px"
-                div.style.top= temp[1]+canY+"px"
-                div.style.cursor="pointer"
-                div.style.cursor="hand"
-                div.style.resize="both"
-                div.style.overflow="auto"
-                div.style.width= temp[2]+"px"
-                div.style.height= temp[3]+"px"
-                div.style.border="5px solid aqua"
-                div.id = temp[4]
-                document.getElementById('field').appendChild(div)
+            for (var i in original) {
+                var temp = original[i]
+                const idx = list.findIndex(function(item) {return item[4] === temp[4]})
+                if(idx==-1){
+                    list.push(temp)
+                    applyonce=0
+                }else{
+                    applyonce=applyonce+1
+                }
+                if(applyonce<2){
+                    var div = document.createElement('div')
+                    div.setAttribute("onmousedown", "startDrag(event, this)")
+                    div.setAttribute("class", "nemo")
+                    div.style.position="absolute"
+                    div.style.left= temp[0]+canX+"px"
+                    div.style.top= temp[1]+canY+"px"
+                    div.style.cursor="pointer"
+                    div.style.cursor="hand"
+                    div.style.resize="both"
+                    div.style.overflow="auto"
+                    div.style.width= temp[2]+"px"
+                    div.style.height= temp[3]+"px"
+                    div.style.border="5px solid aqua"
+                    div.id = temp[4]
+                    document.getElementById('field').appendChild(div)
+                }
             }
         }
         var flag = 0;
@@ -143,7 +159,6 @@
         function add_div(){ //네모 객체 추가 기능
             var width = document.getElementById('width').value + 'px'
             var height = document.getElementById('height').value + 'px'
-
             var div = document.createElement('div')
             div.setAttribute("onmousedown", "startDrag(event, this)")
             div.setAttribute("class", "nemo")
