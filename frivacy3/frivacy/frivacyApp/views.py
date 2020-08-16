@@ -12,9 +12,12 @@ from django.contrib.auth.models import User
 def home(request):
     context = {}
     if request.user.is_authenticated:
-        p = Profile.objects.filter(username=request.user.username)[0]
-        if p.image == "":
-            p.image = "img/default.png"
+        try:
+            p = Profile.objects.filter(username=request.user.username)[0]
+            if p.image == "":
+                p.image = "img/default.png"
+        except:
+            return render(request,'login.html',context)
 
         # 나와 내가 팔로우하는 사람들의 게시글 가져오기
         out = []
@@ -154,9 +157,12 @@ def imageBlur(request):
 def mypage(request):
     context = {}
     if request.user.is_authenticated:
-        p = Profile.objects.filter(username=request.user)[0]
-        if p.image == "":
-            p.image = "img/default.png"
+        try:
+            p = Profile.objects.filter(username=request.user)[0]
+            if p.image == "":
+                p.image = "img/default.png"
+        except:
+            return render(request,'login.html',context)
         context = {'user': request.user, 'ProfilePic': p.image}
         out = []
         #내가 쓴 글 불러오기
@@ -253,9 +259,13 @@ def infoModify(request):
 def modifyAct(request):
     context = {}
     if request.user.is_authenticated:
-        p = Profile.objects.filter(username=request.user)[0]
-        if p.image == "":
-            p.image = "img/default.png"
+        try:
+            p = Profile.objects.filter(username=request.user)[0]
+            if p.image == "":
+                p.image = "img/default.png"
+        except:
+            return render(request,'login.html',context)
+        context = {'user': request.user, 'ProfilePic': p.image}
         if request.method == "POST":
             #개인정보 업데이트
             userid = request.POST.get('id', None)
@@ -263,6 +273,7 @@ def modifyAct(request):
             password2 = request.POST.get('pw2', None)
             email = request.POST.get('email', None)
             name = request.POST.get('name', None)
+            profilepic = request.FILES.get('image','')
 
             if not re.match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
                 context['error']="올바르지 않은 이메일 형식입니다"
@@ -270,30 +281,39 @@ def modifyAct(request):
             if password != password2:
                 context['error']="비밀번호가 일치하지 않습니다"
                 return render(request,'infoModify.html', context)
-            if len(password) < 6 or len(password) > 32:
-                context['error']="비밀번호는 6자에서 32자 사이여야 합니다"
-                return render(request,'infoModify.html', context)
+            if password != "":
+                if len(password) < 6 or len(password) > 32:
+                    context['error']="비밀번호는 6자에서 32자 사이여야 합니다"
+                    return render(request,'infoModify.html', context)
             if len(email) < 6 or len(email) > 140:
-                context['error']="이메일은 6자에서 32자 사이여야 합니다"
+                context['error']="이메일은 6자에서 140자 사이여야 합니다"
                 return render(request,'infoModify.html', context)
-            if User.objects.filter(email=email).exists():
-                context['error']="이미 사용하고 있는 이메일입니다"
-                return render(request,'infoModify.html', context)
-            
+
             user_instance = User.objects.get(username=userid)
+            profile_instance = Profile.objects.get(username=userid)
+
+            src = p.image
+            if profilepic:
+                i = Image(image=profilepic)
+                i.save()
+                img = Image.objects.last()
+                src = 'img/' + str(img.image)
+                profile_instance.image = src
+                profile_instance.save()
+
             if password == "":
                 user_instance.username = userid
                 user_instance.email = email
                 user_instance.first_name = name
                 user_instance.save()
-                context = {'user': request.user, 'ProfilePic': p.image, 'error': ""}
+                context = {'user': request.user, 'ProfilePic': src, 'error': ""}
             else:
                 user_instance.username = userid
                 user_instance.email = email
                 user_instance.first_name = name
                 user_instance.password = make_password(password)
                 user_instance.save()
-                context = {'user': request.user, 'ProfilePic': p.image, 'error': ""}
+                context = {'user': request.user, 'ProfilePic': src, 'error': ""}
         return render(request,'infoModify.html', context)
     return render(request,'login.html',context)
 
