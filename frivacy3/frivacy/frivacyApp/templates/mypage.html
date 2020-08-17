@@ -11,9 +11,13 @@
                 <section>
                     <div style="padding-bottom:10px;">
                     <div id="id"><h3>{{suser.username}}</h3></div>
-                    {% if flag %}
                     {% if suser.username != user.username %}
+                    {% if flag %}
                         <div><button id="follow">팔로우</button></div>
+                        <div><button id="following" style="display:none;">팔로잉</button></div>
+                    {% else %}
+                        <div><button id="follow" style="display:none;">팔로우</button></div>
+                        <div><button id="following">팔로잉</button></div>
                     {% endif %}
                     {% endif %}
                     </div>
@@ -54,23 +58,26 @@
 <script src="{% static '/js/django-ajax.js' %}"></script>
 <script type="text/javascript">
     $('#follow').click(function() {
-            $.ajax({
-                type: "GET",
-                url: "/followAct/{{suser.username}}",
-                processData: false,
-                contentType: "application/json",
-                data: '',
-                success: function(r) {
-                        if (JSON.parse(r).Following == true) {
-                                $('#follow').html("Following");
-                        } else {
-                                $('#follow').html("Follow");
-                        }
-                },
-                error: function(r) {
-
-                }
+        $.ajax({
+            type: "GET",
+            url: "/followAct/{{suser.username}}/",
+            processData: false,
+            contentType: "application/json",
+            data: ''
         });
+        $('#follow').attr('style', 'display:none;');
+        $('#following').attr('style', '');
+    });
+    $('#following').click(function() {
+        $.ajax({
+            type: "GET",
+            url: "/unfAct/{{suser.username}}/",
+            processData: false,
+            contentType: "application/json",
+            data: ''
+        });
+        $('#follow').attr('style', '');
+        $('#following').attr('style', 'display:none;');
     });
 </script>
 {% endblock %}

@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'delete/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.delete,name="delete"),
     path('followAct/',frivacyApp.views.followact,name="followact"),
     url(r'followAct/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.followact),
+    url(r'unfAct/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.unfAct),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -408,6 +408,27 @@ def new(request):
 def notDetail(request):
     return render(request,'notDetail.html')
 
-def followact(request):
-    return render(request,'decDetail.html')
+def followact(request, userid):
+    context={}
+    if request.user.is_authenticated:
+        p = Profile.objects.filter(username=request.user)[0]
+        if p.image == "":
+            p.image = "img/default.png"
+        if request.method == 'GET':
+            f = Follower(user=userid, follower=request.user)
+            f.save()
+        return render(request,'home.html', context)
+    return render(request,'login.html', context)
+
+def unfAct(request, userid):
+    context={}
+    if request.user.is_authenticated:
+        p = Profile.objects.filter(username=request.user)[0]
+        if p.image == "":
+            p.image = "img/default.png"
+        if request.method == 'GET':
+            Follower.objects.get(user=userid, follower=request.user).delete()
+        return render(request,'home.html', context)
+    return render(request,'login.html', context)
+
 
