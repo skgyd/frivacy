@@ -154,32 +154,34 @@ def imageBlur(request):
         return render(request, 'imageBlur.html', context)
     return render(request,'login.html',context)
 
-def mypage(request):
+def mypage(request, userid):
     context = {}
     if request.user.is_authenticated:
         try:
-            p = Profile.objects.filter(username=request.user)[0]
+            p = Profile.objects.filter(username=userid)[0]
             if p.image == "":
                 p.image = "img/default.png"
         except:
             return render(request,'login.html',context)
-        context = {'user': request.user, 'ProfilePic': p.image}
-        out = []
-        #내가 쓴 글 불러오기
-        followerslist = [request.user.username]
-        profilepics = {}
-
-        for user in Profile.objects.filter(username__in=followerslist):
-            profilepics[user.username] = user.image
-            if user.image == "":
-                profilepics[user.username] = "img/default.png"
-        for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
-            out.append(
-                {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
-                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                 "ProfilePic": profilepics[item.owner]})
-        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
-        return render(request,'mypage.html', context)
+        if request.method == 'GET':
+            out = []
+            #userid가 쓴 글 불러오기
+            followerslist = [userid]
+            profilepics = {}
+            
+            for user in Profile.objects.filter(username__in=followerslist):
+                profilepics[user.username] = user.image
+                if user.image == "":
+                    profilepics[user.username] = "img/default.png"
+            for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+                out.append(
+                    {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
+                    "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                    "ProfilePic": profilepics[item.owner]})
+            u = User.objects.filter(username=userid)[0]
+            suser = {"username":u.username, "first_name":u.first_name}
+            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser}
+            return render(request,'mypage.html', context)
 
     return render(request,'login.html',context)
 

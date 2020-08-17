@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,19 +56,22 @@
                 <a href="{% url 'home' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >피드</a>   
                 <a href="{% url 'notice' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">공지사항</a>
                 <a href="{% url 'imageUpload' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">게시글 작성</a>
-                <a href="{% url 'mypage' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >내 게시판</a>  
+                <a href="{% url 'mypage' %}{{user.username}}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white" >내 게시판</a>  
                 <a href="{% url 'infoModify' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">개인정보 수정</a>
                 
                 <br>
                 <br>
-                <input type="text" name="" placeholder="Search" size="18" onKeypress="javascript:if(event.keyCode==13) {search_onclick_submit()}"/>
+                <input type="text" id="search" placeholder="Search" size="18" onKeypress="javascript:if(event.keyCode==13) {search_onclick_submit()}"/>
                 <br>
                 <br>
                 <a href="{% url 'login' %}" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true">Logout</a>
                 <!-- <a href="#" onclick="w3_close()" class="w3-bar-item w3-button" aria-disabled = "true"><h4>Logout</h4></a> -->
+                <script src="{% static '/js/jquery.min.js' %}"></script>
+                <script src="{% static '/js/bootstrap.min.js' %}"></script>
+                <script src="{% static '/js/django-ajax.js' %}"></script>
                 <script type="text/javascript">
                     function search_onclick_submit(){
-                        alert("Search");
+                        location.href= "{% url 'mypage' %}"+$('#search').val();
                         }
                 </script>
             </div>

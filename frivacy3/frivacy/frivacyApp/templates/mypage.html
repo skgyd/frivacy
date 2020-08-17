@@ -9,9 +9,15 @@
             </div>
             <div style="float:left;margin-left:30px;">
                 <section>
-                    <div id="id"><h3>{{user.username}}</h3></div>
-                    <div id="post">게시물 0  팔로워 0  팔로우 0</div><br>
-                    <div id="name"><b>{{user.first_name}}</b></div>
+                    <div style="padding-bottom:10px;">
+                    <div id="id"><h3>{{suser.username}}</h3></div>
+                    {% if user.username != suser.username %}
+                        <div><button>팔로우</button></div>
+                    {% endif %}
+                    </div>
+                    <div id="post">게시물 0  팔로워 0  팔로우 0</div>
+                    <br>
+                    <div id="name"><b>{{suser.first_name}}</b></div>
                 </section>
             </div>
         </div>

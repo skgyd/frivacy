@@ -34,6 +34,7 @@ urlpatterns = [
     path('notDetail/',frivacyApp.views.notDetail,name="notDetail"),
     path('infoModify/',frivacyApp.views.infoModify,name="infoModify"),
     path('mypage/',frivacyApp.views.mypage,name="mypage"),
+    url(r'mypage/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.mypage),
     url(r'^modifyAct$',frivacyApp.views.modifyAct),
     url(r'signup/ajax-sign-up$',frivacyApp.views.ajaxsignup),
     url(r'^ajax-login$',frivacyApp.views.ajaxlogin),
