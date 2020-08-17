@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body>
+    {% load static %} <!-- static 파일 불러오기 -->
+    <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
+        <h4 style="margin-left:20px">000님이 올린 글</h4>
+        
+        <div class="content" style="padding:5 5; margin: 20px;">
+            <h5>내용 블라블라블라</h5>
+        </div>
+        <div class="input-group mb-3" style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
+            <input type="text" class="underline" placeholder="comment" aria-label="Recipient's username" aria-describedby="button-addon2" style="width:85%; background-color: transparent; margin-left:10px; BORDER-BOTTOM: #00334e 1px solid;BORDER-LEFT: medium none;BORDER-RIGHT: medium none;BORDER-TOP: medium none;">
+            <button class="btn btn-outline-secondary" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:30px;">댓글 작성</button>      
+        </div>
+    </div>
+</body>
+{% endblock %}

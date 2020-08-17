@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %} <!-- static 파일 불러오기 -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" id="services" style="margin-top:75px;  color:#00334e">
+            <h1 class="w3-xlarge "><b>게시글 작성</b></h1>
+            <hr style="width:50px;border:5px solid #00334e" class="w3-round">
+        </div>
+    </div>
+    {% load static %} <!-- static 파일 불러오기 -->
+    <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
+        <div align="center" class="content" style="padding:5 5; margin: 20px;">
+            <div id="field">
+            <canvas id ="sample" width=400 height=400></canvas>
+            </div>
+            <br/>
+            <button onClick="applyImage()">얼굴인식</button>
+            <button onClick="blurImage()">블러</button>
+            &nbsp;
+            <input type="number" id="width" value="100" style="width:70px;"/>
+            <input type="number" id="height" value="100" style="width:70px;"/>
+            <input type="button" value="추가" onclick="add_div()">
+            <input type="button" value="이동" onclick="changeFlag(this)"/><br/>
+            <hr>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <textarea id="content" style="border-left-width:0;
+                border-right-width:0;
+                border-top-width:0;
+                border-bottom-width:1;
+                resize:none;" cols="70" rows="2" placeholder="사진에 설명을 추가해주세요"></textarea>
+        </div>
+            <br>
+            <a href="#" id="go" style="color:black; text-decoration:none; font-size:20px; margin:20px;">공유하기</a>
+        </form>
+    </div>
+ 
+        <div style="resize:both; overflow:auto; width:200px; height:200px;"></div>
+
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/js/django-ajax.js' %}"></script>
+    <script type="text/javascript">
+        // 얼굴 인식 후 각 인식 객체별 좌표값이 list에 저장
+        var list = {{ list }} //detect 한 객체 저장 리스트
+        var addcount = 0 //사각형 객체 개수
+        var src = 'img/{{ src }}'
+        // canvas 생성
+        var canvas = document.getElementById("sample")
+        var ctx = canvas.getContext('2d')
+        var img = new Image()
+
+        $(document).ready(function() {
+            addToCanvas()
+            for (i in list) { //초기화, 객체 id 설정해줌
+                    list[i].push(addcount)
+                    addcount = addcount+1
+                }
+            $('#go').click(function() {
+                var dataURL = sample.toDataURL();
+                $.post("ajax-upload",
+                {
+                    owner: '{{user.name}}',
+                    image: dataURL, 
+                    src: '{% static src %}', 
+                    content: $("#content").val()
+                },function(data, status){
+                    if (JSON.parse(data).Status == 'Success') {
+                        window.location = '/';
+                    } else {
+                        alert(JSON.parse(data).Message)
+                    }
+                });
+            return false;
+            });
+        });
+
+        // canvas 위에 이미지 업로드
+        function addToCanvas() {
+            img.onload = function(){
+                draw()
+                scaleToFit(this)
+            }
+            img.src = '{% static src %}'
+        }
+
+         function draw() {
+            ctx.drawImage(img, 0 ,0, 400, 400)
+        }
+
+        function scaleToFit(img){
+            // get the scale
+            var scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+            // get the top left position of the image
+            var x = (canvas.width / 2) - (img.width / 2) * scale;
+            var y = (canvas.height / 2) - (img.height / 2) * scale;
+            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+        }
+
+        // 이미지 블러처리 기능
+        function blurImage() {
+            img.onload = blur
+            img.src = '{% static src %}'
+        }
+        function blur() {
+            draw()
+            ctx.beginPath()
+            ctx.filter = 'blur(5px)'
+                for (i in list) {
+                    var temp = list[i]
+                    ctx.drawImage(canvas,
+                        temp[0], temp[1], temp[2], temp[3],
+                        temp[0], temp[1], temp[2], temp[3]
+                    );
+                }
+            ctx.filter = 'none'
+            ctx.closePath()
+        }
+
+        // 처음으로 얼굴 인식 후 생성된 좌표값을 활용하여 네모 객체 그려주는 기능
+        function applyImage() {
+            for (var i in list) {
+                var temp = list[i]
+                var div = document.createElement('div')
+                div.setAttribute("onmousedown", "startDrag(event, this)")
+                div.setAttribute("class", "nemo")
+                div.style.position="absolute"
+                div.style.left= temp[0]+"px"
+                div.style.top= temp[1]+"px"
+                div.style.cursor="pointer"
+                div.style.cursor="hand"
+                div.style.resize="both"
+                div.style.overflow="auto"
+                div.style.width= temp[2]+"px"
+                div.style.height= temp[3]+"px"
+                div.style.border="5px solid aqua"
+                div.id = temp[4]
+                document.getElementById('field').appendChild(div)
+            }
+        }
+        var flag = 0;
+
+        function changeFlag(o) {
+            flag = flag + 1 >= 3 ? 0 : flag + 1
+            if(flag == 0) {
+                o.setAttribute('value', '이동')
+            } else if(flag == 1) {
+                o.setAttribute('value', '사이즈')
+            } else {
+                o.setAttribute('value', '삭제')
+            }
+        }
+
+        function add_div(){ //네모 객체 추가 기능
+            var width = document.getElementById('width').value + 'px'
+            var height = document.getElementById('height').value + 'px'
+
+            var div = document.createElement('div')
+            div.setAttribute("onmousedown", "startDrag(event, this)")
+            div.setAttribute("class", "nemo")
+            div.style.position="absolute"
+            div.style.left="0px"
+            div.style.top="50px"
+            div.style.cursor="pointer"
+            div.style.cursor="hand"
+            div.style.resize="both"
+            div.style.overflow="auto"
+            div.style.width=width
+            div.style.height=height
+            div.style.border="5px solid aqua"
+            div.id = addcount
+            var addloc = [0, 50, parseInt(document.getElementById('width').value), parseInt(document.getElementById('height').value), addcount]
+            list.push(addloc)
+            addcount = addcount + 1
+            document.getElementById('field').appendChild(div)
+        }
+
+        function remove_div(obj){
+            const idx = list.findIndex(function(item) {return item[4] === parseInt(obj.getAttribute('id'))}) 
+            if (idx > -1) list.splice(idx, 1)
+            document.getElementById('field').removeChild(obj)
+        }
+
+        // 마우스 움직이는 함수들
+        var img_L = 0
+        var img_T = 0
+        var targetObj
+        
+        function getLeft(o){
+             return parseInt(o.style.left.replace('px', ''))
+        }
+        function getTop(o){
+             return parseInt(o.style.top.replace('px', ''))
+        }
+        function getWidth(o){
+            return parseInt(o.style.width.replace('px', ''))
+        }
+        function getHeight(o){
+            return parseInt(o.style.height.replace('px', ''))
+        }
+        
+        // 이미지 움직이기
+        function moveDrag(e){
+             //리스트에서 해당 object 찾기
+             const idx = list.findIndex(function(item) {return item[4] === parseInt(targetObj.getAttribute('id'))})
+             var e_obj = window.event? window.event : e
+             var dmvx = parseInt(e_obj.clientX + img_L)
+             var dmvy = parseInt(e_obj.clientY + img_T)
+             targetObj.style.left = dmvx +"px"
+             targetObj.style.top = dmvy +"px"
+             list[idx][0] = dmvx
+             list[idx][1] = dmvy
+             return false;
+        }
+
+        // 이미지 사이즈 변경
+        function moveDragSize(e){
+            //리스트에서 해당 object 찾기
+            const idx = list.findIndex(function(item) {return item[4] === parseInt(targetObj.getAttribute('id'))})
+            var e_obj = window.event? window.event : e
+            var dmvx = parseInt(e_obj.clientX + img_W)
+            var dmvy = parseInt(e_obj.clientY + img_H)
+            targetObj.style.width = dmvx + "px"
+            targetObj.style.height = dmvy + "px"
+            list[idx][2] = dmvx
+            list[idx][3] = dmvy
+            return false;
+        }
+        
+        // 드래그 시작
+        function startDrag(e, obj){
+            if(flag == 0) {//이동
+                targetObj = obj
+                var e_obj = window.event? window.event : e
+                img_L = getLeft(obj) - e_obj.clientX
+                img_T = getTop(obj) - e_obj.clientY
+                document.onmousemove = moveDrag
+                document.onmouseup = stopDrag
+                if(e_obj.preventDefault)e_obj.preventDefault()
+            } else if(flag == 1) {//드래그
+                targetObj = obj
+                var e_obj = window.event? window.event : e
+                img_W = getWidth(obj) - e_obj.clientX
+                img_H = getHeight(obj) - e_obj.clientY
+                document.onmousemove = moveDragSize
+                document.onmouseup = stopDrag
+                if(e_obj.preventDefault)e_obj.preventDefault()
+            } else {//삭제
+                remove_div(obj)
+            }
+        }
+        
+        // 드래그 멈추기
+        function stopDrag(){
+             document.onmousemove = null
+             document.onmouseup = null
+        }
+    </script>
+{% endblock %}
