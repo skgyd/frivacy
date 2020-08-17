@@ -14,9 +14,13 @@
                     {% if suser.username != user.username %}
                     {% if flag %}
                         <div><button id="follow">팔로우</button></div>
+<<<<<<< HEAD
                         <div><button id="following" style="display:none;">팔로잉</button></div>
                     {% else %}
                         <div><button id="follow" style="display:none;">팔로우</button></div>
+=======
+                    {% else %}
+>>>>>>> a37920f69dec1bb1a399ae4458804b09bcf800d4
                         <div><button id="following">팔로잉</button></div>
                     {% endif %}
                     {% endif %}
@@ -64,6 +68,7 @@
             processData: false,
             contentType: "application/json",
             data: ''
+<<<<<<< HEAD
         });
         $('#follow').attr('style', 'display:none;');
         $('#following').attr('style', '');
@@ -78,6 +83,10 @@
         });
         $('#follow').attr('style', '');
         $('#following').attr('style', 'display:none;');
+=======
+        });
+        $('#follow').html("팔로잉")
+>>>>>>> a37920f69dec1bb1a399ae4458804b09bcf800d4
     });
 </script>
 {% endblock %}
