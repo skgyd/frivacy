@@ -11,11 +11,13 @@
                 <section>
                     <div style="padding-bottom:10px;">
                     <div id="id"><h3>{{suser.username}}</h3></div>
-                    {% if user.username != suser.username %}
-                        <div><button>팔로우</button></div>
+                    {% if flag %}
+                    {% if suser.username != user.username %}
+                        <div><button id="follow">팔로우</button></div>
+                    {% endif %}
                     {% endif %}
                     </div>
-                    <div id="post">게시물 0  팔로워 0  팔로우 0</div>
+                    <div id="post">게시물 <b>{{cnt}}</b> &nbsp;&nbsp;팔로워 <b>{{fercnt}}</b> &nbsp;&nbsp;팔로우 <b>{{fcnt}}</b></div>
                     <br>
                     <div id="name"><b>{{suser.first_name}}</b></div>
                 </section>
@@ -47,4 +49,28 @@
     </div>
     {% endfor %}
 </body>
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/js/django-ajax.js' %}"></script>
+<script type="text/javascript">
+    $('#follow').click(function() {
+            $.ajax({
+                type: "GET",
+                url: "followAct/{{whosprofile}}",
+                processData: false,
+                contentType: "application/json",
+                data: '',
+                success: function(r) {
+                        if (JSON.parse(r).Following == true) {
+                                $('#follow').html("Following");
+                        } else {
+                                $('#follow').html("Follow");
+                        }
+                },
+                error: function(r) {
+
+                }
+        });
+    });
+</script>
 {% endblock %}

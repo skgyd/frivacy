@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Image, Post, Notice, Profile
+from .models import *
 from .forms import *
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as dlogout
@@ -24,8 +24,8 @@ def home(request):
         followerslist = [request.user.username]
         profilepics = {}
 
-        #for follower in Followers.objects.filter(follower=self.user.username):
-            #followerslist.append(follower.user)
+        for follower in Follower.objects.filter(follower=request.user.username):
+            followerslist.append(follower.user)
 
         for user in Profile.objects.filter(username__in=followerslist):
             profilepics[user.username] = user.image
@@ -165,24 +165,45 @@ def mypage(request, userid):
             context['error'] = "존재하지 않는 사용자입니다."
             return render(request,'home.html',context)
         if request.method == 'GET':
-            out = []
-            #userid가 쓴 글 불러오기
-            followerslist = [userid]
+            out = [] #게시물
             profilepics = {}
+            cnt = 0 #게시물 개수
             
-            for user in Profile.objects.filter(username__in=followerslist):
-                profilepics[user.username] = user.image
-                if user.image == "":
-                    profilepics[user.username] = "img/default.png"
-            for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+            followerlist=[] #팔로워 리스트
+            fercnt = 0 #팔로워 수
+            followlist=[] #팔로우 리스트
+            fcnt = 0 #팔로우 수
+            flag = 1
+            
+            #userid가 쓴 post들 조회
+            user = Profile.objects.filter(username=userid)[0]
+            profilepics[user.username] = user.image
+            if user.image == "":
+                profilepics[user.username] = "img/default.png"
+            for item in Post.objects.filter(owner=userid).order_by('-date_uploaded'):
+                cnt = cnt+1
                 out.append(
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
                     "ProfilePic": profilepics[item.owner]})
-            
+
+            #userid의 팔로워 조회
+            for f in Follower.objects.filter(user=userid):
+                fercnt = fercnt+1
+                fpic = Profile.objects.filter(username=f.follower)[0]
+                followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
+                if f.follower == request.user.username:
+                    flag = 0
+
+            #userid가 팔로우 하는 사용자 조회
+            for f in Follower.objects.filter(follower=userid):
+                fcnt = fcnt+1
+                fpic = Profile.objects.filter(username=f.user)[0]
+                followlist.append({"User": f.user, "ProfilePic": fpic.image})
+
             u = User.objects.filter(username=userid)[0]
             suser = {"username":u.username, "first_name":u.first_name}
-            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser}
+            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag}
             return render(request,'mypage.html', context)
 
     return render(request,'login.html',context)

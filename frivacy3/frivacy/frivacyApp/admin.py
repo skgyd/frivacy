@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Image, Notice, Profile
+from .models import *
 
 # Register your models here.
 
@@ -15,7 +15,11 @@ class ImageAdmin(admin.ModelAdmin):
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ('title', 'content', 'owner', 'date_uploaded')
 
+class FollowerAdmin(admin.ModelAdmin):
+    list_display = ('user', 'follower')
+
 admin.site.register(Profile, ProfileAdmin) #site에 등록
-admin.site.register(Post, PostAdmin) #site에 등록
-admin.site.register(Image, ImageAdmin) #site에 등록
-admin.site.register(Notice, NoticeAdmin) #site에 등록
+admin.site.register(Post, PostAdmin)
+admin.site.register(Image, ImageAdmin)
+admin.site.register(Notice, NoticeAdmin)
+admin.site.register(Follower, FollowerAdmin)

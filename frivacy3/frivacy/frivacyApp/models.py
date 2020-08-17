@@ -25,3 +25,7 @@ class Notice(models.Model):
     owner = models.CharField(max_length=20)
     content = models.CharField(max_length=255, default="")
     title = models.CharField(max_length=255, default="")
+
+class Follower(models.Model):
+    user = models.CharField(max_length=20, default="")
+    follower = models.CharField(max_length=20, default="")
