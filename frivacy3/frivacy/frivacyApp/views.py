@@ -410,7 +410,6 @@ def notDetail(request):
 
 def followact(request, userid):
     context={}
-<<<<<<< HEAD
     if request.user.is_authenticated:
         p = Profile.objects.filter(username=request.user)[0]
         if p.image == "":
@@ -432,8 +431,4 @@ def unfAct(request, userid):
         return render(request,'home.html', context)
     return render(request,'login.html', context)
 
-=======
-    print("follow")
-    return render(request,'home.html', context)
->>>>>>> a37920f69dec1bb1a399ae4458804b09bcf800d4
 
