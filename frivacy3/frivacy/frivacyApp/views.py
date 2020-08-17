@@ -193,6 +193,7 @@ def edit(request, postid):
             # 포스트 수정
             pid = request.POST.get('id', None)
             content = request.POST.get('content', None)
+            
             post_instance = Post.objects.get(id=pid)
             post_instance.content = content
             post_instance.save()
