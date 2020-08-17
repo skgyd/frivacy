@@ -45,6 +45,8 @@ urlpatterns = [
     url(r'detail/(?P<noticeid>[a-zA-Z0-9_]+)/$', frivacyApp.views.detail ,name="detail"),
     url(r'edit/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.edit,name="edit"),
     url(r'delete/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.delete,name="delete"),
+    path('followAct/',frivacyApp.views.followact,name="followact"),
+    url(r'followAct/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.followact),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

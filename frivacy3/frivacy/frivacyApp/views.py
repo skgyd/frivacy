@@ -369,8 +369,8 @@ def ajaxupload(request):
         followerslist = [request.user.username]
         profilepics = {}
 
-        #for follower in Followers.objects.filter(follower=self.user.username):
-            #followerslist.append(follower.user)
+        for follower in Follower.objects.filter(follower=self.user.username):
+            followerslist.append(follower.user)
 
         for user in Profile.objects.filter(username__in=followerslist):
             profilepics[user.username] = user.image
@@ -407,4 +407,7 @@ def new(request):
 
 def notDetail(request):
     return render(request,'notDetail.html')
+
+def followact(request):
+    return render(request,'decDetail.html')
 

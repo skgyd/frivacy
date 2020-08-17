@@ -56,7 +56,7 @@
     $('#follow').click(function() {
             $.ajax({
                 type: "GET",
-                url: "followAct/{{whosprofile}}",
+                url: "/followAct/{{suser.username}}",
                 processData: false,
                 contentType: "application/json",
                 data: '',
