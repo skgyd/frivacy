@@ -70,6 +70,14 @@
                 <script src="{% static '/js/bootstrap.min.js' %}"></script>
                 <script src="{% static '/js/django-ajax.js' %}"></script>
                 <script type="text/javascript">
+                    $(document).ready(function() {
+                        var err = '{{ error }}'
+                        console.log(err)
+                        if(err!=""){
+                            alert(err)
+                            history.back();
+                        }
+                    });
                     function search_onclick_submit(){
                         location.href= "{% url 'mypage' %}"+$('#search').val();
                         }

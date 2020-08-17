@@ -162,7 +162,8 @@ def mypage(request, userid):
             if p.image == "":
                 p.image = "img/default.png"
         except:
-            return render(request,'login.html',context)
+            context['error'] = "존재하지 않는 사용자입니다."
+            return render(request,'home.html',context)
         if request.method == 'GET':
             out = []
             #userid가 쓴 글 불러오기
@@ -178,6 +179,7 @@ def mypage(request, userid):
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
                     "ProfilePic": profilepics[item.owner]})
+            
             u = User.objects.filter(username=userid)[0]
             suser = {"username":u.username, "first_name":u.first_name}
             context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser}
