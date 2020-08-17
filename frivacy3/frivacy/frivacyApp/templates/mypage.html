@@ -11,9 +11,11 @@
                 <section>
                     <div style="padding-bottom:10px;">
                     <div id="id"><h3>{{suser.username}}</h3></div>
-                    {% if flag %}
                     {% if suser.username != user.username %}
+                    {% if flag %}
                         <div><button id="follow">팔로우</button></div>
+                    {% else %}
+                        <div><button id="following">팔로잉</button></div>
                     {% endif %}
                     {% endif %}
                     </div>
@@ -54,23 +56,14 @@
 <script src="{% static '/js/django-ajax.js' %}"></script>
 <script type="text/javascript">
     $('#follow').click(function() {
-            $.ajax({
-                type: "GET",
-                url: "/followAct/{{suser.username}}",
-                processData: false,
-                contentType: "application/json",
-                data: '',
-                success: function(r) {
-                        if (JSON.parse(r).Following == true) {
-                                $('#follow').html("Following");
-                        } else {
-                                $('#follow').html("Follow");
-                        }
-                },
-                error: function(r) {
-
-                }
+        $.ajax({
+            type: "GET",
+            url: "/followAct/{{suser.username}}/",
+            processData: false,
+            contentType: "application/json",
+            data: ''
         });
+        $('#follow').html("팔로잉")
     });
 </script>
 {% endblock %}

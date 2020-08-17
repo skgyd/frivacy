@@ -408,6 +408,8 @@ def new(request):
 def notDetail(request):
     return render(request,'notDetail.html')
 
-def followact(request):
-    return render(request,'decDetail.html')
+def followact(request, userid):
+    context={}
+    print("follow")
+    return render(request,'home.html', context)
 
