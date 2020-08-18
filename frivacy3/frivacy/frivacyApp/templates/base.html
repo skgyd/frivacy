@@ -48,8 +48,8 @@
         <!-- Sidebar/menu -->
         <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding w3-text-sand" style="z-index:3;width:300px;font-weight:bold;background-color:#00334e; float: left;" id="mySidebar"><br>
             <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px; background-color:#00334e">Close Menu</a>
-            <div class="w3-container">
-                <h1 style="padding-top:64px; padding-bottom:10px;"><b>Frivacy</b></h1>
+            <div class="w3-container" style=" margin-top:80px;">
+                <a href="{% url 'home' %}" style="padding-bottom:10px; font-size:xx-large; font-weight:900; cursor:pointer; text-decoration:none;"><b>Frivacy</b></a>
                 <h3 style="padding-bottom:64px;">Welcome, {{user.username}}</h3>
             </div>
             <div class="w3-bar-block">
