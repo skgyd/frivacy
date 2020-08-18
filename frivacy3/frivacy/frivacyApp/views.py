@@ -32,10 +32,13 @@ def home(request):
             if user.image == "":
                 profilepics[user.username] = "img/default.png"
         for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+            commentlist = [] #각 post별 댓글
+            for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
+                commentlist.append({"user": c.user, "comment": c.comment})
             out.append(
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
-                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                 "ProfilePic": profilepics[item.owner]})
+                "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                "ProfilePic": profilepics[item.owner],"Comment":commentlist})
         context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
         
         return render(request, 'home.html', context)
