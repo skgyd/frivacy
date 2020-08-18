@@ -373,7 +373,7 @@ def ajaxupload(request):
         followerslist = [request.user.username]
         profilepics = {}
 
-        for follower in Follower.objects.filter(follower=self.user.username):
+        for follower in Follower.objects.filter(follower=request.user.username):
             followerslist.append(follower.user)
 
         for user in Profile.objects.filter(username__in=followerslist):

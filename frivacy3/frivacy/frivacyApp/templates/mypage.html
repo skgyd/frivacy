@@ -1,40 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<head>
-<div class="w3-main" style="margin-right:40px; margin-bottom:100px">
-    <div class="w3-container" style="margin-top:75px">
-        <div class="box" style="float:left; background: #BDBDBD;width: 120px;height: 120px;border-radius: 70%;overflow: hidden; margin-left:20%; margin-top:30px;">
-            <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="">
-        </div>
-        <div>
-            <h2 style="float:left; padding:30px;">user name </h2>
-            <a id="follow" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none; float:left; margin-top:54px;">Follow</a>
-            <a id="following" onclick="w3_close()" style="color: blue; text-decoration:none; float:left; margin-top:54px; display:none;">Following</a>
-        </div>
-        <a href="#layer2" class="btn-example" style="color: blue; text-decoration:none; float:left; margin-top:54px; padding-left:10px;">Friends</a>
-        <div class="dim-layer">
-            <div class="dimBg"></div>
-            <div id="layer2" class="pop-layer">
-                <div class="pop-container">
-                    <div class="pop-conts">
-                        <!--content //-->
-                        <p class="ctxt mb20">~~FRIENDS~~<br>
-                            친구목록
-                        </p>
-
-                        <div class="btn-r">
-                            <a href="#" class="btn-layerClose">Close</a>
-                        </div>
-                        <!--// content-->
+{% load static %} <!-- static 파일 불러오기 -->
+<body>
+    <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%;margin-top:30px; padding-top:10px;">
+        <div style="padding-bottom:150px;">
+            <div class="box" style="float:left;background: #BDBDBD;width:150px;height:150px;border-radius: 70%;overflow: hidden;">
+                <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static ProfilePic %}">
+            </div>
+            <div style="float:left;margin-left:30px;">
+                <section>
+                    <div style="padding-bottom:70px;">
+                    <div style="float:left;"><h3>{{suser.username}}&nbsp;&nbsp;</h3></div>
+                    {% if suser.username != user.username %}
+                    {% if flag %}
+                    <div style="float:left;margin-top:20px;">
+                        <a id="follow" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none;">Follow</a>
+                        <a id="following" onclick="w3_close()" style="color: blue; text-decoration:none; display:none;">Following</a>
                     </div>
-                </div>
+                    {% else %}
+                    <div style="float:left;margin-top:20px;">
+                        <a id="follow" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none; display:none;">Follow</a>
+                        <a id="following" onclick="w3_close()" style="color: blue; text-decoration:none;">Following</a>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    </div>
+                    <div id="post">
+                        게시물 <b>{{cnt}}</b>
+                        <a href="#layer2" class="btn-example" style="text-decoration:none; margin-top:54px; padding-left:10px;">팔로워 <b> {{fercnt}}</b></a>
+                        <a href="#layer2" class="btn-example" style="text-decoration:none; margin-top:54px; padding-left:10px;">팔로우 <b>{{fcnt}}</b></a>
+                    </div>
+                    <br>
+                    <div class="dim-layer">
+                        <div class="dimBg"></div>
+                        <div id="layer2" class="pop-layer">
+                            <div class="pop-container">
+                                <div class="pop-conts">
+                                    <!--content //-->
+                                    <p class="ctxt mb20">~~FRIENDS~~<br>
+                                        친구목록
+                                    </p>
+
+                                    <div class="btn-r">
+                                        <a href="#" class="btn-layerClose">Close</a>
+                                    </div>
+                                    <!--// content-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="name"><b>{{suser.first_name}}</b></div>
+                </section>
             </div>
         </div>
     </div>
-</div>  
-</head>
-<body>
-    {% load static %} <!-- static 파일 불러오기 -->
+    <br>
     {% for i in posts %}
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
         <div style="margin-left:20px;">
