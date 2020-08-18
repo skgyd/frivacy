@@ -27,23 +27,54 @@
                     </div>
                     <div id="post">
                         게시물 <b>{{cnt}}</b>
-                        <a href="#layer2" class="btn-example" style="text-decoration:none; margin-top:54px; padding-left:10px;">팔로워 <b> {{fercnt}}</b></a>
-                        <a href="#layer2" class="btn-example" style="text-decoration:none; margin-top:54px; padding-left:10px;">팔로우 <b>{{fcnt}}</b></a>
+                        <a href="#layer1" class="btn-example" style="text-decoration:none; margin-top:54px; padding-left:10px;">팔로워 <b> {{fercnt}}</b></a>
+                        <a href="#layer2" class="btn-example2" style="text-decoration:none; margin-top:54px; padding-left:10px;">팔로우 <b>{{fcnt}}</b></a>
                     </div>
                     <br>
                     <div class="dim-layer">
                         <div class="dimBg"></div>
+                        <div id="layer1" class="pop-layer">
+                            <div class="pop-container">
+                                <div class="pop-conts">
+                                    <!--content //-->
+                                    <b class="ctxt mb20">팔로워</b><br><br>
+                                    {% for i in follower %}
+                                    <a href="{% url 'mypage' %}{{i.User}}" style="text-decoration:none;">
+                                    <div style="margin-bottom:35px;">
+                                    <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
+                                        <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
+                                    </div>
+                                    <p style="margin-left:50px;">{{i.User}}</p>
+                                    </div>
+                                    </a>
+                                    {% endfor %}
+                                    <div class="btn-r">
+                                        <a href="#" class="btn-layerClose">Close</a>
+                                    </div>
+                                    <!--// content-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dim-layer2">
+                        <div class="dimBg2"></div>
                         <div id="layer2" class="pop-layer">
                             <div class="pop-container">
                                 <div class="pop-conts">
                                     <!--content //-->
-                                    <b class="ctxt mb20">FRIENDS<br>
-                                    </b>
-                                    <p>친구11</p>
-                                    <p>친구12</p>
-
+                                    <b class="ctxt mb20">팔로우</b><br><br>
+                                    {% for i in follow %}
+                                    <a href="{% url 'mypage' %}{{i.User}}" style="text-decoration:none;">
+                                    <div style="margin-bottom:35px;"> 
+                                    <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
+                                        <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
+                                    </div>
+                                    <p style="margin-left:50px;">{{i.User}}</p>
+                                    </div>
+                                    </a>
+                                    {% endfor %}
                                     <div class="btn-r">
-                                        <a href="#" class="btn-layerClose">Close</a>
+                                        <a href="#" class="btn-layerClose2">Close</a>
                                     </div>
                                     <!--// content-->
                                 </div>
@@ -108,7 +139,7 @@
     z-index: 10;
     }
 
-    .dim-layer {
+    .dim-layer, .dim-layer2 {
     display: none;
     position: fixed;
     _position: absolute;
@@ -119,7 +150,7 @@
     z-index: 100;
     }
 
-    .dim-layer .dimBg {
+    .dim-layer .dimBg,  .dim-layer2 .dimBg2{
     position: absolute;
     top: 0;
     left: 0;
@@ -130,7 +161,7 @@
     filter: alpha(opacity=50);
     }
 
-    .dim-layer .pop-layer {
+    .dim-layer .pop-layer, .dim-layer2 .pop-layer{
     display: block;
     }
 </style>
@@ -164,6 +195,10 @@
         var $href = $(this).attr('href');
         layer_popup($href);
     });
+    $('.btn-example2').click(function(){
+        var $href = $(this).attr('href');
+        layer_popup2($href);
+    });
     function layer_popup(el){
         
         var $el = $(el);        //레이어의 id를 $el 변수에 저장
@@ -195,7 +230,36 @@
             $('.dim-layer').fadeOut();
             return false;
         });
+    }
+    function layer_popup2(el){
+        var $el = $(el);        //레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg2');   //dimmed 레이어를 감지하기 위한 boolean 변수
+        isDim ? $('.dim-layer2').fadeIn() : $el.fadeIn();
 
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose2').click(function(){
+            isDim ? $('.dim-layer2').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer2 .dimBg2').click(function(){
+            $('.dim-layer2').fadeOut();
+            return false;
+        });
     }
 </script>
 {% endblock %}

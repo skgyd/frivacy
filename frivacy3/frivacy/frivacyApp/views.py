@@ -195,6 +195,8 @@ def mypage(request, userid):
             for f in Follower.objects.filter(user=userid):
                 fercnt = fercnt+1
                 fpic = Profile.objects.filter(username=f.follower)[0]
+                if fpic.image == "":
+                    fpic.image = "img/default.png"
                 followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
                 if f.follower == request.user.username:
                     flag = 0
@@ -203,6 +205,8 @@ def mypage(request, userid):
             for f in Follower.objects.filter(follower=userid):
                 fcnt = fcnt+1
                 fpic = Profile.objects.filter(username=f.user)[0]
+                if fpic.image == "":
+                    fpic.image = "img/default.png"
                 followlist.append({"User": f.user, "ProfilePic": fpic.image})
 
             u = User.objects.filter(username=userid)[0]
@@ -253,6 +257,8 @@ def edit(request, postid):
             for f in Follower.objects.filter(user=request.user):
                 fercnt = fercnt+1
                 fpic = Profile.objects.filter(username=f.follower)[0]
+                if fpic.image == "":
+                    fpic.image = "img/default.png"
                 followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
                 if f.follower == request.user.username:
                     flag = 0
@@ -261,6 +267,8 @@ def edit(request, postid):
             for f in Follower.objects.filter(follower=request.user):
                 fcnt = fcnt+1
                 fpic = Profile.objects.filter(username=f.user)[0]
+                if fpic.image == "":
+                    fpic.image = "img/default.png"
                 followlist.append({"User": f.user, "ProfilePic": fpic.image})
 
             u = User.objects.filter(username=request.user)[0]
@@ -310,6 +318,8 @@ def delete(request, postid):
         for f in Follower.objects.filter(user=request.user):
             fercnt = fercnt+1
             fpic = Profile.objects.filter(username=f.follower)[0]
+            if fpic.image == "":
+                fpic.image = "img/default.png"
             followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
             if f.follower == request.user.username:
                 flag = 0
@@ -318,6 +328,8 @@ def delete(request, postid):
         for f in Follower.objects.filter(follower=request.user):
             fcnt = fcnt+1
             fpic = Profile.objects.filter(username=f.user)[0]
+            if fpic.image == "":
+                fpic.image = "img/default.png"
             followlist.append({"User": f.user, "ProfilePic": fpic.image})
 
         u = User.objects.filter(username=request.user)[0]
