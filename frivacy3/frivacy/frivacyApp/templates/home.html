@@ -147,6 +147,7 @@
         $("#p"+$(".postid"+num).val()).append("<div><b>{{user}}</b> "+$(".underline"+num).val()+"</div>")
         $(".underline"+num).val("");
         layer_popup3("#layer"+$(".postid"+num).val(), $(".postid"+num).val())
+        $("#p"+$(".postid"+num).val()).scrollTop($("#p"+$(".postid"+num).val())[0].scrollHeight);
     });
     $('.btn-exampleP').click(function(){
         var el = $(this).attr('href');
