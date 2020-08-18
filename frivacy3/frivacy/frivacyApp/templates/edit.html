@@ -2,29 +2,30 @@
 {% block content %}
 {% load static %}
 <head>
-        <div class="w3-main" style="margin-left:340px;margin-right:40px">
-            <div class="w3-container" id="services" style="margin-top:75px">
-                <h1 class="w3-xlarge " style="color: #00334e;"><b>게시글 수정 .</b></h1>
-                <hr style="width:50px;border:5px solid #00334e" class="w3-round">
-            </div>
-        </div>  
-    </head>  
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+        <div class="w3-container" id="services" style="margin-top:75px">
+            <h1 class="w3-xlarge " style="color: #00334e;"><b>게시글 수정</b></h1>
+            <hr style="width:50px;border:5px solid #00334e" class="w3-round">
+        </div>
+    </div>  
+</head>  
 <body>
      <br>
      {% for i in posts %}
-     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
-        <div align="center" class="content" style="padding:5 5; margin: 20px;"><form method="post" enctype="multipart/form-data" act="">
-        {% csrf_token %}
+     <div class="w3-main" style="margin-left:500px; margin-top:20px;margin-right:80px; height:100%; padding:10px 10px">
         <div align="center">
-            <img width="400px" class="prev" id="prev" src ="{% static i.URL %}">
-        </div><br><br>
+            <img id="prev" src ="{% static i.URL %}">
+        </div>
+        <!-- 작성자는 세션id로 저장 -->
+        <h3>내용: </h3>
+    <form method="post" act="">
+        {% csrf_token %}
         <input type="hidden" name="id" value="{{i.PostID}}">
-        <textarea cols=70 rows=6 name="content">{{i.Content}}</textarea> 
+        <textarea cols=80 rows=8 name="content">{{i.Content}}</textarea> 
         <br>
         <br>
-        <input type="submit" value ="작성하기" style="color:dimgrey; background: transparent; border: none;"> 
+        <input type="submit" value ="작성하기" style="padding: 6px 6px; margin-right:10px; color:dimgrey; background: transparent; border: none; margin-left:350px;"> 
     </form>
-    </div>
     </div>
     {% endfor %}
 </body>

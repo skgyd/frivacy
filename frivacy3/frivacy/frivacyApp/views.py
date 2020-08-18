@@ -79,6 +79,10 @@ def signup(request):
     context = {}
     return render(request,'signup.html',context)
 
+def forgot(request):
+    context = {}
+    return render(request,'forgot.html',context)
+
 def logout(request):
     context = {}
     dlogout(request)

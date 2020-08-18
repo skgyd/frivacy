@@ -4,30 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}"  />
+    <title>Signup</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <form class="box">
+    <form class="box" method="post" action="/ajax-sign-up">
+        {% csrf_token %}
         <h1>Frivacy</h1>
-        <input type="text" name="" placeholder="Email" class="input">
-        <input type="password" name="" placeholder="PW" class="input">
-        <input type="password" name="" placeholder="Confirm PW" class="input">
-        <input type="file" id="image" accept="image/*" onchange="setThumbnail(event);"/> 
-        <div id="image_container"></div> 
-        <div class="logindiv">
-            <a href="{% url 'login' %}" onclick="w3_close()" style="color:white; text-decoration:none; font-size:20px;margin:20px">SIGN UP</a>
-        </div>
-        <script>
-            function setThumbnail(event) {
-                var reader = new FileReader();
-                reader.onload = function(event) { 
-                    var img = document.createElement("img"); 
-                    img.setAttribute("src", event.target.result);
-                    //document.querySelector("div#image_container").appendChild(img);
-                }; 
-                reader.readAsDataURL(event.target.files[0]); } 
-        </script>
+        <input type="text" id="name" name="name" class="SignupInput" placeholder="Name">
+        <input type="text" id="email" name="email" class="SignupInput" placeholder="E-Mail">
+        <button class="btn btn-primary btn-block" id="go" type="submit" style="border:none; background:transparent;color:white;font-size:large; outline:none; margin-top:50px;margin-bottom:20px;">SUBMIT</button>
     </form>
 </body>
 </html>

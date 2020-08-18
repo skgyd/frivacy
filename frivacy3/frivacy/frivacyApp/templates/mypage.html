@@ -1,34 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-<body>
-    {% load static %} <!-- static 파일 불러오기 -->
-    <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%;margin-top:30px; padding-top:10px;">
-        <div style="padding-bottom:150px;">
-            <div class="box" style="float:left;background: #BDBDBD;width:150px;height:150px;border-radius: 70%;overflow: hidden;">
-                <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static ProfilePic %}">
-            </div>
-            <div style="float:left;margin-left:30px;">
-                <section>
-                    <div style="padding-bottom:10px;">
-                    <div id="id"><h3>{{suser.username}}</h3></div>
-                    {% if suser.username != user.username %}
-                    {% if flag %}
-                        <div><button id="follow">팔로우</button></div>
-                        <div><button id="following" style="display:none;">팔로잉</button></div>
-                    {% else %}
-                        <div><button id="follow" style="display:none;">팔로우</button></div>
-                        <div><button id="following">팔로잉</button></div>
-                    {% endif %}
-                    {% endif %}
+<head>
+<div class="w3-main" style="margin-right:40px; margin-bottom:100px">
+    <div class="w3-container" style="margin-top:75px">
+        <div class="box" style="float:left; background: #BDBDBD;width: 120px;height: 120px;border-radius: 70%;overflow: hidden; margin-left:20%; margin-top:30px;">
+            <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="">
+        </div>
+        <div>
+            <h2 style="float:left; padding:30px;">user name </h2>
+            <a id="follow" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none; float:left; margin-top:54px;">Follow</a>
+            <a id="following" onclick="w3_close()" style="color: blue; text-decoration:none; float:left; margin-top:54px; display:none;">Following</a>
+        </div>
+        <a href="#layer2" class="btn-example" style="color: blue; text-decoration:none; float:left; margin-top:54px; padding-left:10px;">Friends</a>
+        <div class="dim-layer">
+            <div class="dimBg"></div>
+            <div id="layer2" class="pop-layer">
+                <div class="pop-container">
+                    <div class="pop-conts">
+                        <!--content //-->
+                        <p class="ctxt mb20">~~FRIENDS~~<br>
+                            친구목록
+                        </p>
+
+                        <div class="btn-r">
+                            <a href="#" class="btn-layerClose">Close</a>
+                        </div>
+                        <!--// content-->
                     </div>
-                    <div id="post">게시물 <b>{{cnt}}</b> &nbsp;&nbsp;팔로워 <b>{{fercnt}}</b> &nbsp;&nbsp;팔로우 <b>{{fcnt}}</b></div>
-                    <br>
-                    <div id="name"><b>{{suser.first_name}}</b></div>
-                </section>
+                </div>
             </div>
         </div>
-        <hr>
     </div>
+</div>  
+</head>
+<body>
+    {% load static %} <!-- static 파일 불러오기 -->
     {% for i in posts %}
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
         <div style="margin-left:20px;">
@@ -47,12 +53,63 @@
             <button class="btn btn-outline-secondary" type="submit" style="background-color:rgb(241, 236, 236); border:none; margin-left:30px;">댓글 작성</button>      
         </div>
         <div style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
-            <a class="btn btn-outline-secondary" href="edit/{{i.PostID }}/" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:470px;">수정</a>      
-            <a class="btn btn-outline-secondary" href="delete/{{i.PostID }}/" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:15px;">삭제</a>      
+            <a class="btn btn-outline-secondary" href="edit/{{i.PostID }}/" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:90%;">수정</a>      
+            <a class="btn btn-outline-secondary" href="delete/{{i.PostID }}/" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:10px;">삭제</a>      
         </div>
     </div>
     {% endfor %}
 </body>
+<style>
+    .pop-layer .pop-container {
+    padding: 20px 25px;
+    }
+
+    .pop-layer .btn-r {
+    width: 100%;
+    margin: 10px 0 20px;
+    padding-top: 10px;
+    border-top: 1px solid #DDD;
+    text-align: right;
+    }
+
+    .pop-layer {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 410px;
+    height: auto;
+    background-color: #fff;
+    border-radius:10px;
+    z-index: 10;
+    }
+
+    .dim-layer {
+    display: none;
+    position: fixed;
+    _position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    }
+
+    .dim-layer .dimBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .5;
+    filter: alpha(opacity=50);
+    }
+
+    .dim-layer .pop-layer {
+    display: block;
+    }
+</style>
 <script src="{% static '/js/jquery.min.js' %}"></script>
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/js/django-ajax.js' %}"></script>
@@ -66,7 +123,7 @@
             data: ''
         });
         $('#follow').attr('style', 'display:none;');
-        $('#following').attr('style', '');
+        $('#following').attr('style', 'color: blue; text-decoration:none; float:left; margin-top:54px;cursor: pointer;');
     });
     $('#following').click(function() {
         $.ajax({
@@ -76,8 +133,45 @@
             contentType: "application/json",
             data: ''
         });
-        $('#follow').attr('style', '');
+        $('#follow').attr('style', 'color: blue; text-decoration:none; float:left; margin-top:54px;cursor: pointer;');
         $('#following').attr('style', 'display:none;');
     });
+    $('.btn-example').click(function(){
+        var $href = $(this).attr('href');
+        layer_popup($href);
+    });
+    function layer_popup(el){
+
+        var $el = $(el);        //레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+
+        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose').click(function(){
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer .dimBg').click(function(){
+            $('.dim-layer').fadeOut();
+            return false;
+        });
+
+    }
 </script>
 {% endblock %}
