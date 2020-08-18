@@ -255,8 +255,9 @@
             postid: $(".postid"+num).val(),
             comment: $(".underline"+num).val()
         });
-        $("#p"+$(".postid"+num).val()).append("<div><b>{{user}}</b> "+$(".underline"+num).val()+"</div>")
-        layer_popup3("#layer"+$(".postid"+num).val(), $(".postid"+num).val())
+        $("#p"+$(".postid"+num).val()).append("<div><b>{{user}}</b> "+$(".underline"+num).val()+"</div>");
+        $(".underline"+num).val("");
+        layer_popup3("#layer"+$(".postid"+num).val(), $(".postid"+num).val());
     });
     $('#follow').click(function() {
         $.ajax({

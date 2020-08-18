@@ -145,6 +145,7 @@
             comment: $(".underline"+num).val()
         });
         $("#p"+$(".postid"+num).val()).append("<div><b>{{user}}</b> "+$(".underline"+num).val()+"</div>")
+        $(".underline"+num).val("");
         layer_popup3("#layer"+$(".postid"+num).val(), $(".postid"+num).val())
     });
     $('.btn-exampleP').click(function(){
