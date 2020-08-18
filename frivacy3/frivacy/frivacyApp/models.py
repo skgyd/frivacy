@@ -29,3 +29,9 @@ class Notice(models.Model):
 class Follower(models.Model):
     user = models.CharField(max_length=20, default="")
     follower = models.CharField(max_length=20, default="")
+
+class Comment(models.Model):
+    postid = models.CharField(max_length=20)
+    date_uploaded = models.DateTimeField(auto_now=True)
+    user = models.CharField(max_length=20, default="")
+    comment = models.CharField(max_length=255, default="")

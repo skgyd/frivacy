@@ -18,8 +18,12 @@ class NoticeAdmin(admin.ModelAdmin):
 class FollowerAdmin(admin.ModelAdmin):
     list_display = ('user', 'follower')
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('postid', 'user', 'comment', 'date_uploaded')
+
 admin.site.register(Profile, ProfileAdmin) #site에 등록
 admin.site.register(Post, PostAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Notice, NoticeAdmin)
 admin.site.register(Follower, FollowerAdmin)
+admin.site.register(Comment, CommentAdmin)

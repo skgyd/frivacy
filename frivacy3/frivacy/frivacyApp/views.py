@@ -186,10 +186,13 @@ def mypage(request, userid):
                 profilepics[user.username] = "img/default.png"
             for item in Post.objects.filter(owner=userid).order_by('-date_uploaded'):
                 cnt = cnt+1
+                commentlist = [] #각 post별 댓글
+                for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
+                    commentlist.append({"user": c.user, "comment": c.comment})
                 out.append(
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                    "ProfilePic": profilepics[item.owner]})
+                    "ProfilePic": profilepics[item.owner],"Comment":commentlist})
 
             #userid의 팔로워 조회
             for f in Follower.objects.filter(user=userid):
@@ -248,10 +251,13 @@ def edit(request, postid):
                 profilepics[user.username] = "img/default.png"
             for item in Post.objects.filter(owner=request.user).order_by('-date_uploaded'):
                 cnt = cnt+1
+                commentlist = [] #각 post별 댓글
+                for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
+                    commentlist.append({"user": c.user, "comment": c.comment})
                 out.append(
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                    "ProfilePic": profilepics[item.owner]})
+                    "ProfilePic": profilepics[item.owner],"Comment":commentlist})
 
             #userid의 팔로워 조회
             for f in Follower.objects.filter(user=request.user):
@@ -301,18 +307,22 @@ def delete(request, postid):
         followlist=[] #팔로우 리스트
         fcnt = 0 #팔로우 수
         flag = 1
-            
+
         #userid가 쓴 post들 조회
         user = Profile.objects.filter(username=request.user)[0]
         profilepics[user.username] = user.image
         if user.image == "":
             profilepics[user.username] = "img/default.png"
+        
         for item in Post.objects.filter(owner=request.user).order_by('-date_uploaded'):
             cnt = cnt+1
+            commentlist = [] #각 post별 댓글
+            for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
+                commentlist.append({"user": c.user, "comment": c.comment})
             out.append(
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                "ProfilePic": profilepics[item.owner]})
+                "ProfilePic": profilepics[item.owner],"Comment":commentlist})
 
         #userid의 팔로워 조회
         for f in Follower.objects.filter(user=request.user):
@@ -489,11 +499,19 @@ def followact(request, userid):
 def unfAct(request, userid):
     context={}
     if request.user.is_authenticated:
-        p = Profile.objects.filter(username=request.user)[0]
-        if p.image == "":
-            p.image = "img/default.png"
         if request.method == 'GET':
             Follower.objects.get(user=userid, follower=request.user).delete()
+        return render(request,'home.html', context)
+    return render(request,'login.html', context)
+
+def commentAct(request):
+    context={}
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            comment = request.POST.get('comment', None)
+            postid = request.POST.get('postid', None)
+            c = Comment(postid=postid, user=request.user, comment=comment)
+            c.save()
         return render(request,'home.html', context)
     return render(request,'login.html', context)
 
