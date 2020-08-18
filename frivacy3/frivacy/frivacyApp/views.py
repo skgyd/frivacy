@@ -227,22 +227,46 @@ def edit(request, postid):
             post_instance.content = content
             post_instance.save()
 
-            #내가 쓴 글 불러오고 mypage로 다시 이동
-            out = []
-            followerslist = [request.user.username]
+            out = [] #게시물
             profilepics = {}
-
-            for user in Profile.objects.filter(username__in=followerslist):
-                profilepics[user.username] = user.image
-                if user.image == "":
-                    profilepics[user.username] = "img/default.png"
-            for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
+            cnt = 0 #게시물 개수
+            
+            followerlist=[] #팔로워 리스트
+            fercnt = 0 #팔로워 수
+            followlist=[] #팔로우 리스트
+            fcnt = 0 #팔로우 수
+            flag = 1
+            
+            #내가 쓴 post들 조회
+            user = Profile.objects.filter(username=request.user)[0]
+            profilepics[user.username] = user.image
+            if user.image == "":
+                profilepics[user.username] = "img/default.png"
+            for item in Post.objects.filter(owner=request.user).order_by('-date_uploaded'):
+                cnt = cnt+1
                 out.append(
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
                     "ProfilePic": profilepics[item.owner]})
-            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
-            return render(request,'mypage.html',context)
+
+            #userid의 팔로워 조회
+            for f in Follower.objects.filter(user=request.user):
+                fercnt = fercnt+1
+                fpic = Profile.objects.filter(username=f.follower)[0]
+                followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
+                if f.follower == request.user.username:
+                    flag = 0
+
+            #userid가 팔로우 하는 사용자 조회
+            for f in Follower.objects.filter(follower=request.user):
+                fcnt = fcnt+1
+                fpic = Profile.objects.filter(username=f.user)[0]
+                followlist.append({"User": f.user, "ProfilePic": fpic.image})
+
+            u = User.objects.filter(username=request.user)[0]
+            suser = {"username":u.username, "first_name":u.first_name}
+            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag}
+            return render(request,'mypage.html', context)
         else: # 수정 페이지 로드
             out = []
             item = Post.objects.filter(id=postid)[0]
@@ -260,20 +284,46 @@ def delete(request, postid):
         # 게시글 삭제
         Post.objects.get(id=postid).delete()
         #내가 쓴 글 불러오고 mypage로 다시 이동
-        out = []
-        followerslist = [request.user.username]
+        out = [] #게시물
         profilepics = {}
+        cnt = 0 #게시물 개수
+            
+        followerlist=[] #팔로워 리스트
+        fercnt = 0 #팔로워 수
+        followlist=[] #팔로우 리스트
+        fcnt = 0 #팔로우 수
+        flag = 1
+            
+        #userid가 쓴 post들 조회
+        user = Profile.objects.filter(username=request.user)[0]
+        profilepics[user.username] = user.image
+        if user.image == "":
+            profilepics[user.username] = "img/default.png"
+        for item in Post.objects.filter(owner=request.user).order_by('-date_uploaded'):
+            cnt = cnt+1
+            out.append(
+                {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
+                "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
+                "ProfilePic": profilepics[item.owner]})
 
-        for user in Profile.objects.filter(username__in=followerslist):
-            profilepics[user.username] = user.image
-            if user.image == "":
-                profilepics[user.username] = "img/default.png"
-        for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
-            out.append({"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
-                    "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                    "ProfilePic": profilepics[item.owner]})
-        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
-        return render(request,'mypage.html',context)
+        #userid의 팔로워 조회
+        for f in Follower.objects.filter(user=request.user):
+            fercnt = fercnt+1
+            fpic = Profile.objects.filter(username=f.follower)[0]
+            followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
+            if f.follower == request.user.username:
+                flag = 0
+
+        #userid가 팔로우 하는 사용자 조회
+        for f in Follower.objects.filter(follower=request.user):
+            fcnt = fcnt+1
+            fpic = Profile.objects.filter(username=f.user)[0]
+            followlist.append({"User": f.user, "ProfilePic": fpic.image})
+
+        u = User.objects.filter(username=request.user)[0]
+        suser = {"username":u.username, "first_name":u.first_name}
+        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag}
+        return render(request,'mypage.html', context)
     return render(request,'login.html',context)
 
 def infoModify(request):
