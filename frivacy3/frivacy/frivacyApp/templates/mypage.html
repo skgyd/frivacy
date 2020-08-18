@@ -59,19 +59,22 @@
     {% for i in posts %}
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
         <div style="margin-left:20px;">
-            <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;">
+            <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
                 <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
             </div>
-            <div><b>{{i.Owner}}</b></div>
-        </div><br>
+            <div style="margin-left:50px;padding-top:10px"><b>{{i.Owner}}</b></div>
+        </div>
+        <hr>
         <div align="center"><img src="{% static i.URL %}"></div>
+        <hr>
         <div class="content" style="padding:5 5; margin: 20px;">
             <div style="width:100%; word-wrap:break-word;"><b style="margin-right: 10px;">{{i.Owner}}</b>{{i.Content}}</div>
+            <br>
+            <a href="#layer2" class="btn-example" style="cursor:pointer;text-decoration:none;color:#6E6E6E;">댓글 모두 보기</a>
         </div>
         <div class="input-group mb-3" style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
             <input type="text" class="underline" placeholder="comment" aria-label="Recipient's username" aria-describedby="button-addon2" style="float:left;width:83%; background-color: transparent; margin-left:10px; BORDER-BOTTOM: #00334e 1px solid;BORDER-LEFT: medium none;BORDER-RIGHT: medium none;BORDER-TOP: medium none;">
             <button class="btn btn-outline-secondary" type="submit" style="float:left;background-color:rgb(241, 236, 236); border:none; margin-left:30px;">댓글 작성</button>      
-            <a href="#layer2" class="btn-example" style="cursor:pointer;float:left;text-decoration:none; margin-left:10px;">···</a>
         </div>
         <div style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
             <a class="btn btn-outline-secondary" href="edit/{{i.PostID }}/" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:90%;">수정</a>      
