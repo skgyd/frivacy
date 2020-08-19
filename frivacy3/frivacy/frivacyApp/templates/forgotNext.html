@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <form class="box" method="post" action="/findAct">
+    <form class="box" method="post" action="/findNextAct">
         {% csrf_token %}
         <h1>Frivacy</h1>
-        <input type="text" id="name" name="name" class="SignupInput" placeholder="Name">
-        <input type="text" id="email" name="email" class="SignupInput" placeholder="E-Mail">
+        <input type="hidden" name="id" value="{{user}}">
+        <input type="password" id="pw" name="pw" class="SignupInput" placeholder="변경할 비밀번호 입력">
+        <input type="password" id="pw2" name="pw2" class="SignupInput" placeholder="비밀번호 확인">
         <input type="submit" value="SUBMIT" style="border:none; background:transparent;color:white;font-size:large; outline:none;">
     </form>
 </body>

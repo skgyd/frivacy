@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %} <!-- static 파일 불러오기 -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/mypage.css' %}"  />
 <body>
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%;margin-top:30px; padding-top:10px;">
         <div style="padding-bottom:150px;">
@@ -121,7 +122,7 @@
                                     <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
                                 </div>
                                 <div style="padding-top:10px">
-                                    <b>&nbsp;&nbsp;{{i.Owner}}</b>
+                                    <b><a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">&nbsp;&nbsp;{{i.Owner}}</a></b>
                                     <div style="float:right;" class="btn-r">
                                         <a style="text-decoration:none;color:#6E6E6E;margin-right:20px;font-size:large;" href="#" class="btn-layerClose{{i.PostID}}">X</a>
                                     </div>
@@ -129,13 +130,13 @@
                             </div>
                             <hr>
                             <div>
-                                <div style="width:100%;word-wrap:break-word;margin-left: 20px;"><b>{{i.Owner}}</b>&nbsp;&nbsp;{{i.Content}}</div>
+                                <div style="width:100%;word-wrap:break-word;margin-left: 20px;"><b><a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">{{i.Owner}}</a></b>&nbsp;&nbsp;{{i.Content}}</div>
                             </div>
                             <hr>
                             <div id="p{{i.PostID}}" style="max-height:250px;height:60%;background-color:#FAFAFA;overflow-y:auto;">
                                 {% for j in i.Comment %}
                                 <div style="margin-bottom:5px;">
-                                <b>{{j.user}}</b> {{j.comment}}
+                                <b><a href="{% url 'mypage' %}{{j.user}}" style="text-decoration:none;">{{j.user}}</a></b> {{j.comment}}
                                 </div>
                                 {% endfor %}
                             </div>
@@ -157,96 +158,12 @@
         </div>
     </div>
     {% endfor %}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+        {% endfor %}
+    {% endif %}
 </body>
-<style>
-    .pop-layer .pop-container {
-    padding: 20px 25px;
-    }
-
-    .pop-layer .btn-r {
-    width: 100%;
-    margin: 10px 0 20px;
-    padding-top: 10px;
-    border-top: 1px solid #DDD;
-    text-align: right;
-    }
-
-    .pop-layer {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 410px;
-    height: auto;
-    background-color: #fff;
-    border-radius:10px;
-    z-index: 10;
-    }
-
-    .dim-layer, .dim-layer2{
-    display: none;
-    position: fixed;
-    _position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    }
-
-    .dim-layer .dimBg,  .dim-layer2 .dimBg2{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: .5;
-    filter: alpha(opacity=50);
-    }
-
-    .dim-layer .pop-layer, .dim-layer2 .pop-layer{
-    display: block;
-    }
-
-    [class^=dim-layer]{
-    display: none;
-    position: fixed;
-    _position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    }
-
-    [class^=dim-layer] [class^=dimBg]{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: .5;
-    filter: alpha(opacity=50);
-    }
-
-    [class^=dim-layer] [class^=postpop-layer]{
-    display: block;
-    }
-
-    [class^=postpop-layer] {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 850px;
-    height: 70%;
-    background-color: #fff;
-    border-radius:10px;
-    z-index: 10;
-    }
-</style>
 <script src="{% static '/js/jquery.min.js' %}"></script>
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/js/django-ajax.js' %}"></script>

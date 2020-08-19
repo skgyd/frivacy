@@ -35,3 +35,12 @@ class Comment(models.Model):
     date_uploaded = models.DateTimeField(auto_now=True)
     user = models.CharField(max_length=20, default="")
     comment = models.CharField(max_length=255, default="")
+
+class Report(models.Model):
+    postid = models.CharField(max_length=20)
+    type0 = models.IntegerField(default=0)
+    type1 = models.IntegerField(default=0)
+    type2 = models.IntegerField(default=0)
+    type3 = models.IntegerField(default=0)
+    type4 = models.IntegerField(default=0)
+    type5 = models.IntegerField(default=0)

@@ -21,9 +21,13 @@ class FollowerAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('postid', 'user', 'comment', 'date_uploaded')
 
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ('postid', 'type0', 'type1', 'type2', 'type3', 'type4', 'type5')
+
 admin.site.register(Profile, ProfileAdmin) #site에 등록
 admin.site.register(Post, PostAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Notice, NoticeAdmin)
 admin.site.register(Follower, FollowerAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Report, ReportAdmin)

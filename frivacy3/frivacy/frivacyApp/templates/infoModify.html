@@ -45,17 +45,15 @@
         </div>
     </form>
 </body>
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+    {% endfor %}
+{% endif %}
 <script src="{% static '/js/jquery.min.js' %}"></script>
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/js/django-ajax.js' %}"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        var err = '{{ error }}'
-        console.log(err)
-        if(err!=""){
-            alert(err)
-        }
-    });
     function pw_popup(){ 
         var layer = document.getElementById("popup_layer1"); 
         layer.style.visibility="visible"; //반대는 hidden 

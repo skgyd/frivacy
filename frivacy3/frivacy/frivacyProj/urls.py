@@ -35,6 +35,7 @@ urlpatterns = [
     path('infoModify/',frivacyApp.views.infoModify,name="infoModify"),
     path('mypage/',frivacyApp.views.mypage,name="mypage"),
     path('forgot/',frivacyApp.views.forgot,name="forgot"),
+    path('forgotNext/',frivacyApp.views.forgotNext,name="forgotNext"),
     url(r'mypage/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.mypage),
     url(r'^modifyAct$',frivacyApp.views.modifyAct),
     url(r'signup/ajax-sign-up$',frivacyApp.views.ajaxsignup),
@@ -46,10 +47,13 @@ urlpatterns = [
     url(r'detail/(?P<noticeid>[a-zA-Z0-9_]+)/$', frivacyApp.views.detail ,name="detail"),
     url(r'edit/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.edit,name="edit"),
     url(r'delete/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.delete,name="delete"),
-    path('followAct/',frivacyApp.views.followact,name="followact"),
-    url(r'followAct/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.followact),
+    path('followAct/',frivacyApp.views.followAct,name="followact"),
+    url(r'followAct/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.followAct),
     url(r'unfAct/(?P<userid>[a-zA-Z0-9_]+)/$',frivacyApp.views.unfAct),
     url(r'^commentAct$',frivacyApp.views.commentAct),
+    url(r'^findAct$',frivacyApp.views.findAct),
+    url(r'^findNextAct$',frivacyApp.views.findNextAct),
+    url(r'report/(?P<postid>[a-zA-Z0-9_]+)/(?P<reportid>[a-zA-Z0-9_]+)/$',frivacyApp.views.report),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

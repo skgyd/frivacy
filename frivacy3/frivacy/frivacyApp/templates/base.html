@@ -70,21 +70,12 @@
                 <script src="{% static '/js/bootstrap.min.js' %}"></script>
                 <script src="{% static '/js/django-ajax.js' %}"></script>
                 <script type="text/javascript">
-                    $(document).ready(function() {
-                        var err = '{{ error }}'
-                        console.log(err)
-                        if(err!=""){
-                            alert(err)
-                            history.back();
-                        }
-                    });
                     function search_onclick_submit(){
                         location.href= "{% url 'mypage' %}"+$('#search').val();
                         }
                 </script>
             </div>
         </nav>
-
 
         <!-- Top menu on small screens -->
         <header class="w3-container w3-top w3-hide-large w3-xlarge w3-padding" style="background-color:#00334e">

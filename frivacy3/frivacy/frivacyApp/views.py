@@ -7,6 +7,7 @@ from .detect_face_image import detecting
 from django.contrib.auth.hashers import make_password, check_password
 import base64
 from django.contrib.auth.models import User
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
@@ -70,7 +71,7 @@ def declaration(request):
     context = {}
     return render(request,'declaration.html',context)
     
-def decNew(request):
+def decNew(request, postid):
     context = {}
     return render(request,'decNew.html',context)
 
@@ -85,6 +86,52 @@ def signup(request):
 def forgot(request):
     context = {}
     return render(request,'forgot.html',context)
+
+def findAct(request):
+    context={}
+    if request.method == 'POST':
+        username = request.POST.get('name', None)
+        email = request.POST.get('email', None)
+        if not (username and email):
+            messages.success(request,"아이디와 이메일을 모두 입력해주세요.")
+            return render(request, 'forgot.html', context)
+        else : 
+            if not User.objects.filter(username=username).exists():
+                messages.success(request,"존재하지 않는 아이디입니다")
+                return render(request, 'forgot.html', context)
+            if not User.objects.filter(email=email).exists():
+                messages.success(request,"존재하지 않는 이메일입니다")
+                return render(request, 'forgot.html', context)
+            u = User.objects.filter(username=username)[0]
+            if u.email != email:
+                messages.success(request,"이메일이나 아이디가 일치하지 않습니다")
+                return render(request, 'forgot.html', context)
+            else:
+                context['user'] = u.username
+                return render(request, 'forgotNext.html', context)
+
+def forgotNext(request):
+    context = {}
+    return render(request, 'forgotNext.html', context)
+
+def findNextAct(request):
+    context = {}
+    if request.method == 'POST':
+        username = request.POST.get('id', None)
+        pw = request.POST.get('pw', None)
+        pw2 = request.POST.get('pw2', None)
+        if pw != pw2:
+            context['user']=username
+            messages.success(request,"비밀번호가 일치하지 않습니다")
+            return render(request, 'forgotNext.html', context)
+        if len(pw) < 6 or len(pw) > 32:
+            context['user']=username
+            messages.success(request,"비밀번호는 6자에서 32자 사이여야 합니다")
+            return render(request, 'forgotNext.html', context)
+        user_instance = User.objects.get(username=username)
+        user_instance.password = make_password(pw)
+        user_instance.save()
+        return render(request, 'login.html', context)
 
 def logout(request):
     context = {}
@@ -103,14 +150,14 @@ def ajaxlogin(request):
         pw = request.POST.get('pw', None)
 
         if not (iid and pw):
-            context['error']="아이디와 비밀번호를 모두 입력해주세요."
+            messages.success(request,"아이디와 비밀번호를 모두 입력해주세요.")
             return render(request, 'login.html', context)
         else : 
             if not User.objects.filter(username=iid).exists():
-                context['error']="아이디나 비밀번호가 일치하지 않습니다"
+                messages.success(request,"아이디나 비밀번호가 일치하지 않습니다")
                 return render(request, 'login.html', context)
             if not check_password(pw, User.objects.filter(username=iid)[0].password):
-                context['error']="아이디나 비밀번호가 일치하지 않습니다"
+                messages.success(request,"아이디나 비밀번호가 일치하지 않습니다")
                 return render(request, 'login.html', context)
             else:
                 u = User.objects.filter(username=iid)[0]
@@ -169,8 +216,8 @@ def mypage(request, userid):
             if p.image == "":
                 p.image = "img/default.png"
         except:
-            context['error'] = "존재하지 않는 사용자입니다."
-            return render(request,'home.html',context)
+            messages.success(request,"존재하지 않는 사용자입니다.")
+            return redirect(home)
         if request.method == 'GET':
             out = [] #게시물
             profilepics = {}
@@ -236,54 +283,7 @@ def edit(request, postid):
             post_instance = Post.objects.get(id=pid)
             post_instance.content = content
             post_instance.save()
-
-            out = [] #게시물
-            profilepics = {}
-            cnt = 0 #게시물 개수
-            
-            followerlist=[] #팔로워 리스트
-            fercnt = 0 #팔로워 수
-            followlist=[] #팔로우 리스트
-            fcnt = 0 #팔로우 수
-            flag = 1
-            
-            #내가 쓴 post들 조회
-            user = Profile.objects.filter(username=request.user)[0]
-            profilepics[user.username] = user.image
-            if user.image == "":
-                profilepics[user.username] = "img/default.png"
-            for item in Post.objects.filter(owner=request.user).order_by('-date_uploaded'):
-                cnt = cnt+1
-                commentlist = [] #각 post별 댓글
-                for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
-                    commentlist.append({"user": c.user, "comment": c.comment})
-                out.append(
-                    {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
-                    "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                    "ProfilePic": profilepics[item.owner],"Comment":commentlist})
-
-            #userid의 팔로워 조회
-            for f in Follower.objects.filter(user=request.user):
-                fercnt = fercnt+1
-                fpic = Profile.objects.filter(username=f.follower)[0]
-                if fpic.image == "":
-                    fpic.image = "img/default.png"
-                followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
-                if f.follower == request.user.username:
-                    flag = 0
-
-            #userid가 팔로우 하는 사용자 조회
-            for f in Follower.objects.filter(follower=request.user):
-                fcnt = fcnt+1
-                fpic = Profile.objects.filter(username=f.user)[0]
-                if fpic.image == "":
-                    fpic.image = "img/default.png"
-                followlist.append({"User": f.user, "ProfilePic": fpic.image})
-
-            u = User.objects.filter(username=request.user)[0]
-            suser = {"username":u.username, "first_name":u.first_name}
-            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag}
-            return render(request,'mypage.html', context)
+            return redirect('/mypage/'+str(request.user))
         else: # 수정 페이지 로드
             out = []
             item = Post.objects.filter(id=postid)[0]
@@ -300,55 +300,8 @@ def delete(request, postid):
             p.image = "img/default.png"
         # 게시글 삭제
         Post.objects.get(id=postid).delete()
-        #내가 쓴 글 불러오고 mypage로 다시 이동
-        out = [] #게시물
-        profilepics = {}
-        cnt = 0 #게시물 개수
-            
-        followerlist=[] #팔로워 리스트
-        fercnt = 0 #팔로워 수
-        followlist=[] #팔로우 리스트
-        fcnt = 0 #팔로우 수
-        flag = 1
-
-        #userid가 쓴 post들 조회
-        user = Profile.objects.filter(username=request.user)[0]
-        profilepics[user.username] = user.image
-        if user.image == "":
-            profilepics[user.username] = "img/default.png"
-        
-        for item in Post.objects.filter(owner=request.user).order_by('-date_uploaded'):
-            cnt = cnt+1
-            commentlist = [] #각 post별 댓글
-            for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
-                commentlist.append({"user": c.user, "comment": c.comment})
-            out.append(
-                {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
-                "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                "ProfilePic": profilepics[item.owner],"Comment":commentlist})
-
-        #userid의 팔로워 조회
-        for f in Follower.objects.filter(user=request.user):
-            fercnt = fercnt+1
-            fpic = Profile.objects.filter(username=f.follower)[0]
-            if fpic.image == "":
-                fpic.image = "img/default.png"
-            followerlist.append({"User": f.follower, "ProfilePic": fpic.image})
-            if f.follower == request.user.username:
-                flag = 0
-
-        #userid가 팔로우 하는 사용자 조회
-        for f in Follower.objects.filter(follower=request.user):
-            fcnt = fcnt+1
-            fpic = Profile.objects.filter(username=f.user)[0]
-            if fpic.image == "":
-                fpic.image = "img/default.png"
-            followlist.append({"User": f.user, "ProfilePic": fpic.image})
-
-        u = User.objects.filter(username=request.user)[0]
-        suser = {"username":u.username, "first_name":u.first_name}
-        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag}
-        return render(request,'mypage.html', context)
+        Report.objects.get(postid=postid).delete()
+        return redirect('/mypage/'+str(request.user))
     return render(request,'login.html',context)
 
 def infoModify(request):
@@ -370,7 +323,6 @@ def modifyAct(request):
                 p.image = "img/default.png"
         except:
             return render(request,'login.html',context)
-        context = {'user': request.user, 'ProfilePic': p.image}
         if request.method == "POST":
             #개인정보 업데이트
             userid = request.POST.get('id', None)
@@ -381,18 +333,18 @@ def modifyAct(request):
             profilepic = request.FILES.get('image','')
 
             if not re.match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
-                context['error']="올바르지 않은 이메일 형식입니다"
-                return render(request,'infoModify.html', context)
+                messages.success(request,"올바르지 않은 이메일 형식입니다")
+                return redirect(infoModify)
             if password != password2:
-                context['error']="비밀번호가 일치하지 않습니다"
-                return render(request,'infoModify.html', context)
+                messages.success(request,"비밀번호가 일치하지 않습니다")
+                return redirect(infoModify)
             if password != "":
                 if len(password) < 6 or len(password) > 32:
-                    context['error']="비밀번호는 6자에서 32자 사이여야 합니다"
-                    return render(request,'infoModify.html', context)
+                    messages.success(request,"비밀번호는 6자에서 32자 사이여야 합니다")
+                    return redirect(infoModify)
             if len(email) < 6 or len(email) > 140:
-                context['error']="이메일은 6자에서 140자 사이여야 합니다"
-                return render(request,'infoModify.html', context)
+                messages.success(request,"이메일은 6자에서 140자 사이여야 합니다")
+                return redirect(infoModify)
 
             user_instance = User.objects.get(username=userid)
             profile_instance = Profile.objects.get(username=userid)
@@ -411,15 +363,13 @@ def modifyAct(request):
                 user_instance.email = email
                 user_instance.first_name = name
                 user_instance.save()
-                context = {'user': request.user, 'ProfilePic': src, 'error': ""}
             else:
                 user_instance.username = userid
                 user_instance.email = email
                 user_instance.first_name = name
                 user_instance.password = make_password(password)
                 user_instance.save()
-                context = {'user': request.user, 'ProfilePic': src, 'error': ""}
-        return render(request,'infoModify.html', context)
+        return redirect(infoModify)
     return render(request,'login.html',context)
 
 def decDetail(request):
@@ -443,6 +393,9 @@ def ajaxupload(request):
             img.close()
         p = Post(owner=owner, image=src[8:], content=content)
         p.save()
+        lp = Post.objects.last()
+        r = Report(postid=lp.id)
+        r.save()
         #포스트 리스트 불러오기
         out = []
         followerslist = [request.user.username]
@@ -487,7 +440,7 @@ def new(request):
 def notDetail(request):
     return render(request,'notDetail.html')
 
-def followact(request, userid):
+def followAct(request, userid):
     context={}
     if request.user.is_authenticated:
         p = Profile.objects.filter(username=request.user)[0]
@@ -518,4 +471,25 @@ def commentAct(request):
         return render(request,'home.html', context)
     return render(request,'login.html', context)
 
-
+def report(request, postid, reportid):
+    context={}
+    if request.user.is_authenticated:
+        
+        if request.method == 'GET':
+            report_instance = Report.objects.get(postid=postid)
+            if reportid == '0':
+                report_instance.type0 = report_instance.type0 + 1
+            elif reportid == '1':
+                report_instance.type1 = report_instance.type1 + 1
+            elif reportid == '2':
+                report_instance.type2 = report_instance.type2 + 1
+            elif reportid == '3':
+                report_instance.type3 = report_instance.type3 + 1
+            elif reportid == '4':
+                report_instance.type4 = report_instance.type4 + 1
+            elif reportid == '5':
+                report_instance.type5 = report_instance.type5 + 1
+            report_instance.save()
+            messages.success(request, '신고 접수가 완료되었습니다')
+        return redirect(home)
+    return render(request,'login.html', context)
