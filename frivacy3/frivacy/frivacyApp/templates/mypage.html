@@ -15,12 +15,12 @@
                     {% if flag %}
                     <div style="float:left;margin-top:20px;">
                         <a id="follow" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none;">Follow</a>
-                        <a id="following" onclick="w3_close()" style="color: blue; text-decoration:none; display:none;">Following</a>
+                        <a id="following" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none;display:none;">Following</a>
                     </div>
                     {% else %}
                     <div style="float:left;margin-top:20px;">
                         <a id="follow" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none; display:none;">Follow</a>
-                        <a id="following" onclick="w3_close()" style="color: blue; text-decoration:none;">Following</a>
+                        <a id="following" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none;">Following</a>
                     </div>
                     {% endif %}
                     {% endif %}
@@ -269,7 +269,7 @@
             data: ''
         });
         $('#follow').attr('style', 'display:none;');
-        $('#following').attr('style', 'color: blue; text-decoration:none; float:left; margin-top:54px;cursor: pointer;');
+        $('#following').attr('style', 'color: blue;text-decoration:none;cursor: pointer;');
     });
     $('#following').click(function() {
         $.ajax({
@@ -279,7 +279,7 @@
             contentType: "application/json",
             data: ''
         });
-        $('#follow').attr('style', 'color: blue; text-decoration:none; float:left; margin-top:54px;cursor: pointer;');
+        $('#follow').attr('style', 'color: blue;text-decoration:none;cursor: pointer;');
         $('#following').attr('style', 'display:none;');
     });
     $('.btn-example').click(function(){
