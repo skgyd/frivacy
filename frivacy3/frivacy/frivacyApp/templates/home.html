@@ -7,17 +7,23 @@
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
         <div style="margin-left:20px;">
             <a href="{% url 'declaration' %}" onclick="w3_close()" style="color: #2d363a; text-decoration:none; font-size:14px;margin:15px; float:right;">신고하기</a>
+            <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">
             <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
                 <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
             </div>
             <div style="margin-left:50px;padding-top:10px"><b>{{i.Owner}}</b></div>
+            </a>
         </div>
         <hr>
         <br>
         <div align="center"><img src="{% static i.URL %}"></div>
         <hr>
         <div class="content" style="padding:5 5; margin: 20px;">
-            <div style="width:100%; word-wrap:break-word;"><b style="margin-right: 10px;">{{i.Owner}}</b>{{i.Content}}</div>
+            <div style="width:100%; word-wrap:break-word;">
+                <b style="margin-right: 10px;">
+                    <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">{{i.Owner}}</a>
+                </b>{{i.Content}}
+            </div>
             <br>
             <a href="#layer{{i.PostID}}" class="btn-exampleP" style="cursor:pointer;text-decoration:none;color:#6E6E6E;">댓글 모두 보기</a>
         </div>
@@ -36,7 +42,7 @@
                                     <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
                                 </div>
                                 <div style="padding-top:10px">
-                                    <b>&nbsp;&nbsp;{{i.Owner}}</b>
+                                    <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;"><b>&nbsp;&nbsp;{{i.Owner}}</b></a>
                                     <div style="float:right;" class="btn-r">
                                         <a style="text-decoration:none;color:#6E6E6E;margin-right:20px;font-size:large;" href="#" class="btn-layerClose{{i.PostID}}">X</a>
                                     </div>
@@ -44,13 +50,13 @@
                             </div>
                             <hr>
                             <div>
-                                <div style="width:100%;word-wrap:break-word;margin-left: 20px;"><b>{{i.Owner}}</b>&nbsp;&nbsp;{{i.Content}}</div>
+                                <div style="width:100%;word-wrap:break-word;margin-left: 20px;"><b><a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">{{i.Owner}}</a></b>&nbsp;&nbsp;{{i.Content}}</div>
                             </div>
                             <hr>
                             <div id="p{{i.PostID}}" style="max-height:250px;height:60%;background-color:#FAFAFA;overflow-y:auto;">
                                 {% for j in i.Comment %}
                                 <div style="margin-bottom:5px;">
-                                <b>{{j.user}}</b> {{j.comment}}
+                                <b><a href="{% url 'mypage' %}{{j.user}}" style="text-decoration:none;">{{j.user}}</a></b> {{j.comment}}
                                 </div>
                                 {% endfor %}
                             </div>
