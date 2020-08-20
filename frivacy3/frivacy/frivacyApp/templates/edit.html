@@ -12,19 +12,23 @@
 <body>
      <br>
      {% for i in posts %}
-     <div class="w3-main" style="margin-left:500px; margin-top:20px;margin-right:80px; height:100%; padding:10px 10px">
-        <div style="margin-left:14%;">
+     <div class="w3-main" style="margin-left:20%; margin-top:20px;margin-right:80px; height:100%; padding:10px 10px">
+        <div align="center">
             <img id="prev" src ="{% static i.URL %}">
         </div>
         <!-- 작성자는 세션id로 저장 -->
-        <h3>내용: </h3>
-    <form method="post" act="">
+    <form method="post" act="" style="margin-left:25%;">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{i.PostID}}">
-        <textarea cols=80 rows=8 name="content">{{i.Content}}</textarea> 
+        <textarea id="content" name="content" style="border-left-width:0;
+        border-right-width:0;
+        border-top-width:0;
+        border-bottom-width:1;
+        resize:none;" cols="80" rows="2">{{i.Content}}</textarea>
         <br>
         <br>
-        <input type="submit" value ="작성하기" style="padding: 6px 6px; margin-right:10px; color:dimgrey; background: transparent; border: none; margin-left:350px;"> 
+        <input type="submit" value ="작성하기" style="padding: 6px 6px; margin-right:50%; color:dimgrey; background: transparent; border: none; margin-left:30%;"> 
+    </form>
     </form>
     </div>
     {% endfor %}
