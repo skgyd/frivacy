@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('username', 'image')
+    list_display = ('username', 'image', 'a1', 'a2')
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('image', 'owner', 'content', 'date_uploaded', 'likes')
@@ -27,6 +27,9 @@ class ReportAdmin(admin.ModelAdmin):
 class LikeAdmin(admin.ModelAdmin):
     list_display = ('postid', 'liker')
 
+class FestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'place', 'start', 'end', 'content', 'add1', 'add2')
+
 admin.site.register(Profile, ProfileAdmin) #site에 등록
 admin.site.register(Post, PostAdmin)
 admin.site.register(Image, ImageAdmin)
@@ -35,3 +38,4 @@ admin.site.register(Follower, FollowerAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Report, ReportAdmin)
 admin.site.register(Like, LikeAdmin)
+admin.site.register(Fest, FestAdmin)

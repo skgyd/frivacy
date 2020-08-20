@@ -6,6 +6,8 @@ from imagekit.processors import ResizeToFill
 class Profile(models.Model):
     username = models.CharField(max_length=20)
     image = models.CharField(max_length=255, default="")
+    a1 = models.CharField(max_length=100, default="")
+    a2 = models.CharField(max_length=100, default="")
     
 class Image(models.Model):
     image = ProcessedImageField(
@@ -50,3 +52,12 @@ class Report(models.Model):
 class Like(models.Model):
     postid = models.CharField(max_length=20)
     liker = models.CharField(max_length=20)
+
+class Fest(models.Model):
+    name = models.CharField(max_length=255, default="")
+    place = models.CharField(max_length=255, default="")
+    start = models.DateField()
+    end = models.DateField()
+    content = models.CharField(max_length=255, default="")
+    add1 = models.CharField(max_length=255, default="")
+    add2 = models.CharField(max_length=255, default="")

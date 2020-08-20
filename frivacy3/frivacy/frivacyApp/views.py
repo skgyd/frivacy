@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password, check_password
 import base64
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models import Q
 # Create your views here.
 
 def home(request):
@@ -24,7 +25,8 @@ def home(request):
         out = []
         followerslist = [request.user.username]
         profilepics = {}
-        
+        events=[]
+
         for follower in Follower.objects.filter(follower=request.user.username):
             followerslist.append(follower.user)
 
@@ -43,7 +45,15 @@ def home(request):
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
                 "ProfilePic": profilepics[item.owner],"Comment":commentlist, "Likes": item.likes, "Mylike":mylike})
-        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
+        # 내 지역 이벤트 찾기 5개만
+        fcnt=0
+        for fest in Fest.objects.all().filter(Q(add1__startswith=p.a1)|Q(add2__startswith=p.a1)|Q(add1__startswith=p.a2)|Q(add2__startswith=p.a2)).order_by('-start'):
+            if fcnt<5:
+                events.append({"name": fest.name, "place": fest.place})
+            else:
+                break
+            fcnt += 1
+        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'events':events}
         
         return render(request, 'home.html', context)
     return render(request,'login.html',context)
@@ -167,7 +177,6 @@ def ajaxlogin(request):
                 if u != None:
                     auth_login(request, u)
                 return redirect('/home')
-
         return render(request, 'login.html', context)
 
 def imageUpload(request):

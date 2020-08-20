@@ -43,6 +43,8 @@ class AjaxSignUp(Ajax):
             self.password2 = self.args[0]["pw2"]
             self.email = self.args[0]["email"]
             self.name = self.args[0]["name"]
+            self.a1 = self.args[0]["a1"]
+            self.a2 = self.args[0]["a2"]
         except Exception as e:
             return self.error("Malformed request, did not process.")
 
@@ -67,7 +69,7 @@ class AjaxSignUp(Ajax):
 
         u = User(username=self.userid, password=make_password(self.password), email=self.email, first_name=self.name)
         u.save()
-        p = Profile(username=self.userid, image="")
+        p = Profile(username=self.userid, image="", a1=self.a1, a2=self.a2)
         p.save()
         return self.success("Account Created!")
 
