@@ -34,11 +34,13 @@
                     <br>
                     <div class="dim-layer">
                         <div class="dimBg"></div>
-                        <div id="layer1" class="pop-layer">
+                        <div id="layer1" class="pop-layer" style="overflow:auto;max-height:500px;height:60%;">
                             <div class="pop-container">
                                 <div class="pop-conts">
                                     <!--content //-->
-                                    <b class="ctxt mb20">팔로워</b><br><br>
+                                    <div>
+                                        <b class="ctxt mb20">팔로워</b><a href="#" class="btn-layerClose" style="float:right">Close</a><br><br>
+                                    </div>
                                     {% for i in follower %}
                                     <a href="{% url 'mypage' %}{{i.User}}" style="text-decoration:none;">
                                     <div style="margin-bottom:35px;">
@@ -49,9 +51,6 @@
                                     </div>
                                     </a>
                                     {% endfor %}
-                                    <div class="btn-r">
-                                        <a href="#" class="btn-layerClose">Close</a>
-                                    </div>
                                     <!--// content-->
                                 </div>
                             </div>
@@ -59,24 +58,23 @@
                     </div>
                     <div class="dim-layer2">
                         <div class="dimBg2"></div>
-                        <div id="layer2" class="pop-layer">
+                        <div id="layer2" class="pop-layer" style="overflow:auto;max-height:500px;height:60%;">
                             <div class="pop-container">
                                 <div class="pop-conts">
                                     <!--content //-->
-                                    <b class="ctxt mb20">팔로우</b><br><br>
+                                    <div>
+                                        <b class="ctxt mb20">팔로우</b><a href="#" class="btn-layerClose2" style="float:right">Close</a><br><br>
+                                    </div>
                                     {% for i in follow %}
                                     <a href="{% url 'mypage' %}{{i.User}}" style="text-decoration:none;">
                                     <div style="margin-bottom:35px;"> 
-                                    <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
+                                    <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%; overflow:hidden; float:left;">
                                         <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
                                     </div>
                                     <p style="margin-left:50px;">{{i.User}}</p>
                                     </div>
                                     </a>
                                     {% endfor %}
-                                    <div class="btn-r">
-                                        <a href="#" class="btn-layerClose2">Close</a>
-                                    </div>
                                     <!--// content-->
                                 </div>
                             </div>
@@ -118,7 +116,7 @@
                                 <img style="padding-left:10px" src="{% static i.URL %}">
                             </div>
                             <div style="margin-top:10px;margin-left:20px;">
-                                <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
+                                <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%; overflow:hidden; float:left;">
                                     <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
                                 </div>
                                 <div style="padding-top:10px">
