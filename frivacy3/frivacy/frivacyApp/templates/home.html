@@ -20,7 +20,30 @@
         </div>
         <hr>
         <br>
-        <div align="center"><img src="{% static i.URL %}"></div>
+        <div id="downloadImage" align="center"><img src="{% static i.URL %}"></div>
+        <script src="{% static '/js/html2canvas.js' %}"></script>
+        <div align="center" style="margin-top:10px">
+            <button id="save" style="color:dimgrey; background: transparent; border: none;">저장하기</button>
+        </div>
+        <script type="text/javascript">
+            function PrintDiv(div){
+                div=div[0];
+                html2canvas(div).then(function(canvas){
+                    var myImage=canvas.toDataURL();
+                    downloadURI(myImage,"downloadImg.jpg");
+                });
+            }
+            function downloadURI(uri, name){
+                var link = document.createElement("a");
+                link.download=name;
+                link.href=uri;
+                document.body.appendChild(link);
+                link.click();
+            }
+            $('#save').click(function(){
+                PrintDiv($('#downloadImage'))
+            });
+        </script>
         <hr>
         <div class="content" style="padding:5 5; margin: 20px;">
             {% if i.Mylike %}
