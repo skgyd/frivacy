@@ -189,6 +189,7 @@
 <script type="text/javascript">
     function PrintDiv(div){
         div=div[0];
+        console.log(div)
         html2canvas(div).then(function(canvas){
             var myImage=canvas.toDataURL();
             downloadURI(myImage,"downloadImg.jpg");
