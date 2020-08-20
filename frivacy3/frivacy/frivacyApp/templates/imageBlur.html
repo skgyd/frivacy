@@ -7,7 +7,6 @@
             <hr style="width:50px;border:5px solid #00334e" class="w3-round">
         </div>
     </div>
-    {% load static %} <!-- static 파일 불러오기 -->
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
         <div align="center" class="content" style="padding:5 5; margin: 20px;">
             <div id="field">
@@ -115,14 +114,13 @@
         var applyonce = 0;//얼굴인식 객체 한개만 나오도록
         // 처음으로 얼굴 인식 후 생성된 좌표값을 활용하여 네모 객체 그려주는 기능
         function applyImage() {
+            applyonce=applyonce+1
             for (var i in original) {
                 var temp = original[i]
                 const idx = list.findIndex(function(item) {return item[4] === temp[4]})
                 if(idx==-1){
                     list.push(temp)
                     applyonce=0
-                }else{
-                    applyonce=applyonce+1
                 }
                 if(applyonce<2){
                     var div = document.createElement('div')
