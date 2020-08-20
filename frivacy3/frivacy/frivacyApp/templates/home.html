@@ -5,22 +5,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
     {% load static %} <!-- static 파일 불러오기 -->
-    <section class='section' style="position:fixed; margin-left:90%;">
-        <div class='masthead-image' id='master-container'>
-            <div class='content center'>
-                <h1 id='master'>
-                <div>Hello</div>
-                <div class='master-container-scroller'>
-                {% for i in events %}
-                    <div class='master-container-scroller_item'>
-                    <a class='cta-link' href='#'>{{i.name}}</a>.
-                    </div>
-                {% endfor %}
-                </div>
-                </h1>
-            </div>
-        </div>
-        </section>
+    <div style="position:absolute;margin-left:88%;font-size:20px;color:rgb(180, 180, 180);margin-top:20px;font-family:fantasy;"><b>Festivals</b></div><br>
+    <div class="slidebanner">
+        <ul class="bannerbox"> 
+        {% for i in events %} 
+            <li style="list-style:none;">&nbsp;&nbsp;<a class='cta-link' href='#' style="text-decoration:none;">{{i.name}}</a></li>
+        {% endfor %}
+        </ul>                
+    </div>
     {% for i in posts %}
     <div class="w3-main" style="margin-left:380px; margin-right:80px; width:60%; border:2px solid rgb(241, 236, 236); margin-top:30px; padding-top:10px;">
         <div style="margin-left:20px;">
@@ -28,7 +20,7 @@
             <a href="#notice{{i.PostID}}" class="btn-exampleN" onclick="w3_close()" style="color: #2d363a; text-decoration:none; font-size:14px;margin:15px; float:right;">신고하기</a>
             {% endif %}
             <button class="save{{i.PostID}}" id="{{i.PostID}}" style="color:dimgrey; background: transparent; border: none;float:right; margin-top:14.1px;margin-right:10px;font-size: 10.6pt;" >이미지저장</button>
-            <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">
+            <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;"></a>
             <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
                 <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
             </div>
@@ -287,5 +279,23 @@
             return false;
         });
     }
+
+    timer();
+    var current=0;
+    var $interval;
+
+    function timer(){
+    var $interval=setInterval(function(){slide()},2000);                        
+    }
+
+    function slide(){
+    $(".bannerbox").animate({top:""},2000,function(){
+        $(this).css({"left":0});
+        $(".bannerbox").append( $("ul").children("li").eq(0) );
+    });    
+    current++;
+    if(current==5)current=0;
+    }    
+   
 </script>
 {% endblock %}
