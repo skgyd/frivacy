@@ -33,7 +33,7 @@
     z-index: 100;
 }
 
-.dim-layer .dimBg,  .dim-layer2 .dimBg2{
+.dim-layer .dimBg,  .dim-layer2 .dimBg2,  .dim-layer4 .dimBg4{
     position: absolute;
     top: 0;
     left: 0;
@@ -44,7 +44,7 @@
     filter: alpha(opacity=50);
 }
 
-.dim-layer .pop-layer, .dim-layer2 .pop-layer{
+.dim-layer .pop-layer, .dim-layer2 .pop-layer, .dim-layer4 .pop-layer{
     display: block;
 }
 

@@ -25,7 +25,12 @@
                         <a id="following" onclick="w3_close()" style="cursor: pointer;color: blue; text-decoration:none;">Following</a>
                     </div>
                     {% endif %}
+                    {% else %}
+                    <div style="float:left;margin-top:20px;">
+                        <a href="#layer4" class="btn-example4" style="text-decoration:none; margin-top:54px; padding-left:10px;"><img src="{% static '/img/alarm.png' %}" style="width:20px;height:20px;"></a>
+                    </div>
                     {% endif %}
+
                     </div>
                     <div id="post">
                         게시물 <b>{{cnt}}</b>
@@ -81,7 +86,35 @@
                             </div>
                         </div>
                     </div>
-                    <div id="name"><b>{{suser.first_name}}</b></div>
+                    <div class="dim-layer4">
+                        <div class="dimBg4"></div>
+                        <div id="layer4" class="pop-layer" style="overflow:auto;max-height:500px;height:60%;">
+                            <div class="pop-container">
+                                <div class="pop-conts">
+                                    <!--content //-->
+                                    <div>
+                                        <b class="ctxt mb20">알림</b><a href="#" class="btn-layerClose4" style="float:right">Close</a><br><br>
+                                    </div>
+                                    {% for i in posts %}
+                                        {% for j in i.Comment %}
+                                            {% if j.user != user.username %}
+                                            <p><b>{{j.user}}</b>가 댓글을 남겼습니다.<br>"{{j.comment}}"</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for i in receivedLike %}
+                                        {% if i.liker != user.username %}
+                                            <p><b>{{i.liker}}</b>가 게시글을 좋아합니다.</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for i in notice %}
+                                        <p><b>{{i.Owner}}</b>가 새로운 공지글을 올렸습니다.<br>"{{i.Title}}"</p>
+                                    {% endfor %}
+                                    <!--// content-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
@@ -168,7 +201,8 @@
         <div class="input-group mb-3" style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
         <input type="hidden" class="postid{{i.PostID}}" value="{{i.PostID}}">
         <input type="text" class="underline{{i.PostID}}" placeholder="comment" aria-label="Recipient's username" aria-describedby="button-addon2" style="float:left;width:83%; background-color: transparent; margin-left:10px; BORDER-BOTTOM: #00334e 1px solid;BORDER-LEFT: medium none;BORDER-RIGHT: medium none;BORDER-TOP: medium none;">
-        </div>
+        <button id="{{i.PostID}}" class="comment{{i.PostID}}" type="submit" style="float:left;background-color:rgb(241, 236, 236); border:none; margin-left:30px;">댓글 작성</button>
+    </div>
         <div style="background-color: rgb(241, 236, 236); width:100%; padding: 20px;">
             {% if suser.username == user.username %}
             <a class="btn btn-outline-secondary" href="edit/{{i.PostID }}/" type="button" style="background-color:rgb(241, 236, 236); border:none; margin-left:90%;">수정</a>      
@@ -279,6 +313,9 @@
         var id = el.split('layer');
         layer_popup3(el, id[1]);
     });
+    $('.btn-example4').click(function(){
+        layer_popup4();
+    });
     function layer_popup(){
         
         var $el = $("#layer1");        //레이어의 id를 $el 변수에 저장
@@ -369,6 +406,36 @@
 
         $('.layer'+id+' .dimBg'+id).click(function(){
             $('.dim-layer'+id).fadeOut();
+            return false;
+        });
+    }
+    function layer_popup4(){
+        var $el = $("#layer4");        //레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg4');   //dimmed 레이어를 감지하기 위한 boolean 변수
+        isDim ? $('.dim-layer4').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $(document).width(),
+            docHeight = $(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn-layerClose4').click(function(){
+            isDim ? $('.dim-layer4').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $('.layer4 .dimBg4').click(function(){
+            $('.dim-layer4').fadeOut();
             return false;
         });
     }

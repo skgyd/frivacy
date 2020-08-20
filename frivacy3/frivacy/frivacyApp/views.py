@@ -240,6 +240,8 @@ def mypage(request, userid):
             followlist=[] #팔로우 리스트
             fcnt = 0 #팔로우 수
             flag = 1
+
+            receivedLike=[]
             
             #userid가 쓴 post들 조회
             user = Profile.objects.filter(username=userid)[0]
@@ -254,6 +256,8 @@ def mypage(request, userid):
                 mylike = 0
                 for like in Like.objects.filter(postid=item.id, liker=request.user.username):
                     mylike = 1
+                for like in Like.objects.filter(postid=item.id):
+                    receivedLike.append({"liker": like.liker})
                 out.append(
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
@@ -276,10 +280,15 @@ def mypage(request, userid):
                 if fpic.image == "":
                     fpic.image = "img/default.png"
                 followlist.append({"User": f.user, "ProfilePic": fpic.image})
+            
+            #새로운 공지 조회
+            notice = []
+            for n in Notice.objects.all().order_by('-date_uploaded'):
+                notice.append({"Owner": n.owner, "Title": n.title})
 
             u = User.objects.filter(username=userid)[0]
             suser = {"username":u.username, "first_name":u.first_name}
-            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag}
+            context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'suser': suser, 'cnt':cnt, 'fercnt':fercnt, 'fcnt':fcnt, 'follower':followerlist, 'follow':followlist, 'flag': flag, 'receivedLike':receivedLike, 'notice':notice}
             return render(request,'mypage.html', context)
 
     return render(request,'login.html',context)
