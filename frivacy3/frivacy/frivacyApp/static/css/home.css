@@ -124,3 +124,9 @@
     z-index: 10;
     overflow: auto;
 }
+
+.slidebanner{position:absolute;height:30px;width:280px;overflow:hidden;margin-left:83%;margin-top:40px;background:rgb(245, 245, 245); text-align:center;font-size:17px;border-radius: 30px;}
+
+.slidebanner .bannerbox{position:absolute;margin:0;padding:0;}
+
+.slidebanner li:first-child{margin:0}
