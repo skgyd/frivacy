@@ -28,7 +28,7 @@
             <a href="#notice{{i.PostID}}" class="btn-exampleN" onclick="w3_close()" style="color: #2d363a; text-decoration:none; font-size:14px;margin:15px; float:right;">신고하기</a>
             {% endif %}
             <button class="save{{i.PostID}}" id="{{i.PostID}}" style="color:dimgrey; background: transparent; border: none;float:right; margin-top:14.1px;margin-right:10px;font-size: 10.6pt;" >이미지저장</button>
-            <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;"></a>
+            <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">
             <div class="box" style="background: #BDBDBD;width: 40px;height: 40px;border-radius: 70%;overflow: hidden;float:left;">
                 <img class="profile" style="width: 100%;height: 100%;object-fit: cover;" src="{% static i.ProfilePic %}">
             </div>
