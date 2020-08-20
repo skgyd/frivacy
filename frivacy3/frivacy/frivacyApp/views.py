@@ -45,10 +45,10 @@ def home(request):
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
                 "ProfilePic": profilepics[item.owner],"Comment":commentlist, "Likes": item.likes, "Mylike":mylike})
-        # 내 지역 이벤트 찾기 5개만
+        # 내 지역 이벤트 찾기 10개만
         fcnt=0
         for fest in Fest.objects.all().filter(Q(add1__startswith=p.a1)|Q(add2__startswith=p.a1)|Q(add1__startswith=p.a2)|Q(add2__startswith=p.a2)).order_by('-start'):
-            if fcnt<5:
+            if fcnt<10:
                 events.append({"name": fest.name, "place": fest.place})
             else:
                 break
