@@ -19,6 +19,7 @@ class Post(models.Model):
     date_uploaded = models.DateTimeField(auto_now=True)
     owner = models.CharField(max_length=20)
     content = models.CharField(max_length=255, default="")
+    likes = models.IntegerField(default=0)
 
 class Notice(models.Model):
     date_uploaded = models.DateTimeField(auto_now=True)
@@ -44,3 +45,8 @@ class Report(models.Model):
     type3 = models.IntegerField(default=0)
     type4 = models.IntegerField(default=0)
     type5 = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
+
+class Like(models.Model):
+    postid = models.CharField(max_length=20)
+    liker = models.CharField(max_length=20)

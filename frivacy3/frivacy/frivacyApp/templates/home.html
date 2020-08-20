@@ -2,6 +2,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}"  />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
     {% load static %} <!-- static 파일 불러오기 -->
     {% for i in posts %}
@@ -22,6 +23,23 @@
         <div align="center"><img src="{% static i.URL %}"></div>
         <hr>
         <div class="content" style="padding:5 5; margin: 20px;">
+            {% if i.Mylike %}
+            <div class="heart{{i.PostID}}">
+                <i id="h{{i.PostID}}" class="fa fa-heart-o" style="font-size:24px;display:none;"></i>
+            </div>
+            <div class="fullheart{{i.PostID}}">
+                <i id="f{{i.PostID}}" class="fa fa-heart" style="font-size:24px;color:red;"></i>
+            </div>
+            {% else %}
+            <div class="heart{{i.PostID}}">
+                <i id="h{{i.PostID}}" class="fa fa-heart-o" style="font-size:24px"></i>
+            </div>
+            <div class="fullheart{{i.PostID}}">
+                <i id="f{{i.PostID}}" class="fa fa-heart" style="font-size:24px;color:red;display:none;"></i>
+            </div>
+            {% endif %}
+
+            좋아요 <b id="likenum{{i.PostID}}">{{i.Likes}}</b><br><br>
             <div style="width:100%; word-wrap:break-word;">
                 <b style="margin-right: 10px;">
                     <a href="{% url 'mypage' %}{{i.Owner}}" style="text-decoration:none;">{{i.Owner}}</a>
@@ -121,6 +139,34 @@
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/js/django-ajax.js' %}"></script>
 <script type="text/javascript">
+    $('[class^=heart]').click(function() {
+        var num = $(this).attr('class')
+        num = num.split('heart')[1]
+        $('#h'+num).attr('style', 'display:none;');
+        $('#f'+num).attr('style', 'font-size:24px;color:red;');
+        $('#likenum'+num).text(Number($('#likenum'+num).text())+1);
+        $.ajax({
+            type: "GET",
+            url: "/likeAct/"+num+"/",
+            processData: false,
+            contentType: "application/json",
+            data: ''
+        });
+    });
+    $('[class^=fullheart]').click(function() {
+        var num = $(this).attr('class')
+        num = num.split('heart')[1]
+        $('#f'+num).attr('style', 'display:none;');
+        $('#h'+num).attr('style', 'font-size:24px;');
+        $('#likenum'+num).text(Number($('#likenum'+num).text())-1);
+        $.ajax({
+            type: "GET",
+            url: "/likeDelAct/"+num+"/",
+            processData: false,
+            contentType: "application/json",
+            data: ''
+        });
+    });
     $('button[class^=comment]').click(function() {
         var num = $(this).attr('id');
         $.post("/commentAct", {

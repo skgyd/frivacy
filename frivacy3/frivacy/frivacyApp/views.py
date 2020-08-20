@@ -24,7 +24,7 @@ def home(request):
         out = []
         followerslist = [request.user.username]
         profilepics = {}
-
+        
         for follower in Follower.objects.filter(follower=request.user.username):
             followerslist.append(follower.user)
 
@@ -36,10 +36,13 @@ def home(request):
             commentlist = [] #각 post별 댓글
             for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
                 commentlist.append({"user": c.user, "comment": c.comment})
+            mylike = 0
+            for like in Like.objects.filter(postid=item.id, liker=request.user.username):
+                mylike = 1
             out.append(
                 {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                "ProfilePic": profilepics[item.owner],"Comment":commentlist})
+                "ProfilePic": profilepics[item.owner],"Comment":commentlist, "Likes": item.likes, "Mylike":mylike})
         context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
         
         return render(request, 'home.html', context)
@@ -239,10 +242,13 @@ def mypage(request, userid):
                 commentlist = [] #각 post별 댓글
                 for c in Comment.objects.filter(postid=item.id).order_by('-date_uploaded'):
                     commentlist.append({"user": c.user, "comment": c.comment})
+                mylike = 0
+                for like in Like.objects.filter(postid=item.id, liker=request.user.username):
+                    mylike = 1
                 out.append(
                     {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
                     "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                    "ProfilePic": profilepics[item.owner],"Comment":commentlist})
+                    "ProfilePic": profilepics[item.owner],"Comment":commentlist, "Likes": item.likes, "Mylike":mylike})
 
             #userid의 팔로워 조회
             for f in Follower.objects.filter(user=userid):
@@ -396,26 +402,7 @@ def ajaxupload(request):
         lp = Post.objects.last()
         r = Report(postid=lp.id)
         r.save()
-        #포스트 리스트 불러오기
-        out = []
-        followerslist = [request.user.username]
-        profilepics = {}
-
-        for follower in Follower.objects.filter(follower=request.user.username):
-            followerslist.append(follower.user)
-
-        for user in Profile.objects.filter(username__in=followerslist):
-            profilepics[user.username] = user.image
-            if user.image == "":
-                profilepics[user.username] = "img/default.png"
-        for item in Post.objects.filter(owner__in=followerslist).order_by('-date_uploaded'):
-            out.append(
-                {"PostID": item.id, "URL": item.image, "Content": item.content, "Owner": item.owner,
-                 "DateUploaded": item.date_uploaded.strftime("%Y-%m-%d %H:%M:%S"),
-                 "ProfilePic": profilepics[item.owner]})
-        context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
-        return render(request,'home.html', context)
-
+        return redirect(home)
     return render(request,'login.html',context)
     
 def detail(request, noticeid):
@@ -474,22 +461,50 @@ def commentAct(request):
 def report(request, postid, reportid):
     context={}
     if request.user.is_authenticated:
-        
         if request.method == 'GET':
             report_instance = Report.objects.get(postid=postid)
             if reportid == '0':
                 report_instance.type0 = report_instance.type0 + 1
+                report_instance.total = report_instance.total + 1
             elif reportid == '1':
                 report_instance.type1 = report_instance.type1 + 1
+                report_instance.total = report_instance.total + 1
             elif reportid == '2':
                 report_instance.type2 = report_instance.type2 + 1
+                report_instance.total = report_instance.total + 1
             elif reportid == '3':
                 report_instance.type3 = report_instance.type3 + 1
+                report_instance.total = report_instance.total + 1
             elif reportid == '4':
                 report_instance.type4 = report_instance.type4 + 1
+                report_instance.total = report_instance.total + 1
             elif reportid == '5':
                 report_instance.type5 = report_instance.type5 + 1
+                report_instance.total = report_instance.total + 1
             report_instance.save()
             messages.success(request, '신고 접수가 완료되었습니다')
+        return redirect(home)
+    return render(request,'login.html', context)
+
+def likeAct(request, postid):
+    context={}
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            l = Like(postid=postid, liker=request.user.username)
+            post_instance = Post.objects.get(id=postid)
+            post_instance.likes = post_instance.likes+1
+            post_instance.save()
+            l.save()
+        return redirect(home)
+    return render(request,'login.html', context)
+
+def likeDelAct(request, postid):
+    context={}
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            Like.objects.filter(postid=postid, liker=request.user.username).delete()
+            post_instance = Post.objects.get(id=postid)
+            post_instance.likes = post_instance.likes-1
+            post_instance.save()
         return redirect(home)
     return render(request,'login.html', context)

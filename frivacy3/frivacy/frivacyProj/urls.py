@@ -54,6 +54,8 @@ urlpatterns = [
     url(r'^findAct$',frivacyApp.views.findAct),
     url(r'^findNextAct$',frivacyApp.views.findNextAct),
     url(r'report/(?P<postid>[a-zA-Z0-9_]+)/(?P<reportid>[a-zA-Z0-9_]+)/$',frivacyApp.views.report),
+    url(r'likeAct/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.likeAct),
+    url(r'likeDelAct/(?P<postid>[a-zA-Z0-9_]+)/$',frivacyApp.views.likeDelAct),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
