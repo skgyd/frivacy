@@ -7,6 +7,7 @@ def detecting(title):
 
     # Read the input image
     title = 'C:/Users/yooso/Desktop/frivacy/frivacy3/frivacy/frivacyApp/static/' + title
+    print(title)
     img = cv2.imread(title)
 
     # Convert into grayscale

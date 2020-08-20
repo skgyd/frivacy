@@ -1,14 +1,14 @@
+import base64
+import os
+import json, re
+from urllib.request import urlopen
+from random import randint
 from django import forms
 from django.contrib.auth import authenticate
 from django.db.models import F
-from .models import Image, Post, Profile
 from django.contrib.auth.hashers import make_password, check_password
-from urllib.request import urlopen
-from random import randint
-import base64
-import os
 from django.contrib.auth.models import User
-import json, re
+from .models import Image, Post, Profile
 
 class Ajax(forms.Form):
     args = []
@@ -35,7 +35,6 @@ class Ajax(forms.Form):
         return self.validate()
 
 class AjaxSignUp(Ajax):
-    
     def validate(self):
         try:
             self.userid = self.args[0]["id"]
@@ -81,4 +80,4 @@ class UploadDocumentForm(forms.Form):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ['image'] 
+        fields = ['image']

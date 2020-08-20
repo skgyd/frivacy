@@ -8,7 +8,7 @@ class Profile(models.Model):
     image = models.CharField(max_length=255, default="")
     a1 = models.CharField(max_length=100, default="")
     a2 = models.CharField(max_length=100, default="")
-    
+
 class Image(models.Model):
     image = ProcessedImageField(
         processors=[ResizeToFill(400, 400)],
