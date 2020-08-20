@@ -25,10 +25,10 @@
             <br>
             <h4>PW </h4>
                 <input type="password" name="pw" value="" maxlength="20" size="80" placeholder="PASSWORD">
-                <!--<input type="submit" value =" 변경 "  onclick="pw_popup()" style="padding: 6px 6px; margin-right:10px; margin-left:10px; color:dimgrey; background:rgb(243, 243, 243); border: none;">--> 
+          
             <br>
             <br>
-            <!--<div id="popup_layer1" style="position: relative; visibility:hidden;"></div>-->
+           
             <h4>PW 확인 </h4> 
                 <input type="password" name="pw2" value="" maxlength="20" size="80" placeholder="PASSWORD 확인">
             <br>
@@ -79,14 +79,7 @@
 <script src="{% static '/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/js/django-ajax.js' %}"></script>
 <script type="text/javascript">
-    function pw_popup(){ 
-        var layer = document.getElementById("popup_layer1"); 
-        layer.style.visibility="visible"; //반대는 hidden 
-    } 
-    function fn_layer_popup2(){ 
-        var layer = document.getElementById("popup_layer2"); 
-        layer.style.visibility="visible"; //반대는 hidden 
-    } 
+    
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
