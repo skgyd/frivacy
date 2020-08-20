@@ -127,4 +127,5 @@ STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'frivacyApp/static/img')
 
-#AUTHENTICATION_BACKENDS = ('frivacyApp.auth.Auth', )
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
