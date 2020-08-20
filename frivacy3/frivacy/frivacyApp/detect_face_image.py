@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
+from frivacyProj.settings import STATICFILES_DIRS
 
 def detecting(title):
     # Load the cascade
-    face_cascade = cv2.CascadeClassifier('C:/Users/yooso/Desktop/frivacy/frivacy3/frivacy/frivacyApp/haarcascade_frontalface_default.xml')
-
+    face_cascade = cv2.CascadeClassifier(STATICFILES_DIRS[0] +'/haarcascade_frontalface_default.xml')
     # Read the input image
-    title = 'C:/Users/yooso/Desktop/frivacy/frivacy3/frivacy/frivacyApp/static/' + title
+    title = STATICFILES_DIRS[0]+"/"+ title
     img = cv2.imread(title)
 
     # Convert into grayscale

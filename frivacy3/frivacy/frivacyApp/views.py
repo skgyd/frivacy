@@ -58,10 +58,6 @@ def home(request):
         return render(request, 'home.html', context)
     return render(request,'login.html',context)
 
-def decEdit(request):
-    context = {}
-    return render(request,'decEdit.html',context)
-
 def notice(request):
     context = {}
     if request.user.is_authenticated:
@@ -79,14 +75,6 @@ def notice(request):
         context = {'user': request.user, 'ProfilePic': p.image, 'posts':out, 'cnt':cnt}
         return render(request,'notice.html',context)
     return render(request,'login.html',context)
-
-def declaration(request):
-    context = {}
-    return render(request,'declaration.html',context)
-    
-def decNew(request, postid):
-    context = {}
-    return render(request,'decNew.html',context)
 
 def login(request):
     context = {}
@@ -404,9 +392,6 @@ def modifyAct(request):
         return redirect(infoModify)
     return render(request,'login.html',context)
 
-def decDetail(request):
-    return render(request,'decDetail.html')
-
 def ajaxupload(request):
     context = {}
     if request.user.is_authenticated:
@@ -446,12 +431,6 @@ def detail(request, noticeid):
             context = {'user': request.user, 'ProfilePic': p.image, 'posts':out}
         return render(request,'detail.html',context)
     return render(request,'login.html',context)
-    
-def new(request):
-    return render(request,'new.html')
-
-def notDetail(request):
-    return render(request,'notDetail.html')
 
 def followAct(request, userid):
     context={}
