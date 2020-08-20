@@ -7,7 +7,7 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('username', 'image', 'a1', 'a2')
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('image', 'owner', 'content', 'date_uploaded', 'likes')
+    list_display = ('id', 'image', 'owner', 'content', 'date_uploaded', 'likes')
 
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('image',)
