@@ -18,7 +18,7 @@ class Image(models.Model):
 
 class Post(models.Model):
     image = models.CharField(max_length=255)
-    date_uploaded = models.DateTimeField(auto_now=True)
+    date_uploaded = models.DateTimeField(auto_now_add=True)
     owner = models.CharField(max_length=20)
     content = models.CharField(max_length=255, default="")
     likes = models.IntegerField(default=0)
