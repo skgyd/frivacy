@@ -17,7 +17,7 @@
             <img id="prev" src ="{% static i.URL %}">
         </div>
         <!-- 작성자는 세션id로 저장 -->
-    <form method="post" act="" style="margin-left:25%;">
+    <form method="post" act="" style="margin-left:25%; margin-top:5%">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{i.PostID}}">
         <textarea id="content" name="content" style="border-left-width:0;
