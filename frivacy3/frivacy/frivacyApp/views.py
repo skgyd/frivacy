@@ -325,7 +325,7 @@ def infoModify(request):
         p = Profile.objects.filter(username=request.user)[0]
         if p.image == "":
             p.image = "img/default.png"
-        context = {'user': request.user, 'ProfilePic': p.image}
+        context = {'user': request.user, 'ProfilePic': p.image, 'a1': p.a1, 'a2':p.a2}
         return render(request,'infoModify.html', context)
     return render(request,'login.html',context)
 
@@ -348,7 +348,7 @@ def modifyAct(request):
             addr1=request.POST.get('h_area1',None)
             addr2=request.POST.get('h_area2',None)
             profilepic = request.FILES.get('image','')
-            
+            addlist = ('서울','부산','대구','인천','광주','대전','울산','강원','경기','경남','경북','전남','전북','제주','충남','충북')
 
             if not re.match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
                 messages.success(request,"올바르지 않은 이메일 형식입니다")
@@ -380,7 +380,7 @@ def modifyAct(request):
                 user_instance.username = userid
                 user_instance.email = email
                 user_instance.first_name = name
-                profile_instance.a1=addr1
+                profile_instance.a1=addlist[int(addr1)-1]
                 profile_instance.a2=addr2
                 user_instance.save()
                 profile_instance.save()
@@ -390,7 +390,7 @@ def modifyAct(request):
                 user_instance.first_name = name
                 user_instance.password = make_password(password)
                 user_instance.save()
-                profile_instance.a1=addr1
+                profile_instance.a1=addlist[int(addr1)-1]
                 profile_instance.a2=addr2
                 profile_instance.save()
         return redirect(infoModify)

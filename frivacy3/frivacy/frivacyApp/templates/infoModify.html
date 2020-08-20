@@ -43,7 +43,7 @@
             <br>
             <h4>거주지 </h4>
             <select name="h_area1" id="addr1" onChange="cat1_change(this.value,h_area2)" style="width:120px; height:28px;">
-                <option selected>{{ profile.a1 }}</option>
+                <option selected>{{ a1 }}</option>
                 <option value='1'>서울</option>
                 <option value='2'>부산</option>
                 <option value='3'>대구</option>
@@ -62,7 +62,7 @@
                 <option value='16'>충북</option>
             </select>
             <select name="h_area2" id="addr2" style="width:120px; height:28px; margin-left:10px;">
-                <option selected>{{ profile.a2 }}</option>
+                <option selected>{{ a2 }}</option>
             </select>
             <br>
             <br>
@@ -102,11 +102,7 @@
     $(".profile").click(function() {
         $("#image").click();
     });
-
-    var cat1_num = new Array('서울','부산','대구','인천','광주','대전','울산','강원','경기','경남','경북','전남','전북','제주','충남','충북');
-        var cat1_name = new Array('서울','부산','대구','인천','광주','대전','울산','강원','경기','경남','경북','전남','전북','제주','충남','충북');
-
-
+    
         var cat2_num = new Array();
         var cat2_name = new Array();
 
